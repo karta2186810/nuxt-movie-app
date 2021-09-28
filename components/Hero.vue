@@ -6,7 +6,9 @@
     </div>
     <div class="hero-info">
       <h1 class="hero-title">Nuxt Movie</h1>
-      <p class="hero-description">上百萬部電影和人物在等你探索。立即瀏覽吧！</p>
+      <p class="hero-description">
+        上百萬部電影和人物在等你。<br />馬上開始探索吧！
+      </p>
       <a class="hero-button" href="#nowPlaying">開始探索</a>
     </div>
   </div>
@@ -50,15 +52,32 @@ export default {
     left: 30%;
     top: 50%;
     transform: translate(-50%, -50%);
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      left: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
     .hero-title {
       color: $text-white;
       font-size: 72px;
       margin-bottom: 32px;
+      @media screen and (max-width: 768px) {
+        font-size: 60px;
+      }
     }
     .hero-description {
       color: $text-white;
       font-size: 24px;
       font-weight: 600;
+      line-height: 1.5;
+      @media screen and (max-width: 768px) {
+        font-size: 20px;
+        text-align: center;
+        line-height: 2;
+      }
     }
     .hero-button {
       display: inline-block;
@@ -68,7 +87,7 @@ export default {
       font-weight: 800;
       border: none;
       padding: 12px 24px;
-      border-radius: 40px;
+      border-radius: 4px;
       cursor: pointer;
       margin-top: 32px;
       &:hover {

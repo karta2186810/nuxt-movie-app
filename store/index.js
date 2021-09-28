@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { arrToObj } from '../utils/arrToObj'
 import http from '@/utils/http.js'
+
 export const state = () => ({
   data: {},
   nowPlaying: {
@@ -36,30 +37,9 @@ export const getters = {
   getTotalPages: (state) => (type) => {
     return state[type].totalPages
   },
-  getNowPlaying: (state) => {
+  getMovies: (state) => (type) => {
     const result = []
-    state.nowPlaying.loaded.forEach((key) => {
-      result.push(state.data[key])
-    })
-    return result
-  },
-  getTopRated: (state) => {
-    const result = []
-    state.topRated.loaded.forEach((key) => {
-      result.push(state.data[key])
-    })
-    return result
-  },
-  getPopular: (state) => {
-    const result = []
-    state.popular.loaded.forEach((key) => {
-      result.push(state.data[key])
-    })
-    return result
-  },
-  getUpcoming: (state) => {
-    const result = []
-    state.upcoming.loaded.forEach((key) => {
+    state[type].loaded.forEach((key) => {
       result.push(state.data[key])
     })
     return result
@@ -67,25 +47,27 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchMovies({ commit }, { type, page }) {
-    let reqType = ''
-    switch (type) {
-      case 'nowPlaying':
-        reqType = 'now_playing'
-        break
-      case 'popular':
-        reqType = 'popular'
-        break
-      case 'topRated':
-        reqType = 'top_rated'
-        break
-      case 'upcoming':
-        reqType = 'upcoming'
-        break
+  async fetchMovies({ state, commit }, { type, page }) {
+    if (state[type].currentPage < page) {
+      const map = {
+        nowPlaying: 'now_playing',
+        popular: 'popular',
+        topRated: 'top_rated',
+        upcoming: 'upcoming',
+      }
+
+      let result
+      try {
+        result = await http.get(`movie/${map[type]}?page=${page}`)
+      } catch (e) {
+        return Promise.reject(e)
+      }
+
+      commit('fetchMovies', { data: result.data, type })
+
+      return Promise.resolve(result)
     }
-    const result = await http.get(`movie/${reqType}?page=${page + ''}`)
-    commit('fetchMovies', { data: result.data, type })
-    return result
+    return Promise.resolve()
   },
   // getMovieDetail({ state, commit }, { id, type }) {
   //   const currentMovie = state[type].data[id]

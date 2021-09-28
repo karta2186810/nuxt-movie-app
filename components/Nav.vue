@@ -1,11 +1,11 @@
 <template>
-  <div class="nav" :class="{ opacity1: showSearch || scrolled }">
-    <div class="container">
+  <div class="nav">
+    <div class="container flex">
       <div class="logo">
         <NuxtLink class="link" to="/">Nuxt Movie</NuxtLink>
       </div>
-      <div class="menu-container">
-        <div class="menu" :class="{ show: showMenu }">
+      <div class="menu-container flex">
+        <div class="menu flex" :class="{ show: showMenu }">
           <NuxtLink class="link" to="/nowPlaying" @click.native="linkClick"
             >現正熱映</NuxtLink
           >
@@ -33,18 +33,15 @@
         </div>
       </div>
     </div>
-    <div
-      class="search"
-      :class="{ show: showSearch, opacity1: showSearch || scrolled }"
-    >
+    <div class="search" :class="{ show: showSearch }">
       <div class="container">
-        <div class="search-bar">
+        <div class="search-bar flex">
           <input type="text" class="search-input" placeholder="開始探索" />
-          <button class="search-button">
+          <button class="search-button flex">
             <i class="ri-search-line"></i>
           </button>
         </div>
-        <button class="close-search" @click="closeSearch">
+        <button class="close-search flex" @click="closeSearch">
           <i class="ri-close-line"></i>
         </button>
       </div>
@@ -53,22 +50,13 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
 export default {
   name: 'Nav',
   data() {
     return {
       showMenu: false,
       showSearch: false,
-      scrolled: false,
     }
-  },
-  mounted() {
-    document.addEventListener('scroll', this.handleScroll())
-  },
-  unmounted() {
-    document.removeEventListener('scroll', this.handleScroll())
   },
   methods: {
     closeMenu() {
@@ -86,15 +74,6 @@ export default {
     closeSearch() {
       this.showSearch = false
     },
-    handleScroll() {
-      return _.debounce(() => {
-        if (document.documentElement.scrollTop !== 0) {
-          this.scrolled = true
-        } else {
-          this.scrolled = false
-        }
-      }, 100)
-    },
   },
 }
 </script>
@@ -110,9 +89,7 @@ export default {
   height: $nav-height;
   z-index: 1000;
   box-shadow: 0 6px 8px 0px rgba(0, 0, 0, 0.3);
-  &.opacity1 {
-    background-color: $black-color;
-  }
+  backdrop-filter: blur(12px);
   .container {
     height: 100%;
     display: flex;
@@ -125,13 +102,11 @@ export default {
     }
 
     .menu-container {
-      display: flex;
       justify-content: center;
       align-items: center;
       column-gap: 18px;
       height: 100%;
       .menu {
-        display: flex;
         align-items: center;
         transition: 0.4s;
         height: 100%;
@@ -146,9 +121,11 @@ export default {
           background-color: $black-color;
           opacity: 0;
           height: auto;
+          pointer-events: none;
           &.show {
             top: 0;
             opacity: 1;
+            pointer-events: initial;
           }
         }
         .link {
@@ -194,6 +171,7 @@ export default {
         .close-menu {
           display: none;
           font-size: 32px;
+          cursor: pointer;
           i {
             display: block;
           }
@@ -217,6 +195,7 @@ export default {
       .open-menu {
         font-size: 32px;
         display: none;
+        cursor: pointer;
         i {
           display: block;
         }
@@ -230,6 +209,7 @@ export default {
     position: absolute;
     width: 100%;
     background-color: rgba(34, 34, 34, 0.5);
+    backdrop-filter: blur(12px);
     left: 50%;
     top: -100%;
     transform: translateX(-50%);
@@ -237,15 +217,13 @@ export default {
     transition: 0.3s;
     opacity: 0;
     box-shadow: inset 0 4px 8px 0px rgba(0, 0, 0, 0.3);
-    &.opacity1 {
-      background-color: $black-color;
-    }
+    pointer-events: none;
     &.show {
       top: $nav-height;
       opacity: 1;
+      pointer-events: initial;
     }
     .search-bar {
-      display: flex;
       width: 100%;
       .search-input {
         background-color: $text-white;
@@ -264,7 +242,6 @@ export default {
         height: inherit;
         border: none;
         background-color: $black-color-alt;
-        display: flex;
         justify-content: center;
         align-items: center;
         padding: 0 12px;
@@ -281,7 +258,6 @@ export default {
     .close-search {
       height: inherit;
       border: none;
-      display: flex;
       background-color: transparent;
       justify-content: center;
       align-items: center;
