@@ -1,5 +1,5 @@
 <template>
-  <div class="nav">
+  <div class="nav" :class="{ opacity1: showSearch || scrolled }">
     <div class="container">
       <div class="logo">
         <NuxtLink class="link" to="/">Nuxt Movie</NuxtLink>
@@ -12,14 +12,14 @@
           <NuxtLink class="link" to="/latest" @click.native="linkClick"
             >最新上映</NuxtLink
           >
-          <NuxtLink class="link" to="/papular" @click.native="linkClick"
-            >最熱門</NuxtLink
+          <NuxtLink class="link" to="/popular" @click.native="linkClick"
+            >熱門電影</NuxtLink
+          >
+          <NuxtLink class="link" to="/topRated" @click.native="linkClick"
+            >最高評分</NuxtLink
           >
           <NuxtLink class="link" to="/upcoming" @click.native="linkClick"
             >即將上映</NuxtLink
-          >
-          <NuxtLink class="link" to="/topRated" @click.native="linkClick"
-            >評分最高</NuxtLink
           >
           <div class="close-menu" @click="closeMenu">
             <i class="ri-close-line"></i>
@@ -33,7 +33,10 @@
         </div>
       </div>
     </div>
-    <div class="search" :class="{ show: showSearch }">
+    <div
+      class="search"
+      :class="{ show: showSearch, opacity1: showSearch || scrolled }"
+    >
       <div class="container">
         <div class="search-bar">
           <input type="text" class="search-input" placeholder="開始探索" />
@@ -50,13 +53,22 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'Nav',
   data() {
     return {
       showMenu: false,
       showSearch: false,
+      scrolled: false,
     }
+  },
+  mounted() {
+    document.addEventListener('scroll', this.handleScroll())
+  },
+  unmounted() {
+    document.removeEventListener('scroll', this.handleScroll())
   },
   methods: {
     closeMenu() {
@@ -74,6 +86,15 @@ export default {
     closeSearch() {
       this.showSearch = false
     },
+    handleScroll() {
+      return _.debounce(() => {
+        if (document.documentElement.scrollTop !== 0) {
+          this.scrolled = true
+        } else {
+          this.scrolled = false
+        }
+      }, 100)
+    },
   },
 }
 </script>
@@ -89,6 +110,9 @@ export default {
   height: $nav-height;
   z-index: 1000;
   box-shadow: 0 6px 8px 0px rgba(0, 0, 0, 0.3);
+  &.opacity1 {
+    background-color: $black-color;
+  }
   .container {
     height: 100%;
     display: flex;
@@ -212,8 +236,12 @@ export default {
     padding: 32px 0;
     transition: 0.3s;
     opacity: 0;
+    box-shadow: inset 0 4px 8px 0px rgba(0, 0, 0, 0.3);
+    &.opacity1 {
+      background-color: $black-color;
+    }
     &.show {
-      top: 72px;
+      top: $nav-height;
       opacity: 1;
     }
     .search-bar {

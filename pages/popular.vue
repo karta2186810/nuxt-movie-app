@@ -1,5 +1,5 @@
 <template>
-  <div>papular</div>
+  <div>popular</div>
 </template>
 
 <script>

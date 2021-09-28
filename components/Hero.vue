@@ -7,7 +7,7 @@
     <div class="hero-info">
       <h1 class="hero-title">Nuxt Movie</h1>
       <p class="hero-description">上百萬部電影和人物在等你探索。立即瀏覽吧！</p>
-      <button class="hero-button">現正上映</button>
+      <a class="hero-button" href="#nowPlaying">開始探索</a>
     </div>
   </div>
 </template>
@@ -38,7 +38,11 @@ export default {
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
+      background: linear-gradient(
+        -180deg,
+        rgba(0, 0, 0, 0.4) 75%,
+        $black-color 100%
+      );
     }
   }
   .hero-info {
@@ -57,10 +61,11 @@ export default {
       font-weight: 600;
     }
     .hero-button {
+      display: inline-block;
       background-color: $primary-color;
       color: $text-black;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 800;
       border: none;
       padding: 12px 24px;
       border-radius: 40px;
