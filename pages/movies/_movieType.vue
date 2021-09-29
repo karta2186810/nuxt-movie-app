@@ -1,11 +1,18 @@
 <template>
-  <div class="nowPlaying">
+  <div class="movies">
     <div class="container">
       <div class="movies-heading">
         <h2>{{ title }}</h2>
       </div>
-      <div v-for="movie in movies" :key="movie.id">
-        {{ movie.title }}--{{ movie.vote_average }}
+      <div class="content flex">
+        <SearchPanel
+          :movie-type="$route.params.movieType"
+          @sortByChange="handleSortBy"
+          @genreSearch="handleGenreSearch"
+        />
+        <div class="movie-list">
+          <div v-for="movie in movies" :key="movie.id">{{ movie.title }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -17,6 +24,7 @@ export default {
   data() {
     return {
       sortBy: 'release-date',
+      selectedGenres: [],
     }
   },
   async fetch() {
@@ -38,6 +46,7 @@ export default {
       return this.$store.getters.getMovies({
         type: this.$route.params.movieType,
         sortBy: this.sortBy,
+        conditions: this.selectedGenres,
       })
     },
     currentPage() {
@@ -52,11 +61,19 @@ export default {
       this.sortBy = 'rated'
     }
   },
+  methods: {
+    handleSortBy(value) {
+      this.sortBy = value
+    },
+    handleGenreSearch(selectedGenres) {
+      this.selectedGenres = selectedGenres
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.nowPlaying {
+.movies {
   background-color: $black-color;
   width: 100%;
   height: auto;

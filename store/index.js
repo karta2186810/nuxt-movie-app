@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import { arrToObj } from '../utils/arrToObj'
 import http from '@/utils/http.js'
+import { filterMovies } from '@/utils/filterMovies.js'
 
 export const state = () => ({
   data: {},
+  genres: {},
   searchData: [],
   nowPlaying: {
     currentPage: 0,
@@ -35,16 +37,19 @@ export const getters = {
   getCurrentPage: (state) => (type) => {
     return state[type].currentPage
   },
-  getTotalPages: (state) => (type) => {
-    return state[type].totalPages
+  getTotalResults: (state) => (type) => {
+    return state[type].totalResults
   },
   getMovies:
     (state) =>
-    ({ type, sortBy = 'popularity' }) => {
+    ({ type, sortBy = 'popularity', conditions = [] }) => {
       const result = []
+
       state[type].loaded.forEach((key) => {
         result.push(state.data[key])
       })
+
+      // 排序條件
       switch (sortBy) {
         case 'popularity':
           result.sort((a, b) => b.popularity - a.popularity)
@@ -74,6 +79,11 @@ export const getters = {
           break
       }
 
+      // 類型條件搜尋
+      if (conditions.length !== 0) {
+        return filterMovies(conditions, result)
+      }
+
       return result
     },
 }
@@ -98,6 +108,20 @@ export const actions = {
       }
 
       commit('fetchMovies', { data: result.data, type })
+
+      return Promise.resolve(result)
+    }
+    return Promise.resolve()
+  },
+  async fetchGenres({ state, commit }) {
+    if (Object.keys(state.genres).length === 0) {
+      let result
+      try {
+        result = await http.get('/genre/movie/list')
+      } catch (e) {
+        return Promise.reject(e)
+      }
+      commit('fetchGenres', result.data)
 
       return Promise.resolve(result)
     }
@@ -136,6 +160,9 @@ export const mutations = {
       ...currentType.loaded,
       ...Object.keys(dataObj),
     ])
+  },
+  fetchGenres(state, data) {
+    state.genres = arrToObj(data.genres)
   },
   getMovieDetail(state, { data, id }) {},
 }
