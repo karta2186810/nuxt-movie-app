@@ -4,6 +4,7 @@ import http from '@/utils/http.js'
 
 export const state = () => ({
   data: {},
+  searchData: [],
   nowPlaying: {
     currentPage: 0,
     totalPages: 0,
@@ -37,17 +38,48 @@ export const getters = {
   getTotalPages: (state) => (type) => {
     return state[type].totalPages
   },
-  getMovies: (state) => (type) => {
-    const result = []
-    state[type].loaded.forEach((key) => {
-      result.push(state.data[key])
-    })
-    return result
-  },
+  getMovies:
+    (state) =>
+    ({ type, sortBy = 'popularity' }) => {
+      const result = []
+      state[type].loaded.forEach((key) => {
+        result.push(state.data[key])
+      })
+      switch (sortBy) {
+        case 'popularity':
+          result.sort((a, b) => b.popularity - a.popularity)
+          break
+        case 'popularity-reverse':
+          result.sort((a, b) => a.popularity - b.popularity)
+          break
+        case 'rated':
+          result.sort((a, b) => b.vote_average - a.vote_average)
+          break
+        case 'rated-reverse':
+          result.sort((a, b) => a.vote_average - b.vote_average)
+          break
+        case 'release-date':
+          result.sort(
+            (a, b) =>
+              new Date(b.release_date).getTime() -
+              new Date(a.release_date).getTime()
+          )
+          break
+        case 'release-date-reverse':
+          result.sort(
+            (a, b) =>
+              new Date(a.release_date).getTime() -
+              new Date(b.release_date).getTime()
+          )
+          break
+      }
+
+      return result
+    },
 }
 
 export const actions = {
-  async fetchMovies({ state, commit }, { type, page }) {
+  async fetchMovies({ state, commit }, { type, page = 1, region = 'TW' }) {
     if (state[type].currentPage < page) {
       const map = {
         nowPlaying: 'now_playing',
@@ -58,7 +90,9 @@ export const actions = {
 
       let result
       try {
-        result = await http.get(`movie/${map[type]}?page=${page}`)
+        result = await http.get(
+          `movie/${map[type]}?page=${page}&region=${region}`
+        )
       } catch (e) {
         return Promise.reject(e)
       }

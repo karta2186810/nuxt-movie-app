@@ -6,19 +6,19 @@
       </div>
       <div class="menu-container flex">
         <div class="menu flex" :class="{ show: showMenu }">
-          <NuxtLink class="link" to="/nowPlaying" @click.native="linkClick"
+          <NuxtLink
+            class="link"
+            to="/movies/nowPlaying"
+            @click.native="linkClick"
             >現正熱映</NuxtLink
           >
-          <NuxtLink class="link" to="/latest" @click.native="linkClick"
-            >最新上映</NuxtLink
-          >
-          <NuxtLink class="link" to="/popular" @click.native="linkClick"
+          <NuxtLink class="link" to="/movies/popular" @click.native="linkClick"
             >熱門電影</NuxtLink
           >
-          <NuxtLink class="link" to="/topRated" @click.native="linkClick"
+          <NuxtLink class="link" to="/movies/topRated" @click.native="linkClick"
             >最高評分</NuxtLink
           >
-          <NuxtLink class="link" to="/upcoming" @click.native="linkClick"
+          <NuxtLink class="link" to="/movies/upcoming" @click.native="linkClick"
             >即將上映</NuxtLink
           >
           <div class="close-menu" @click="closeMenu">
@@ -141,6 +141,9 @@ export default {
           position: relative;
           overflow: hidden;
           font-size: 14px;
+          @media screen and (max-width: 768px) {
+            font-size: 20px;
+          }
           &::before {
             content: '';
             display: block;

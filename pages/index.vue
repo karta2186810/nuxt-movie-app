@@ -4,7 +4,7 @@
     <div class="movie-cards-container">
       <MovieCards id="nowPlaying" title="現正熱映" data-type="nowPlaying" />
       <MovieCards title="熱門電影" data-type="popular" />
-      <MovieCards title="最高評分" data-type="topRated" />
+      <MovieCards title="最高評分" data-type="topRated" sort-by="rated" />
       <MovieCards title="即將上映" data-type="upcoming" />
     </div>
   </div>

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="list-heading flex">
         <h2 class="list-title">{{ title }}</h2>
-        <NuxtLink :to="`/${dataType}`" class="show-more flex"
+        <NuxtLink :to="`/movies/${dataType}`" class="show-more flex"
           >查看全部 <i class="ri-arrow-right-s-line"></i
         ></NuxtLink>
       </div>
@@ -52,6 +52,10 @@ export default {
       default: '',
       required: true,
     },
+    sortBy: {
+      type: String,
+      default: 'popularity',
+    },
   },
   data() {
     return {
@@ -67,7 +71,9 @@ export default {
   },
   computed: {
     movies() {
-      return this.$store.getters.getMovies(this.dataType).slice(0, 20)
+      return this.$store.getters
+        .getMovies({ type: this.dataType, sortBy: this.sortBy })
+        .slice(0, 20)
     },
   },
   methods: {
@@ -110,11 +116,11 @@ export default {
       padding-left: 16px;
     }
     .show-more {
-      color: $text-white;
+      color: $primary-color;
       font-weight: 600;
       align-items: center;
       &:hover {
-        color: $primary-color;
+        color: $primary-color-alt;
       }
       i {
         font-size: 16px;
@@ -218,6 +224,7 @@ export default {
       position: absolute;
       opacity: 0;
       transition: 0.3s;
+      pointer-events: none;
       @media screen and (max-width: 768px) {
         width: 48px;
       }

@@ -53,6 +53,13 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     @media screen and (max-width: 768px) {
+      left: 30%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    @media screen and (max-width: 640px) {
       width: 100%;
       left: 50%;
       display: flex;
@@ -67,6 +74,10 @@ export default {
       @media screen and (max-width: 768px) {
         font-size: 60px;
       }
+      @media screen and (max-width: 640px) {
+        font-size: 54px;
+        text-align: center;
+      }
     }
     .hero-description {
       color: $text-white;
@@ -75,8 +86,9 @@ export default {
       line-height: 1.5;
       @media screen and (max-width: 768px) {
         font-size: 20px;
+      }
+      @media screen and (max-width: 640px) {
         text-align: center;
-        line-height: 2;
       }
     }
     .hero-button {
