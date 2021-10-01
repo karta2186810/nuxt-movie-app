@@ -35,6 +35,10 @@ export default {
       type: String,
       default: 'nowPlaying',
     },
+    queryGenre: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -48,6 +52,11 @@ export default {
     genreList() {
       return this.$store.state.genres
     },
+  },
+  created() {
+    if (this.queryGenre) {
+      this.selectedGenres = [this.queryGenre]
+    }
   },
   methods: {
     handleSortBy(e) {
@@ -63,6 +72,10 @@ export default {
 
 <style lang="scss" scoped>
 .search-panel {
+  flex: 1;
+  height: 300px;
   background-color: skyblue;
+  position: sticky;
+  top: $nav-height;
 }
 </style>

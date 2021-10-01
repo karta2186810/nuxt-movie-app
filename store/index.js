@@ -43,11 +43,16 @@ export const getters = {
   getMovies:
     (state) =>
     ({ type, sortBy = 'popularity', conditions = [] }) => {
-      const result = []
+      let result = []
 
       state[type].loaded.forEach((key) => {
         result.push(state.data[key])
       })
+
+      // 類型條件搜尋
+      if (conditions.length !== 0) {
+        result = filterMovies(conditions, result)
+      }
 
       // 排序條件
       switch (sortBy) {
@@ -79,13 +84,11 @@ export const getters = {
           break
       }
 
-      // 類型條件搜尋
-      if (conditions.length !== 0) {
-        return filterMovies(conditions, result)
-      }
-
       return result
     },
+  getIsLastPage: (state) => (type) => {
+    return state[type].loaded.length === state[type].totalResults
+  },
 }
 
 export const actions = {

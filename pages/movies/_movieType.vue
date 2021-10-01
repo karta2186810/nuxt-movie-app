@@ -2,17 +2,16 @@
   <div class="movies">
     <div class="container">
       <div class="movies-heading">
-        <h2>{{ title }}</h2>
+        <h2 class="movies-title">{{ title }}</h2>
       </div>
       <div class="content flex">
         <SearchPanel
           :movie-type="$route.params.movieType"
+          :query-genre="$route.query.genre"
           @sortByChange="handleSortBy"
           @genreSearch="handleGenreSearch"
         />
-        <div class="movie-list">
-          <div v-for="movie in movies" :key="movie.id">{{ movie.title }}</div>
-        </div>
+        <MovieList :movies="movies" />
       </div>
     </div>
   </div>
@@ -20,7 +19,7 @@
 
 <script>
 export default {
-  name: 'MovieList',
+  name: 'Movies',
   data() {
     return {
       sortBy: 'release-date',
@@ -55,10 +54,16 @@ export default {
     totalResults() {
       return this.$store.getters.getTotalResults(this.$route.params.movieType)
     },
+    isLastPage() {
+      return this.$store.getters.getIsLastPage(this.$route.params.movieType)
+    },
   },
   created() {
     if (this.$route.params.movieType === 'topRated') {
       this.sortBy = 'rated'
+    }
+    if (this.$route.query.genre) {
+      this.selectedGenres = [this.$route.query.genre]
     }
   },
   methods: {
@@ -72,12 +77,36 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped deep>
 .movies {
   background-color: $black-color;
   width: 100%;
   height: auto;
+  min-height: 100vh;
   color: $text-white;
   padding-top: $nav-height;
+  .container {
+    padding-top: 40px;
+    .movies-heading {
+      margin-bottom: 24px;
+      .movies-title {
+        font-size: 32px;
+        font-weight: 900;
+        position: relative;
+        padding-left: 16px;
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 4px;
+          height: 100%;
+          background-color: $primary-color;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
 }
 </style>

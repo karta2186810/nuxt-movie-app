@@ -1,11 +1,11 @@
 <template>
   <section class="movie-cards">
     <div class="container">
-      <div class="list-heading flex">
-        <h2 class="list-title">{{ title }}</h2>
-        <NuxtLink :to="`/movies/${dataType}`" class="show-more flex"
-          >查看全部 <i class="ri-arrow-right-s-line"></i
-        ></NuxtLink>
+      <div class="cards-heading flex">
+        <NuxtLink :to="`/movies/${dataType}`" class="cards-title flex">
+          <h2>{{ title }}</h2>
+          <i class="ri-arrow-right-s-line"></i>
+        </NuxtLink>
       </div>
       <div v-if="$fetchState.pending">Loading</div>
       <div v-else-if="$fetchState.error">Opps, Something went wrong</div>
@@ -101,34 +101,29 @@ export default {
 <style lang="scss" scoped>
 .movie-cards {
   padding-bottom: 80px;
-
-  .list-heading {
-    justify-content: space-between;
-    align-items: center;
+  .cards-heading {
     margin-bottom: 16px;
-    .list-title {
-      font-size: 32px;
+    .cards-title {
+      font-size: 28px;
       font-weight: 700;
       color: $text-white;
-      display: inline-block;
       vertical-align: middle;
-      border-left: 4px solid $primary-color;
       padding-left: 16px;
-    }
-    .show-more {
-      color: $primary-color;
-      font-weight: 600;
-      align-items: center;
-      &:hover {
-        color: $primary-color-alt;
+      position: relative;
+      transition: 0.3s;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: $primary-color;
+        border-radius: 4px;
       }
-      i {
-        font-size: 16px;
-        display: inline-block;
-        margin-left: 6px;
-        &:hover {
-          color: $primary-color;
-        }
+      &:hover {
+        color: $primary-color;
       }
     }
   }
@@ -142,6 +137,9 @@ export default {
       overflow-x: scroll;
       padding: 8px 32px;
       padding-bottom: 16px;
+      @media screen and (max-width: 640px) {
+        padding: 8px 0;
+      }
       &::-webkit-scrollbar {
         background-color: transparent;
         height: 12px;

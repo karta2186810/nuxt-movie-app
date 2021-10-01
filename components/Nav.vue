@@ -186,7 +186,8 @@ export default {
       }
       .open-search {
         cursor: pointer;
-        &:active {
+        &:active,
+        &:hover {
           i {
             color: $primary-color;
           }
@@ -274,7 +275,8 @@ export default {
       i {
         display: block;
       }
-      &:active {
+      &:active,
+      &:hover {
         i {
           color: $primary-color;
         }
