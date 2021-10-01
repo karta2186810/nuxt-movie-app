@@ -29,3 +29,21 @@ html {
   display: grid;
 }
 
+.g-relative {
+  position: relative;
+}
+
+.loadingImg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}

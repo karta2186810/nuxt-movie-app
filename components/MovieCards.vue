@@ -16,7 +16,7 @@
               <div class="movie-image">
                 <img
                   v-if="movie.poster_path"
-                  :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+                  :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
                   :alt="movie.title"
                 />
                 <div class="movie-image default flex">尚未有圖片</div>

@@ -2,16 +2,17 @@
   <div class="movie-list">
     <div class="card-group grid">
       <div v-for="movie in movies" :key="movie.id" class="card flex">
-        <div class="movie-poster">
+        <div v-loading class="poster">
           <img
             v-if="movie.poster_path"
-            :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
-            alt="movie-poster"
+            :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
+            alt="poster"
           />
           <div v-else class="default flex">尚未有圖片</div>
         </div>
         <div class="info">
           <h3 class="title">{{ movie.title }}</h3>
+          <p>評分: {{ movie.vote_average ? movie.vote_average : '--' }}</p>
           <p class="release-date">{{ movie.release_date }}</p>
           <div class="overview">
             <h4 v-if="movie.overview" class="overview-title">摘要</h4>
@@ -23,6 +24,15 @@
         </div>
       </div>
     </div>
+    <button
+      v-show="!isLastPage && movies.length"
+      class="loadmore-btn"
+      @click="handleLoadMore"
+    >
+      <i v-if="loading" class="ri-loader-3-line"></i>
+      <span v-else>加載更多</span>
+    </button>
+    <div v-if="loading">Loading</div>
   </div>
 </template>
 
@@ -36,6 +46,41 @@ export default {
         return []
       },
     },
+    isLastPage: {
+      type: Boolean,
+      default: false,
+    },
+    totalResults: {
+      type: Number,
+      default: 0,
+    },
+    currentPage: {
+      type: Number,
+      default: 0,
+    },
+    movieType: {
+      type: String,
+      default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  data() {
+    return {
+      loadingImg: require('@/assets/images/loading.svg'),
+    }
+  },
+  methods: {
+    handleLoadMore() {
+      if (!this.isLastPage) {
+        this.$store.dispatch('fetchMovies', {
+          type: this.movieType,
+          page: this.currentPage + 1,
+        })
+      }
+    },
   },
 }
 </script>
@@ -44,13 +89,15 @@ export default {
 .movie-list {
   flex: 5;
   padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .card-group {
     grid-template-columns: repeat(5, 1fr);
     align-content: center;
     gap: 24px;
     .card {
       width: 100%;
-      height: auto;
       flex-direction: column;
       border-radius: 4px;
       overflow: hidden;
@@ -66,7 +113,7 @@ export default {
           }
         }
       }
-      .movie-poster {
+      .poster {
         flex: 1;
         overflow: hidden;
         .default {
@@ -120,11 +167,29 @@ export default {
           pointer-events: none;
           .overview-title {
             font-size: 20px;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
             color: $primary-color;
           }
         }
       }
+    }
+  }
+  .loadmore-btn {
+    margin-top: 32px;
+    background-color: $primary-color;
+    color: $text-black;
+    border: none;
+    border-radius: 4px;
+    width: 50%;
+    padding: 8px 16px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    i {
+      display: block;
+    }
+    &:hover {
+      background-color: $primary-color-alt;
     }
   }
 }

@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'Home',
+  scrollToTop: false,
 }
 </script>
 

@@ -11,7 +11,14 @@
           @sortByChange="handleSortBy"
           @genreSearch="handleGenreSearch"
         />
-        <MovieList :movies="movies" />
+        <MovieList
+          :movies="movies"
+          :current-page="currentPage"
+          :is-last-page="isLastPage"
+          :total-results="totalResults"
+          :movie-type="$route.params.movieType"
+          :loading="$fetchState.pending"
+        />
       </div>
     </div>
   </div>
@@ -20,6 +27,7 @@
 <script>
 export default {
   name: 'Movies',
+  scrollToTop: false,
   data() {
     return {
       sortBy: 'release-date',
@@ -85,6 +93,7 @@ export default {
   min-height: 100vh;
   color: $text-white;
   padding-top: $nav-height;
+  padding-bottom: 72px;
   .container {
     padding-top: 40px;
     .movies-heading {
