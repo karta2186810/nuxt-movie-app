@@ -3,7 +3,13 @@ import http from '@/utils/http.js'
 import { formatDate } from '@/utils/formatDate.js'
 export const state = () => ({
   genres: {},
-  searchData: [],
+  search: {
+    genre: '',
+    query: '',
+    currentPage: 0,
+    totalResults: 0,
+    data: [],
+  },
   nowPlaying: {
     currentPage: 0,
     totalResults: 0,
@@ -123,7 +129,42 @@ export const actions = {
     }
     return Promise.resolve()
   },
-  async discoverMovies({ state, commit }, { type, page = 1, genres = [] }) {},
+  async searchMovies({ state, commit }, { page = 1, genre, query }) {
+    let result
+    if (genre) {
+      if (state.search.currentPage < page || state.search.genre !== genre) {
+        try {
+          result = await http.get('discover/movie', {
+            params: {
+              with_genres: genre,
+              page,
+            },
+          })
+        } catch (e) {
+          return Promise.reject(e)
+        }
+        commit('searchMovies', { data: result.data, genre })
+        return Promise.resolve(result)
+      }
+      return Promise.resolve()
+    }
+
+    if (state.search.currentPage < page || state.search.query !== query) {
+      try {
+        result = await http.get('search/movie', {
+          params: {
+            query,
+            page,
+          },
+        })
+      } catch (e) {
+        return Promise.reject(e)
+      }
+      commit('searchMovies', { data: result.data, query })
+      return Promise.resolve(result)
+    }
+    return Promise.resolve()
+  },
 }
 
 export const mutations = {
@@ -134,12 +175,26 @@ export const mutations = {
     } else {
       currentType.data = [...currentType.data, ...data.results]
     }
-    currentType.currentPage = data.page
-    currentType.totalResults = data.total_results
+    currentType.currentPage = data.page * 1
+    currentType.totalResults = data.total_results * 1
     currentType.conditions = { ...conditions }
   },
   fetchGenres(state, data) {
     state.genres = arrToObj(data.genres)
+  },
+  searchMovies(state, { data, genre, query }) {
+    const search = state.search
+
+    if (search.genre !== genre || search.query !== query) {
+      search.data = [...data.results]
+    } else {
+      search.data = [...search.data, ...data.results]
+    }
+
+    search.currentPage = data.page * 1
+    search.totalResults = data.total_results * 1
+    search.query = query
+    search.genre = genre
   },
   getMovieDetail(state, { data, id }) {},
 }

@@ -36,8 +36,14 @@
     <div class="search" :class="{ show: showSearch }">
       <div class="container">
         <div class="search-bar flex">
-          <input type="text" class="search-input" placeholder="開始探索" />
-          <button class="search-button flex">
+          <input
+            v-model="searchVal"
+            type="text"
+            class="search-input"
+            placeholder="開始探索"
+            @keyup.enter="searchMovie"
+          />
+          <button class="search-button flex" @click="searchMovie">
             <i class="ri-search-line"></i>
           </button>
         </div>
@@ -56,6 +62,7 @@ export default {
     return {
       showMenu: false,
       showSearch: false,
+      searchVal: '',
     }
   },
   methods: {
@@ -73,6 +80,9 @@ export default {
     },
     closeSearch() {
       this.showSearch = false
+    },
+    searchMovie() {
+      this.$router.push(`/search?query=${this.searchVal}`)
     },
   },
 }
