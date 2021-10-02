@@ -1,30 +1,24 @@
 <template>
-  <div class="search-panel">
-    <form class="sort-by">
-      <select @change="handleSortBy">
-        <option value="popularity">依照人氣降序</option>
-        <option value="popularity-reverse">依照人氣升序</option>
-        <option value="rated" :selected="$props.movieType === 'topRated'">
-          依照評分降序
-        </option>
-        <option value="rated-reverse">依照評分升序</option>
-        <option value="release-date">依照日期降序</option>
-        <option value="release-date-reverse">依照日期升序</option>
-      </select>
-    </form>
-    <form class="genres-list" @submit.prevent.stop="handleGenreSearch">
-      <div v-for="genre in genreList" :key="genre.id" class="genre">
-        <label :for="genre.id">{{ genre.name }}</label>
-        <input
-          :id="genre.id"
-          v-model="selectedGenres"
-          type="checkbox"
-          :value="genre.id"
-        />
-      </div>
-      <button>搜尋類別</button>
-    </form>
-  </div>
+  <form class="search-panel" @submit="handleSearch">
+    <select v-model="conditions.sortBy">
+      <option value="popularity.desc">依照人氣降序</option>
+      <option value="popularity.asc">依照人氣升序</option>
+      <option value="vote_average.desc">依照評分降序</option>
+      <option value="vote_average.asc">依照評分升序</option>
+      <option value="release_date.desc">依照日期降序</option>
+      <option value="release_date.asc">依照日期升序</option>
+    </select>
+    <div v-for="genre in genreList" :key="genre.id" class="genre">
+      <label :for="genre.id">{{ genre.name }}</label>
+      <input
+        :id="genre.id"
+        v-model="conditions.genres"
+        :value="genre.id"
+        type="checkbox"
+      />
+    </div>
+    <button>搜尋</button>
+  </form>
 </template>
 
 <script>
@@ -33,16 +27,16 @@ export default {
   props: {
     movieType: {
       type: String,
-      default: 'nowPlaying',
-    },
-    queryGenre: {
-      type: String,
       default: '',
     },
   },
   data() {
     return {
-      selectedGenres: [],
+      conditionChanged: false,
+      conditions: {
+        genres: [],
+        sortBy: 'popularity.desc',
+      },
     }
   },
   async fetch() {
@@ -53,18 +47,28 @@ export default {
       return this.$store.state.genres
     },
   },
+  watch: {
+    conditions: {
+      handler() {
+        this.conditionChanged = true
+      },
+      deep: true,
+    },
+  },
   created() {
-    if (this.queryGenre) {
-      this.selectedGenres = [this.queryGenre]
+    if (this.movieType === 'topRated') {
+      this.conditions.sortBy = 'vote_average.desc'
     }
   },
   methods: {
-    handleSortBy(e) {
-      const value = e.target.value
-      this.$emit('sortByChange', value)
-    },
-    handleGenreSearch(e) {
-      this.$emit('genreSearch', this.selectedGenres)
+    handleSearch(e) {
+      e.preventDefault()
+      this.$store.dispatch('fetchMovies', {
+        type: this.movieType,
+        conditionChanged: this.conditionChanged,
+        conditions: this.conditions,
+      })
+      this.conditionChanged = false
     },
   },
 }
@@ -77,5 +81,9 @@ export default {
   background-color: skyblue;
   position: sticky;
   top: $nav-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 </style>

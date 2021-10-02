@@ -1,35 +1,32 @@
-import _ from 'lodash'
 import { arrToObj } from '../utils/arrToObj'
 import http from '@/utils/http.js'
-import { filterMovies } from '@/utils/filterMovies.js'
-
+import { formatDate } from '@/utils/formatDate.js'
 export const state = () => ({
-  data: {},
   genres: {},
   searchData: [],
   nowPlaying: {
     currentPage: 0,
-    totalPages: 0,
     totalResults: 0,
-    loaded: [],
+    conditions: {},
+    data: [],
   },
   popular: {
     currentPage: 0,
-    totalPages: 0,
     totalResults: 0,
-    loaded: [],
+    data: [],
+    conditions: {},
   },
   topRated: {
     currentPage: 0,
-    totalPages: 0,
     totalResults: 0,
-    loaded: [],
+    data: [],
+    conditions: {},
   },
   upcoming: {
     currentPage: 0,
-    totalPages: 0,
     totalResults: 0,
-    loaded: [],
+    data: [],
+    conditions: {},
   },
 })
 
@@ -42,75 +39,71 @@ export const getters = {
   },
   getMovies:
     (state) =>
-    ({ type, sortBy = 'popularity', conditions = [] }) => {
-      let result = []
-
-      state[type].loaded.forEach((key) => {
-        result.push(state.data[key])
-      })
-
-      // 類型條件搜尋
-      if (conditions.length !== 0) {
-        result = filterMovies(conditions, result)
-      }
-
-      // 排序條件
-      switch (sortBy) {
-        case 'popularity':
-          result.sort((a, b) => b.popularity - a.popularity)
-          break
-        case 'popularity-reverse':
-          result.sort((a, b) => a.popularity - b.popularity)
-          break
-        case 'rated':
-          result.sort((a, b) => b.vote_average - a.vote_average)
-          break
-        case 'rated-reverse':
-          result.sort((a, b) => a.vote_average - b.vote_average)
-          break
-        case 'release-date':
-          result.sort(
-            (a, b) =>
-              new Date(b.release_date).getTime() -
-              new Date(a.release_date).getTime()
-          )
-          break
-        case 'release-date-reverse':
-          result.sort(
-            (a, b) =>
-              new Date(a.release_date).getTime() -
-              new Date(b.release_date).getTime()
-          )
-          break
-      }
-
-      return result
+    ({ type }) => {
+      return state[type].data
     },
   getIsLastPage: (state) => (type) => {
-    return state[type].loaded.length === state[type].totalResults
+    const currentType = state[type]
+    return currentType.data.length === currentType.totalResults
   },
 }
 
 export const actions = {
-  async fetchMovies({ state, commit }, { type, page = 1, region = 'TW' }) {
-    if (state[type].currentPage < page) {
-      const map = {
-        nowPlaying: 'now_playing',
-        popular: 'popular',
-        topRated: 'top_rated',
-        upcoming: 'upcoming',
-      }
+  async fetchMovies(
+    { state, commit },
+    { type, page = 1, conditionChanged = false, conditions }
+  ) {
+    // 當前數據類型
+    const currentType = state[type]
 
-      let result
+    // 時間範圍
+    let releaseDateGte = ''
+    let releaseDateLte = ''
+
+    // 過濾條件初始化
+    if (!conditions) conditions = currentType.conditions
+    const { genres, sortBy, fromDate, untilDate } = conditions
+
+    let result
+
+    // 依照類型設定時間範圍
+    if (fromDate) {
+      releaseDateGte = fromDate
+    } else if (type === 'nowPlaying') {
+      const dateObj = new Date()
+      dateObj.setDate(dateObj.getDate() - 31)
+      releaseDateGte = formatDate(dateObj)
+    } else if (type === 'upcoming') {
+      releaseDateGte = formatDate(new Date())
+    }
+    if (untilDate) {
+      releaseDateLte = untilDate
+    } else if (type === 'nowPlaying') {
+      releaseDateLte = formatDate(new Date())
+    }
+
+    // 發送請求
+    if (currentType.currentPage < page || conditionChanged) {
       try {
-        result = await http.get(
-          `movie/${map[type]}?page=${page}&region=${region}`
-        )
+        result = await http.get('discover/movie', {
+          params: {
+            sort_by: sortBy,
+            page,
+            'release_date.gte': releaseDateGte,
+            'release_date.lte': releaseDateLte,
+            with_genres: genres && genres.join(','),
+          },
+        })
       } catch (e) {
         return Promise.reject(e)
       }
 
-      commit('fetchMovies', { data: result.data, type })
+      commit('fetchMovies', {
+        type,
+        data: result.data,
+        conditionChanged,
+        conditions,
+      })
 
       return Promise.resolve(result)
     }
@@ -130,39 +123,20 @@ export const actions = {
     }
     return Promise.resolve()
   },
-  // getMovieDetail({ state, commit }, { id, type }) {
-  //   const currentMovie = state[type].data[id]
-  //   if (!currentMovie || !currentMovie.imdb_id) {
-  //     http
-  //       .get(`/movie/${id}`)
-  //       .then((res) => {
-  //         commit('getMovieDetail', { data: res.data, id })
-  //       })
-  //       .then(() => {
-  //         http.get(`/movie/${id}/videos`).then((res) => {
-  //           commit('getVideos', { data: res.data, id })
-  //         })
-  //         http.get(`/movie/${id}/images`).then((res) => {
-  //           commit('getImages', { data: res.data, id })
-  //         })
-  //       })
-  //   }
-  // },
+  async discoverMovies({ state, commit }, { type, page = 1, genres = [] }) {},
 }
 
 export const mutations = {
-  fetchMovies(state, { data, type }) {
+  fetchMovies(state, { data, type, conditionChanged, conditions }) {
     const currentType = state[type]
-    const dataObj = arrToObj(data.results)
-    const newData = { ...dataObj, ...state.data }
-    state.data = newData
-    currentType.currentPage = data.page * 1
-    currentType.totalPages = data.total_pages * 1
-    currentType.totalResults = data.total_results * 1
-    currentType.loaded = _.uniq([
-      ...currentType.loaded,
-      ...Object.keys(dataObj),
-    ])
+    if (conditionChanged) {
+      currentType.data = [...data.results]
+    } else {
+      currentType.data = [...currentType.data, ...data.results]
+    }
+    currentType.currentPage = data.page
+    currentType.totalResults = data.total_results
+    currentType.conditions = { ...conditions }
   },
   fetchGenres(state, data) {
     state.genres = arrToObj(data.genres)

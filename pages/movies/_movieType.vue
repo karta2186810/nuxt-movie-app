@@ -5,12 +5,7 @@
         <h2 class="movies-title">{{ title }}</h2>
       </div>
       <div class="content flex">
-        <SearchPanel
-          :movie-type="$route.params.movieType"
-          :query-genre="$route.query.genre"
-          @sortByChange="handleSortBy"
-          @genreSearch="handleGenreSearch"
-        />
+        <SearchPanel :movie-type="$route.params.movieType" />
         <MovieList
           :movies="movies"
           :current-page="currentPage"
@@ -28,12 +23,6 @@
 export default {
   name: 'Movies',
   scrollToTop: false,
-  data() {
-    return {
-      sortBy: 'release-date',
-      selectedGenres: [],
-    }
-  },
   async fetch() {
     await this.$store.dispatch('fetchMovies', {
       type: this.$route.params.movieType,
@@ -52,8 +41,6 @@ export default {
     movies() {
       return this.$store.getters.getMovies({
         type: this.$route.params.movieType,
-        sortBy: this.sortBy,
-        conditions: this.selectedGenres,
       })
     },
     currentPage() {
@@ -74,14 +61,7 @@ export default {
       this.selectedGenres = [this.$route.query.genre]
     }
   },
-  methods: {
-    handleSortBy(value) {
-      this.sortBy = value
-    },
-    handleGenreSearch(selectedGenres) {
-      this.selectedGenres = selectedGenres
-    },
-  },
+  methods: {},
 }
 </script>
 

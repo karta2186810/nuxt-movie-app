@@ -1,6 +1,6 @@
 <template>
   <div class="movie-list">
-    <div class="card-group grid">
+    <div v-if="movies.length !== 0" class="card-group grid">
       <div v-for="movie in movies" :key="movie.id" class="card flex">
         <div v-loading class="poster">
           <img
@@ -24,6 +24,7 @@
         </div>
       </div>
     </div>
+    <div v-else>沒有相關的電影哦</div>
     <button
       v-show="!isLastPage && movies.length"
       class="loadmore-btn"
@@ -93,7 +94,7 @@ export default {
   flex-direction: column;
   align-items: center;
   .card-group {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     align-content: center;
     gap: 24px;
     .card {
@@ -105,7 +106,10 @@ export default {
       cursor: pointer;
       box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
       position: relative;
+      transition: 0.3s;
       &:hover {
+        transform: scale(1.1);
+        z-index: 100;
         .info {
           .overview {
             opacity: 1;
@@ -116,6 +120,7 @@ export default {
       .poster {
         flex: 1;
         overflow: hidden;
+        min-height: 300px;
         .default {
           height: 100%;
           font-size: 20px;

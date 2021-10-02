@@ -52,10 +52,6 @@ export default {
       default: '',
       required: true,
     },
-    sortBy: {
-      type: String,
-      default: 'popularity',
-    },
   },
   data() {
     return {
@@ -71,9 +67,7 @@ export default {
   },
   computed: {
     movies() {
-      return this.$store.getters
-        .getMovies({ type: this.dataType, sortBy: this.sortBy })
-        .slice(0, 20)
+      return this.$store.getters.getMovies({ type: this.dataType }).slice(0, 20)
     },
   },
   methods: {
