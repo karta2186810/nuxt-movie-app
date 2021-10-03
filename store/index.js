@@ -68,7 +68,7 @@ export const actions = {
 
     // 過濾條件初始化
     if (!conditions) conditions = currentType.conditions
-    const { genres, sortBy, fromDate, untilDate } = conditions
+    const { genres, sortBy, voteCount, fromDate, untilDate } = conditions
 
     let result
 
@@ -88,7 +88,7 @@ export const actions = {
       releaseDateLte = formatDate(new Date())
     }
 
-    // 發送請求
+    // 發送請求(當請求頁數大於當前頁數或是條件發生改變時)
     if (currentType.currentPage < page || conditionChanged) {
       try {
         result = await http.get('discover/movie', {
@@ -98,6 +98,7 @@ export const actions = {
             'release_date.gte': releaseDateGte,
             'release_date.lte': releaseDateLte,
             with_genres: genres && genres.join(','),
+            vote_count: voteCount,
           },
         })
       } catch (e) {
@@ -130,7 +131,10 @@ export const actions = {
     return Promise.resolve()
   },
   async searchMovies({ state, commit }, { page = 1, genre, query }) {
+    // 結果陣列
     let result
+
+    // 使用類別搜尋
     if (genre) {
       if (state.search.currentPage < page || state.search.genre !== genre) {
         try {
@@ -143,12 +147,16 @@ export const actions = {
         } catch (e) {
           return Promise.reject(e)
         }
+
         commit('searchMovies', { data: result.data, genre })
+
         return Promise.resolve(result)
       }
+
       return Promise.resolve()
     }
 
+    // 使用字串搜尋
     if (state.search.currentPage < page || state.search.query !== query) {
       try {
         result = await http.get('search/movie', {
@@ -160,9 +168,12 @@ export const actions = {
       } catch (e) {
         return Promise.reject(e)
       }
+
       commit('searchMovies', { data: result.data, query })
+
       return Promise.resolve(result)
     }
+
     return Promise.resolve()
   },
 }
@@ -170,6 +181,8 @@ export const actions = {
 export const mutations = {
   fetchMovies(state, { data, type, conditionChanged, conditions }) {
     const currentType = state[type]
+
+    // 如果條件改變，清除當前data
     if (conditionChanged) {
       currentType.data = [...data.results]
     } else {
@@ -185,6 +198,7 @@ export const mutations = {
   searchMovies(state, { data, genre, query }) {
     const search = state.search
 
+    // 字串或類別發生變化，清空data
     if (search.genre !== genre || search.query !== query) {
       search.data = [...data.results]
     } else {

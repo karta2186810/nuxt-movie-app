@@ -62,7 +62,13 @@ export default {
   async fetch() {
     await this.$store.dispatch('fetchMovies', {
       type: this.dataType,
-      page: 1,
+      conditions: {
+        sortBy:
+          this.dataType === 'topRated'
+            ? 'vote_average.desc'
+            : 'popularity.desc',
+        voteCount: this.dataType === 'topRated' ? '500' : '',
+      },
     })
   },
   computed: {

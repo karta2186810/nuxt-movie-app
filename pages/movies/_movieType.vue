@@ -1,5 +1,5 @@
 <template>
-  <div class="movies">
+  <div class="movies section">
     <div class="container">
       <div class="movies-heading">
         <h2 class="movies-title">{{ title }}</h2>
@@ -26,6 +26,13 @@ export default {
   async fetch() {
     await this.$store.dispatch('fetchMovies', {
       type: this.$route.params.movieType,
+      conditions: {
+        sortBy:
+          this.$route.params.movieType === 'topRated'
+            ? 'vote_average.desc'
+            : 'popularity.desc',
+        voteCount: this.$route.params.movieType === 'topRated' ? '500' : '',
+      },
     })
   },
   computed: {
@@ -53,15 +60,6 @@ export default {
       return this.$store.getters.getIsLastPage(this.$route.params.movieType)
     },
   },
-  created() {
-    if (this.$route.params.movieType === 'topRated') {
-      this.sortBy = 'rated'
-    }
-    if (this.$route.query.genre) {
-      this.selectedGenres = [this.$route.query.genre]
-    }
-  },
-  methods: {},
 }
 </script>
 
@@ -70,12 +68,8 @@ export default {
   background-color: $black-color;
   width: 100%;
   height: auto;
-  min-height: 100vh;
   color: $text-white;
-  padding-top: $nav-height;
-  padding-bottom: 72px;
   .container {
-    padding-top: 40px;
     .movies-heading {
       margin-bottom: 24px;
       .movies-title {

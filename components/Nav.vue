@@ -248,9 +248,6 @@ export default {
         transition: 0.3s;
         flex: 1;
         border-radius: 4px 0 0 4px;
-        &:focus {
-          background-color: $text-white;
-        }
       }
       .search-button {
         height: inherit;

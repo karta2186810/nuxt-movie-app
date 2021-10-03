@@ -1,6 +1,6 @@
 <template>
   <div class="movie-list">
-    <div v-if="movies.length !== 0" class="card-group grid">
+    <div v-if="movies.length" class="card-group grid">
       <div v-for="movie in movies" :key="movie.id" class="card flex">
         <div v-loading class="poster">
           <img
@@ -24,16 +24,20 @@
         </div>
       </div>
     </div>
-    <div v-else>沒有相關的電影哦</div>
+    <div v-else class="no-movie">
+      <i class="ri-movie-2-line"></i>
+      沒有相關的電影哦
+    </div>
+    <div v-show="loading" class="loading">
+      <img src="@/assets/images/loading.svg" alt="" />
+    </div>
     <button
       v-show="!isLastPage && movies.length"
       class="loadmore-btn"
       @click="handleLoadMore"
     >
-      <i v-if="loading" class="ri-loader-3-line"></i>
-      <span v-else>加載更多</span>
+      <span>加載更多</span>
     </button>
-    <div v-if="loading">Loading</div>
   </div>
 </template>
 
@@ -102,7 +106,7 @@ export default {
       flex-direction: column;
       border-radius: 4px;
       overflow: hidden;
-      background-color: #333;
+      background-color: $card-color;
       cursor: pointer;
       box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
       position: relative;
@@ -177,6 +181,22 @@ export default {
           }
         }
       }
+    }
+  }
+  .no-movie {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    min-height: 300px;
+    color: $primary-color;
+    i {
+      font-size: 120px;
+      margin-bottom: 24px;
+      color: $primary-color;
+      font-weight: normal;
     }
   }
   .loadmore-btn {
