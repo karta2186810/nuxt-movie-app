@@ -13,27 +13,27 @@
         <div class="info">
           <h3 class="title">{{ movie.title }}</h3>
           <p>評分: {{ movie.vote_average ? movie.vote_average : '--' }}</p>
-          <p class="release-date">{{ movie.release_date }}</p>
           <div class="overview">
             <h4 v-if="movie.overview" class="overview-title">摘要</h4>
             <p>
-              {{ movie.overview ? movie.overview.slice(0, 100) : '尚未有摘要' }}
-              <span v-if="movie.overview.length > 100">...</span>
+              {{ movie.overview ? movie.overview.slice(0, 50) : '尚未有摘要' }}
+              <span v-if="movie.overview.length > 50">...</span>
             </p>
           </div>
+          <p class="release-date">{{ movie.release_date }}</p>
         </div>
       </div>
+    </div>
+    <div v-else-if="loading" class="loading">
+      <img src="@/assets/images/loading.svg" alt="" />
     </div>
     <div v-else class="no-movie">
       <i class="ri-movie-2-line"></i>
       沒有相關的電影哦
     </div>
-    <div v-show="loading" class="loading">
-      <img src="@/assets/images/loading.svg" alt="" />
-    </div>
     <button
       v-show="!isLastPage && movies.length"
-      class="loadmore-btn"
+      class="loadmore-btn btn-primary"
       @click="handleLoadMore"
     >
       <span>加載更多</span>
@@ -97,10 +97,18 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1140px) {
+    margin-top: 32px;
+    padding-left: 0;
+  }
   .card-group {
     grid-template-columns: repeat(4, 1fr);
     align-content: center;
     gap: 24px;
+    @media screen and (max-width: 1140px) {
+      grid-template-columns: repeat(1, 1fr);
+      width: 100%;
+    }
     .card {
       width: 100%;
       flex-direction: column;
@@ -111,13 +119,18 @@ export default {
       box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
       position: relative;
       transition: 0.3s;
-      &:hover {
-        transform: scale(1.1);
-        z-index: 100;
-        .info {
-          .overview {
-            opacity: 1;
-            pointer-events: initial;
+      @media screen and (max-width: 1140px) {
+        flex-direction: row;
+      }
+      @media screen and (min-width: 1141px) {
+        &:hover {
+          transform: scale(1.1);
+          z-index: 100;
+          .info {
+            .overview {
+              opacity: 1;
+              pointer-events: initial;
+            }
           }
         }
       }
@@ -125,6 +138,15 @@ export default {
         flex: 1;
         overflow: hidden;
         min-height: 300px;
+        @media screen and (max-width: 1140px) {
+          flex: initial;
+          min-height: 225px;
+          min-width: 150px;
+        }
+        @media screen and (max-width: 480px) {
+          min-width: 125px;
+          min-height: 175px;
+        }
         .default {
           height: 100%;
           font-size: 20px;
@@ -139,23 +161,38 @@ export default {
           height: 100%;
           object-fit: cover;
           transition: 0.3s;
+          @media screen and (max-width: 1140px) {
+            width: 150px;
+          }
+          @media screen and (max-width: 480px) {
+            width: 125px;
+          }
         }
       }
       .info {
         padding: 16px;
+        @media screen and (max-width: 1140px) {
+          padding: 32px;
+          font-size: 20px;
+        }
         .title {
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 8px;
           letter-spacing: 1px;
-          overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          @media screen and (max-width: 1140px) {
+            font-size: 24px;
+          }
         }
         .release-date {
           font-size: 14px;
           font-weight: 100;
           color: $text-gray;
+          @media screen and (max-width: 1140px) {
+            font-size: 16px;
+          }
         }
         .overview {
           position: absolute;
@@ -174,10 +211,26 @@ export default {
           transition: 0.3s;
           opacity: 0;
           pointer-events: none;
+          @media screen and (max-width: 1140px) {
+            margin-top: 16px;
+            display: block;
+            position: static;
+            opacity: 1;
+            background-color: transparent;
+            padding: 0;
+            height: auto;
+            pointer-events: initial;
+          }
+          @media screen and (max-width: 480px) {
+            display: none;
+          }
           .overview-title {
             font-size: 20px;
             margin-bottom: 8px;
             color: $primary-color;
+            @media screen and (max-width: 1140px) {
+              display: none;
+            }
           }
         }
       }
@@ -201,20 +254,12 @@ export default {
   }
   .loadmore-btn {
     margin-top: 32px;
-    background-color: $primary-color;
-    color: $text-black;
-    border: none;
-    border-radius: 4px;
     width: 50%;
     padding: 8px 16px;
     font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight: 500;
     i {
       display: block;
-    }
-    &:hover {
-      background-color: $primary-color-alt;
     }
   }
 }

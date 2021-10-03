@@ -90,6 +90,13 @@ export default {
         }
       }
     }
+    .content {
+      align-items: start;
+      @media screen and (max-width: 1140px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
   }
 }
 </style>

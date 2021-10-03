@@ -13,7 +13,7 @@
         <div class="content" @scroll="handleScroll">
           <div class="card-group flex">
             <div v-for="movie in movies" :key="movie.id" class="card">
-              <div class="movie-image">
+              <div v-loading class="movie-image">
                 <img
                   v-if="movie.poster_path"
                   :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
