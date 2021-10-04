@@ -44,60 +44,100 @@
 </template>
 
 <script>
+import http from '@/utils/http.js'
 export default {
   name: 'Search',
   data() {
     return {
       searchVal: '',
+      totalResults: 0,
+      currentPage: 1,
+      movies: [],
+      loading: false,
     }
   },
   async fetch() {
-    await this.$store.dispatch('searchMovies', {
-      query: this.$route.query.query,
-      genre: this.$route.query.genre,
-    })
+    await this.$store.dispatch('fetchGenres')
+    const result = await this.fetchMovies()
+    this.movies = result.results
+    this.currentPage = result.page
+    this.totalResults = result.total_results
   },
   computed: {
-    currentPage() {
-      return this.$store.getters.getCurrentPage('search')
-    },
-    totalResults() {
-      return this.$store.getters.getTotalResults('search')
-    },
-    movies() {
-      return this.$store.getters.getMovies({ type: 'search' })
-    },
     isLastPage() {
-      return this.$store.getters.getIsLastPage('search')
+      return this.movies.length === this.totalResults
     },
     searchHeading() {
-      return this.$route.query.query || this.$route.query.genre
+      const { query, genre, keyword } = this.$route.query
+
+      if (genre) {
+        const genreName = this.genreList[genre] && this.genreList[genre].name
+        return genreName
+      }
+
+      return query || keyword
+    },
+    genreList() {
+      return this.$store.state.genres
     },
   },
   watch: {
     '$route.query': {
-      handler() {
-        this.$store.dispatch('searchMovies', {
-          query: this.$route.query.query,
-          genre: this.$route.query.genre,
-        })
+      async handler() {
+        const result = await this.fetchMovies()
+        this.currentPage = result.page
+        this.totalResults = result.total_results
+        this.movies = result.results
       },
     },
   },
   methods: {
+    async fetchMovies(page = 1) {
+      let result
+
+      const { genre, query, keyword } = this.$route.query
+
+      this.loading = true
+
+      if (genre) {
+        result = await http.get('discover/movie', {
+          params: {
+            with_genres: genre,
+            page,
+          },
+        })
+      } else if (query) {
+        result = await http.get('search/movie', {
+          params: {
+            query,
+            page,
+          },
+        })
+      } else if (keyword) {
+        result = await http.get('search/keyword', {
+          params: {
+            query: keyword,
+            page,
+          },
+        })
+      }
+
+      this.loading = false
+
+      return result.data
+    },
+    async loadMore() {
+      const result = await this.fetchMovies(this.currentPage + 1)
+      this.currentPage = result.page
+      this.movies = [...this.movies, ...result.results]
+      this.totalResults = result.total_results
+    },
     searchMovie() {
       const searchVal = this.searchVal.trim()
       if (searchVal) {
         this.$router.push(`/search?query=${searchVal}`)
         this.searchVal = ''
       }
-    },
-    loadMore() {
-      this.$store.dispatch('searchMovies', {
-        page: this.currentPage + 1,
-        query: this.$route.query.query,
-        genre: this.$route.query.genre,
-      })
     },
   },
 }

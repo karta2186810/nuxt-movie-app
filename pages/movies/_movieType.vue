@@ -5,14 +5,20 @@
         <h2 class="movies-title">{{ title }}</h2>
       </div>
       <div class="content flex">
-        <SearchPanel :movie-type="$route.params.movieType" />
+        <SearchPanel
+          :movie-type="$route.params.movieType"
+          :sort-by="conditions.sortBy"
+          :genres="conditions.genres"
+          :condition-changed="conditionChanged"
+          @changeGenre="changeGenre"
+          @changeSortBy="changeSortBy"
+          @search="search"
+        />
         <MovieList
           :movies="movies"
-          :current-page="currentPage"
           :is-last-page="isLastPage"
-          :total-results="totalResults"
-          :movie-type="$route.params.movieType"
-          :loading="$fetchState.pending"
+          :loading="$fetchState.pending || loading"
+          @load-more="handleLoadMore"
         />
       </div>
     </div>
@@ -20,20 +26,30 @@
 </template>
 
 <script>
+import http from '@/utils/http.js'
+import { formatDate } from '@/utils/formatDate.js'
 export default {
   name: 'Movies',
-  async fetch() {
-    await this.$store.dispatch('fetchMovies', {
-      type: this.$route.params.movieType,
+  data() {
+    return {
       conditionChanged: true,
       conditions: {
-        sortBy:
-          this.$route.params.movieType === 'topRated'
-            ? 'vote_average.desc'
-            : 'popularity.desc',
-        voteCount: this.$route.params.movieType === 'topRated' ? '500' : '',
+        sortBy: 'popularity.desc',
+        genres: [],
       },
-    })
+      voteCount: '',
+      currentPage: 1,
+      totalResults: 0,
+      movies: [],
+      loading: false,
+    }
+  },
+  async fetch() {
+    const result = await this.fetchMovies()
+    const data = result.data
+    this.movies = data.results
+    this.currentPage = data.page
+    this.totalResults = data.total_results
   },
   computed: {
     title() {
@@ -45,19 +61,81 @@ export default {
       }
       return map[this.$route.params.movieType]
     },
-    movies() {
-      return this.$store.getters.getMovies({
-        type: this.$route.params.movieType,
-      })
-    },
-    currentPage() {
-      return this.$store.getters.getCurrentPage(this.$route.params.movieType)
-    },
-    totalResults() {
-      return this.$store.getters.getTotalResults(this.$route.params.movieType)
-    },
     isLastPage() {
-      return this.$store.getters.getIsLastPage(this.$route.params.movieType)
+      return this.totalResults === this.movies.length
+    },
+    releaseDateGte() {
+      const type = this.$route.params.movieType
+      if (type === 'nowPlaying') {
+        const dateObj = new Date()
+        dateObj.setDate(dateObj.getDate() - 31)
+        return formatDate(dateObj)
+      } else if (type === 'upcoming') {
+        return formatDate(new Date())
+      }
+      return ''
+    },
+    releaseDateLte() {
+      const type = this.$route.params.movieType
+      if (type === 'nowPlaying') {
+        return formatDate(new Date())
+      }
+      return ''
+    },
+  },
+  watch: {
+    conditions: {
+      handler() {
+        this.conditionChanged = true
+      },
+      deep: true,
+    },
+  },
+  created() {
+    const type = this.$route.params.movieType
+    if (type === 'topRated') {
+      this.conditions.sortBy = 'vote_average.desc'
+      this.voteCount = '500'
+    }
+  },
+  methods: {
+    async fetchMovies(page = 1) {
+      this.loading = true
+      const result = await http.get('discover/movie', {
+        params: {
+          sort_by: this.conditions.sortBy,
+          page,
+          'release_date.gte': this.releaseDateGte,
+          'release_date.lte': this.releaseDateLte,
+          release_type: '2|3',
+          with_genres: this.conditions.genres.join(','),
+          vote_count: this.voteCount,
+        },
+      })
+      this.loading = false
+      return result
+    },
+    async handleLoadMore() {
+      const result = await this.fetchMovies(this.currentPage + 1)
+      const data = result.data
+      this.movies = [...this.movies, ...data.results]
+      this.currentPage = data.page
+      this.totalResults = data.total_results
+    },
+    async search() {
+      const result = await this.fetchMovies()
+      const data = result.data
+      this.movies = [...data.results]
+      this.currentPage = data.page
+      this.totalResults = data.total_results
+      this.conditionChanged = false
+      window.scrollTo(0, 0)
+    },
+    changeSortBy(sortBy) {
+      this.conditions.sortBy = sortBy
+    },
+    changeGenre(seletedGenres) {
+      this.conditions.genres = seletedGenres
     },
   },
 }

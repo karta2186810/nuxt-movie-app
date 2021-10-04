@@ -32,7 +32,7 @@
       </div>
     </div>
     <div v-else-if="loading" class="loading">
-      <img src="@/assets/images/loading.svg" alt="" />
+      <img src="@/assets/images/loading.svg" />
     </div>
     <div v-else class="no-movie">
       <i class="ri-movie-2-line"></i>
@@ -86,12 +86,7 @@ export default {
   },
   methods: {
     handleLoadMore() {
-      if (!this.isLastPage) {
-        this.$store.dispatch('fetchMovies', {
-          type: this.movieType,
-          page: this.currentPage + 1,
-        })
-      }
+      this.$emit('load-more')
     },
     toMovieDetail(id) {
       this.$router.push(`/movieDetail/${id}`)
@@ -193,6 +188,7 @@ export default {
           letter-spacing: 1px;
           text-overflow: ellipsis;
           white-space: nowrap;
+          overflow: hidden;
           @media screen and (max-width: 1140px) {
             font-size: 24px;
           }

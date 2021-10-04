@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import http from '@/utils/http.js'
 export default {
   props: {
     title: {
@@ -64,24 +65,21 @@ export default {
     return {
       leftmost: true,
       rightmost: false,
+      movies: [],
+      voteCount: '',
+      sortBy: 'popularity',
     }
   },
   async fetch() {
-    await this.$store.dispatch('fetchMovies', {
-      type: this.dataType,
-      conditions: {
-        sortBy:
-          this.dataType === 'topRated'
-            ? 'vote_average.desc'
-            : 'popularity.desc',
-        voteCount: this.dataType === 'topRated' ? '500' : '',
-      },
-    })
-  },
-  computed: {
-    movies() {
-      return this.$store.getters.getMovies({ type: this.dataType }).slice(0, 20)
-    },
+    const map = {
+      nowPlaying: 'now_playing',
+      topRated: 'top_rated',
+      upcoming: 'upcoming',
+      popular: 'popular',
+    }
+    const type = map[this.dataType]
+    const result = await http.get(`movie/${type}?page=1`)
+    this.movies = result.data.results
   },
   methods: {
     handleScroll(e) {

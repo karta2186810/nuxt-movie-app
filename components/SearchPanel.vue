@@ -1,14 +1,15 @@
 <template>
-  <form class="search-panel" @submit="handleSearch">
+  <form class="search-panel" @submit="search">
     <div class="sort-by card">
       <div class="input-title" @click="showSortBy">
         排序
         <i class="ri-arrow-right-s-line" :class="{ open: sortByShow }"></i>
       </div>
       <select
-        v-model="conditions.sortBy"
+        :value="sortBy"
         class="sort-by-select input-section"
         :class="{ mobileShow: sortByShow }"
+        @change="changeSortBy"
       >
         <option value="popularity.desc">依照人氣降序</option>
         <option value="popularity.asc">依照人氣升序</option>
@@ -34,9 +35,10 @@
             >
             <input
               :id="genre.id"
-              v-model="conditions.genres"
+              v-model="selectedGenres"
               :value="genre.id"
               type="checkbox"
+              @change="$emit('changeGenre', selectedGenres)"
             />
           </div>
         </div>
@@ -55,20 +57,26 @@
 export default {
   name: 'SearchPanel',
   props: {
-    movieType: {
+    sortBy: {
       type: String,
-      default: '',
+      default: 'popularity.desc',
+    },
+    genres: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
+    conditionChanged: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
     return {
       sortByShow: false,
       filterShow: false,
-      conditionChanged: false,
-      conditions: {
-        genres: [],
-        sortBy: 'popularity.desc',
-      },
+      selectedGenres: [],
     }
   },
   async fetch() {
@@ -79,22 +87,9 @@ export default {
       return this.$store.state.genres
     },
   },
-  watch: {
-    conditions: {
-      handler() {
-        this.conditionChanged = true
-      },
-      deep: true,
-    },
-  },
-  created() {
-    if (this.movieType === 'topRated') {
-      this.conditions.sortBy = 'vote_average.desc'
-    }
-  },
   methods: {
     isChecked(value) {
-      return this.conditions.genres.includes(value)
+      return this.genres.includes(value)
     },
     showFilter() {
       this.filterShow = !this.filterShow
@@ -102,14 +97,12 @@ export default {
     showSortBy() {
       this.sortByShow = !this.sortByShow
     },
-    handleSearch(e) {
+    search(e) {
       e.preventDefault()
-      this.$store.dispatch('fetchMovies', {
-        type: this.movieType,
-        conditionChanged: this.conditionChanged,
-        conditions: this.conditions,
-      })
-      this.conditionChanged = false
+      this.$emit('search')
+    },
+    changeSortBy(e) {
+      this.$emit('changeSortBy', e.target.value)
     },
   },
 }
