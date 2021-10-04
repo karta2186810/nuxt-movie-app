@@ -22,10 +22,10 @@
 <script>
 export default {
   name: 'Movies',
-  scrollToTop: false,
   async fetch() {
     await this.$store.dispatch('fetchMovies', {
       type: this.$route.params.movieType,
+      conditionChanged: true,
       conditions: {
         sortBy:
           this.$route.params.movieType === 'topRated'

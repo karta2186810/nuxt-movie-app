@@ -1,18 +1,26 @@
 <template>
   <div class="movie-list">
     <div v-if="movies.length" class="card-group grid">
-      <div v-for="movie in movies" :key="movie.id" class="card flex">
+      <div
+        v-for="movie in movies"
+        :key="movie.id"
+        class="card flex"
+        @click="toMovieDetail(movie.id)"
+      >
         <div v-loading class="poster">
           <img
             v-if="movie.poster_path"
             :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
             alt="poster"
           />
-          <div v-else class="default flex">尚未有圖片</div>
+          <div v-else class="default flex"><i class="ri-image-2-fill"></i></div>
         </div>
         <div class="info">
           <h3 class="title">{{ movie.title }}</h3>
-          <p>評分: {{ movie.vote_average ? movie.vote_average : '--' }}</p>
+          <p class="rated">
+            評分: {{ movie.vote_average ? movie.vote_average : '--' }}
+          </p>
+          <p class="release-date">上映日期: {{ movie.release_date }}</p>
           <div class="overview">
             <h4 v-if="movie.overview" class="overview-title">摘要</h4>
             <p>
@@ -20,7 +28,6 @@
               <span v-if="movie.overview.length > 50">...</span>
             </p>
           </div>
-          <p class="release-date">{{ movie.release_date }}</p>
         </div>
       </div>
     </div>
@@ -86,6 +93,9 @@ export default {
         })
       }
     },
+    toMovieDetail(id) {
+      this.$router.push(`/movieDetail/${id}`)
+    },
   },
 }
 </script>
@@ -102,9 +112,10 @@ export default {
     padding-left: 0;
   }
   .card-group {
+    width: 100%;
     grid-template-columns: repeat(4, 1fr);
     align-content: center;
-    gap: 24px;
+    gap: 16px;
     @media screen and (max-width: 1140px) {
       grid-template-columns: repeat(1, 1fr);
       width: 100%;
@@ -144,13 +155,13 @@ export default {
           min-width: 150px;
         }
         @media screen and (max-width: 480px) {
-          min-width: 125px;
-          min-height: 175px;
+          min-width: 100px;
+          min-height: 125px;
         }
         .default {
           height: 100%;
-          font-size: 20px;
-          font-weight: 600;
+          font-size: 120px;
+          color: $text-gray;
           align-items: center;
           justify-content: center;
           background-color: $black-color-alt;
@@ -165,7 +176,7 @@ export default {
             width: 150px;
           }
           @media screen and (max-width: 480px) {
-            width: 125px;
+            width: 100px;
           }
         }
       }
@@ -185,11 +196,20 @@ export default {
           @media screen and (max-width: 1140px) {
             font-size: 24px;
           }
+          @media screen and (max-width: 480px) {
+            font-size: 20px;
+          }
+        }
+        .rated {
+          @media screen and (max-width: 480px) {
+            display: none;
+          }
         }
         .release-date {
           font-size: 14px;
           font-weight: 100;
           color: $text-gray;
+          margin-top: 8px;
           @media screen and (max-width: 1140px) {
             font-size: 16px;
           }
@@ -211,6 +231,7 @@ export default {
           transition: 0.3s;
           opacity: 0;
           pointer-events: none;
+
           @media screen and (max-width: 1140px) {
             margin-top: 16px;
             display: block;
@@ -222,7 +243,9 @@ export default {
             pointer-events: initial;
           }
           @media screen and (max-width: 480px) {
-            display: none;
+            overflow: hidden;
+            font-size: 16px;
+            height: 48px;
           }
           .overview-title {
             font-size: 20px;

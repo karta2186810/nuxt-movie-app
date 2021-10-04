@@ -97,6 +97,7 @@ export const actions = {
             page,
             'release_date.gte': releaseDateGte,
             'release_date.lte': releaseDateLte,
+            release_type: '2|3',
             with_genres: genres && genres.join(','),
             vote_count: voteCount,
           },

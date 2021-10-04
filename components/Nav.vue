@@ -10,17 +10,26 @@
             class="link"
             to="/movies/nowPlaying"
             @click.native="linkClick"
-            >現正熱映</NuxtLink
           >
-          <NuxtLink class="link" to="/movies/popular" @click.native="linkClick"
-            >熱門電影</NuxtLink
+            現正熱映
+          </NuxtLink>
+          <NuxtLink class="link" to="/movies/popular" @click.native="linkClick">
+            熱門電影
+          </NuxtLink>
+          <NuxtLink
+            class="link"
+            to="/movies/topRated"
+            @click.native="linkClick"
           >
-          <NuxtLink class="link" to="/movies/topRated" @click.native="linkClick"
-            >最高評分</NuxtLink
+            最高評分
+          </NuxtLink>
+          <NuxtLink
+            class="link"
+            to="/movies/upcoming"
+            @click.native="linkClick"
           >
-          <NuxtLink class="link" to="/movies/upcoming" @click.native="linkClick"
-            >即將上映</NuxtLink
-          >
+            即將上映
+          </NuxtLink>
           <div class="close-menu" @click="closeMenu">
             <i class="ri-close-line"></i>
           </div>

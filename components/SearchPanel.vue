@@ -25,13 +25,13 @@
       </div>
       <div class="input-section" :class="{ mobileShow: filterShow }">
         <div class="genre-group flex">
-          <div
-            v-for="genre in genreList"
-            :key="genre.id"
-            class="genre"
-            :class="{ isChecked: isChecked(genre.id) }"
-          >
-            <label :for="genre.id">{{ genre.name }}</label>
+          <div v-for="genre in genreList" :key="genre.id">
+            <label
+              :for="genre.id"
+              class="genre"
+              :class="{ isChecked: isChecked(genre.id) }"
+              >{{ genre.name }}</label
+            >
             <input
               :id="genre.id"
               v-model="conditions.genres"
@@ -119,7 +119,7 @@ export default {
 .search-panel {
   flex: 1;
   position: sticky;
-  top: $nav-height;
+  top: $nav-height + 16px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -186,22 +186,21 @@ export default {
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
+      input[type='checkbox'] {
+        display: none;
+      }
       .genre {
+        display: block;
         background-color: $black-color-alt;
         color: $text-white;
         padding: 8px 16px;
         border-radius: 20px;
         font-weight: 600;
         font-size: 14px;
+        cursor: pointer;
         &.isChecked {
           background-color: $primary-color;
           color: $text-black;
-        }
-        label {
-          cursor: pointer;
-        }
-        input[type='checkbox'] {
-          display: none;
         }
       }
     }

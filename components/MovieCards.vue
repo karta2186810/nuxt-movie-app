@@ -12,14 +12,21 @@
       <div v-else class="content-wrapper">
         <div class="content" @scroll="handleScroll">
           <div class="card-group flex">
-            <div v-for="movie in movies" :key="movie.id" class="card">
+            <div
+              v-for="movie in movies"
+              :key="movie.id"
+              class="card"
+              @click="toMovieDetail(movie.id)"
+            >
               <div v-loading class="movie-image">
                 <img
                   v-if="movie.poster_path"
                   :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
                   :alt="movie.title"
                 />
-                <div class="movie-image default flex">尚未有圖片</div>
+                <div class="movie-image default flex">
+                  <i class="ri-image-2-fill"></i>
+                </div>
               </div>
               <div class="movie-info">
                 <h3 class="movie-title">
@@ -93,6 +100,9 @@ export default {
       } else {
         this.rightmost = false
       }
+    },
+    toMovieDetail(id) {
+      this.$router.push(`/movieDetail/${id}`)
     },
   },
 }
@@ -179,13 +189,12 @@ export default {
             height: 225px;
             overflow: hidden;
             border-radius: 4px;
-            margin-bottom: 12px;
             &.default {
               background-color: $black-color-alt;
+              color: $text-gray;
               justify-content: center;
               align-items: center;
-              font-weight: 700;
-              letter-spacing: 1px;
+              font-size: 120px;
             }
             img {
               width: 100%;
@@ -196,6 +205,7 @@ export default {
           }
           .movie-info {
             width: 100%;
+            padding: 12px;
             .movie-title {
               overflow: hidden;
               text-overflow: ellipsis;
