@@ -1,30 +1,33 @@
 <template>
   <div class="movie-list">
-    <div v-if="movies.length" class="movie-list__cards">
+    <div v-if="movies.length" class="movie-list__content">
       <Card
         v-for="movie in movies"
         :key="movie.id"
         class="movie"
         @click="toMovieDetail(movie.id)"
       >
-        <div v-loading class="poster">
+        <div v-loading class="movie-poster">
           <img
             v-if="movie.poster_path"
-            class="poster__img"
+            class="movie-poster__img"
             :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
             alt="poster"
           />
-          <ImageDefault v-else class="poster__default"></ImageDefault>
+          <ImageDefault v-else class="movie-poster__default"></ImageDefault>
         </div>
-        <div class="info">
-          <h3 class="title">{{ movie.title }}</h3>
-          <p class="rated">
+
+        <div class="movie-info">
+          <h3 class="movie-info__title">{{ movie.title }}</h3>
+          <p class="movie-info__rated">
             評分: {{ movie.vote_average ? movie.vote_average : '--' }}
           </p>
-          <p class="release-date">上映日期: {{ movie.release_date }}</p>
-          <BoxCenter class="overview">
-            <h4 v-if="movie.overview" class="overview-title">摘要</h4>
-            <p>
+          <p class="movie-info__release-date">
+            上映日期: {{ movie.release_date }}
+          </p>
+          <BoxCenter class="movie-overview">
+            <h4 v-if="movie.overview" class="movie-overview__title">摘要</h4>
+            <p class="movie-overview__description">
               {{ movie.overview ? movie.overview.slice(0, 50) : '尚未有摘要' }}
               <span v-if="movie.overview.length > 50">...</span>
             </p>
@@ -35,10 +38,10 @@
     <div v-else-if="loading" class="loading">
       <img src="@/assets/images/loading.svg" />
     </div>
-    <div v-else class="no-movie">
+    <SingleCenter v-else direction="column" class="no-movie">
       <i class="ri-movie-2-line"></i>
       沒有相關的電影哦
-    </div>
+    </SingleCenter>
     <Button
       v-show="!isLastPage && movies.length"
       class="loadmore-btn"
@@ -107,7 +110,7 @@ export default {
     margin-top: 32px;
     padding-left: 0;
   }
-  &__cards {
+  &__content {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -131,116 +134,119 @@ export default {
       &:hover {
         transform: scale(1.1);
         z-index: 100;
-        .info {
-          .overview {
-            opacity: 1;
-            pointer-events: initial;
-          }
-        }
-      }
-    }
-    .poster {
-      flex: 1;
-      overflow: hidden;
-      min-height: 300px;
-      @media screen and (max-width: 1140px) {
-        flex: initial;
-        min-height: 225px;
-        min-width: 150px;
-      }
-      @media screen and (max-width: 480px) {
-        min-width: 100px;
-        min-height: 125px;
-      }
-      &__default {
-        transition: 0.3s;
-      }
-      &__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: 0.3s;
-        @media screen and (max-width: 1140px) {
-          width: 150px;
-        }
-        @media screen and (max-width: 480px) {
-          width: 100px;
-        }
-      }
-    }
-    .info {
-      padding: 16px;
-      @media screen and (max-width: 1140px) {
-        padding: 32px;
-        font-size: 20px;
-      }
-      .title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        letter-spacing: 1px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        @media screen and (max-width: 1140px) {
-          font-size: 24px;
-        }
-        @media screen and (max-width: 480px) {
-          font-size: 20px;
-        }
-      }
-      .rated {
-        @media screen and (max-width: 480px) {
-          display: none;
-        }
-      }
-      .release-date {
-        font-size: 14px;
-        font-weight: 100;
-        color: $text-gray;
-        margin-top: 8px;
-        @media screen and (max-width: 1140px) {
-          font-size: 16px;
-        }
-      }
-      .overview {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        flex-direction: column;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(12px);
-        padding: 16px;
-        line-height: 1.5;
-        transition: 0.3s;
-        opacity: 0;
-        pointer-events: none;
-
-        @media screen and (max-width: 1140px) {
-          margin-top: 16px;
-          display: block;
-          position: static;
+        .movie-overview {
           opacity: 1;
-          background-color: transparent;
-          padding: 0;
-          height: auto;
           pointer-events: initial;
         }
-        @media screen and (max-width: 480px) {
-          overflow: hidden;
-          font-size: 16px;
-          height: 48px;
-        }
-        .overview-title {
-          font-size: 20px;
-          margin-bottom: 8px;
-          color: $color-primary;
-          @media screen and (max-width: 1140px) {
-            display: none;
-          }
-        }
+      }
+    }
+  }
+
+  .movie-poster {
+    flex: 1;
+    overflow: hidden;
+    min-height: 300px;
+    @media screen and (max-width: 1140px) {
+      flex: initial;
+      min-height: 225px;
+      min-width: 150px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 100px;
+      min-width: 100px;
+      min-height: 125px;
+    }
+    &__default {
+      width: 100%;
+      height: 100%;
+      transition: 0.3s;
+    }
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+      @media screen and (max-width: 1140px) {
+        width: 150px;
+      }
+      @media screen and (max-width: 480px) {
+        width: 100px;
+      }
+    }
+  }
+  .movie-info {
+    padding: 16px;
+    @media screen and (max-width: 1140px) {
+      padding: 32px;
+      font-size: 20px;
+    }
+    &__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @media screen and (max-width: 1140px) {
+        font-size: 24px;
+      }
+      @media screen and (max-width: 480px) {
+        font-size: 20px;
+      }
+    }
+    &__rated {
+      @media screen and (max-width: 480px) {
+        display: none;
+      }
+    }
+    &__release-date {
+      font-size: 14px;
+      font-weight: 100;
+      color: $text-gray;
+      margin-top: 8px;
+      @media screen and (max-width: 1140px) {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .movie-overview {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    padding: 16px;
+    line-height: 1.5;
+    transition: 0.3s;
+    opacity: 0;
+    pointer-events: none;
+
+    @media screen and (max-width: 1140px) {
+      margin-top: 16px;
+      display: block;
+      position: static;
+      opacity: 1;
+      background-color: transparent;
+      padding: 0;
+      height: auto;
+      pointer-events: initial;
+    }
+    @media screen and (max-width: 480px) {
+      overflow: hidden;
+      font-size: 16px;
+      height: 48px;
+    }
+
+    &__title {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: $color-primary;
+      @media screen and (max-width: 1140px) {
+        display: none;
       }
     }
   }

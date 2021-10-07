@@ -1,46 +1,47 @@
 <template>
   <section class="movie-cards">
-    <div class="container">
-      <div class="cards-heading flex">
-        <NuxtLink :to="`/movies/${dataType}`" class="cards-title flex">
+    <Container>
+      <div class="cards-heading">
+        <NuxtLink :to="`/movies/${dataType}`" class="cards-heading__title flex">
           <h2>{{ title }}</h2>
           <i class="ri-arrow-right-s-line"></i>
         </NuxtLink>
       </div>
-      <div v-if="$fetchState.pending">Loading</div>
-      <div v-else-if="$fetchState.error">Opps, Something went wrong</div>
-      <div v-else class="content-wrapper">
-        <div class="content" @scroll="handleScroll">
-          <div class="card-group flex">
-            <Card
-              v-for="movie in movies"
-              :key="movie.id"
-              class="movie pointer"
-              @click="toMovieDetail(movie.id)"
-            >
-              <div v-loading class="poster">
-                <img
-                  v-if="movie.poster_path"
-                  :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
-                  :alt="movie.title"
-                />
-                <ImageDefault class="poster"></ImageDefault>
-              </div>
-              <div class="movie-info">
-                <h3 class="movie-title">
-                  {{ movie.title }}
-                </h3>
-                <p class="release-date">{{ movie.release_date }}</p>
-              </div>
-              <div class="movie-rated"></div>
-            </Card>
-            <div class="spacer"></div>
-          </div>
-        </div>
-        <div class="left-gradient gradient" :class="{ show: rightmost }"></div>
-        <div class="right-gradient gradient" :class="{ show: leftmost }"></div>
+
+      <div v-if="$fetchState.pending" class="content-loading">Loading</div>
+      <div v-else-if="$fetchState.error" class="content-fallback">
+        Opps, Something went wrong
       </div>
-    </div>
+
+      <Slider>
+        <SingleCenter class="card-group">
+          <Card
+            v-for="movie in movies"
+            :key="movie.id"
+            class="movie-card pointer"
+            @click="toMovieDetail(movie.id)"
+          >
+            <div v-loading class="movie-poster">
+              <img
+                v-if="movie.poster_path"
+                class="movie-poster__img"
+                :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
+                :alt="movie.title"
+              />
+              <ImageDefault class="movie-poster"></ImageDefault>
+            </div>
+            <div class="movie-info">
+              <h3 class="movie-info__title">
+                {{ movie.title }}
+              </h3>
+              <p class="movie-info__release-date">{{ movie.release_date }}</p>
+            </div>
+            <div class="movie-info__rated"></div>
+          </Card>
+          <div class="card-group__spacer"></div>
+        </SingleCenter>
+      </Slider>
+    </Container>
   </section>
 </template>
 
@@ -61,8 +62,6 @@ export default {
   },
   data() {
     return {
-      leftmost: true,
-      rightmost: false,
       movies: [],
       voteCount: '',
       sortBy: 'popularity',
@@ -80,23 +79,6 @@ export default {
     this.movies = result.data.results
   },
   methods: {
-    handleScroll(e) {
-      const scrollLeft = e.target.scrollLeft
-      const clientWidth = e.target.clientWidth
-      const cardGroupWidth = e.target.scrollWidth
-
-      if (scrollLeft === 0) {
-        this.leftmost = true
-      } else {
-        this.leftmost = false
-      }
-
-      if (Math.round(clientWidth + scrollLeft) === cardGroupWidth) {
-        this.rightmost = true
-      } else {
-        this.rightmost = false
-      }
-    },
     toMovieDetail(id) {
       this.$router.push(`/movieDetail/${id}`)
     },
@@ -107,137 +89,85 @@ export default {
 <style lang="scss" scoped>
 .movie-cards {
   padding-bottom: 80px;
-  .cards-heading {
-    margin-bottom: 16px;
-    .cards-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: $text-white;
-      vertical-align: middle;
-      padding-left: 16px;
-      position: relative;
-      transition: 0.3s;
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background-color: $color-primary;
-        border-radius: 4px;
-      }
-      &:hover {
-        color: $color-primary;
-      }
+}
+
+.cards-heading {
+  margin-bottom: 16px;
+  &__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: $text-white;
+    vertical-align: middle;
+    padding-left: 16px;
+    position: relative;
+    transition: 0.3s;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background-color: $color-primary;
+      border-radius: 4px;
+    }
+    &:hover {
+      color: $color-primary;
     }
   }
+}
 
-  .content-wrapper {
-    position: relative;
-    .content {
-      width: 100%;
-      height: auto;
-      color: $text-white;
-      overflow-x: scroll;
-      padding: 8px 32px;
-      padding-bottom: 16px;
-      @media screen and (max-width: 640px) {
-        padding: 8px 0;
-      }
-      &::-webkit-scrollbar {
-        background-color: transparent;
-        height: 12px;
-        @media screen and (max-width: 768px) {
-          height: 10px;
-        }
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 40px;
-        background-color: $scrollbar-thumb-color;
-        &:hover,
-        &:active {
-          background-color: $scrollbar-thumb-color-alt;
-        }
-      }
-      .card-group {
-        flex-wrap: nowrap;
-        align-items: center;
-        column-gap: 16px;
-        .movie {
-          min-width: 150px;
-          width: 150px;
-          position: relative;
-          &:hover {
-            .poster {
-              img {
-                transform: scale(1.1);
-              }
-            }
-            .movie-title {
-              color: $color-primary;
-            }
-          }
-          .poster {
-            width: 100%;
-            height: 225px;
-            overflow: hidden;
-            border-radius: 4px;
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              transition: 0.3s;
-            }
-          }
-          .movie-info {
-            width: 100%;
-            padding: 12px;
-            .movie-title {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              font-weight: 700;
-              margin-bottom: 6px;
-            }
-            .release-date {
-              font-size: 14px;
-              font-weight: 100;
-              color: $text-gray;
-            }
-          }
-        }
-        .spacer {
-          min-width: 16px;
-          height: 200px;
-        }
-      }
+.card-group {
+  flex-wrap: nowrap;
+  column-gap: 16px;
+  &__spacer {
+    min-width: 16px;
+    height: 200px;
+  }
+}
+
+.movie-card {
+  min-width: 150px;
+  width: 150px;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    .movie-poster__img {
+      transform: scale(1.1);
     }
-    .gradient {
-      height: calc(100% - 32px);
-      width: 200px;
-      position: absolute;
-      opacity: 0;
-      transition: 0.3s;
-      pointer-events: none;
-      @media screen and (max-width: 768px) {
-        width: 48px;
-      }
-      &.show {
-        opacity: 1;
-      }
-      &.left-gradient {
-        top: 8px;
-        left: 0;
-        background: linear-gradient(-90deg, transparent, $color-black);
-      }
-      &.right-gradient {
-        top: 8px;
-        right: 0;
-        background: linear-gradient(90deg, transparent, $color-black);
-      }
+    .movie-info__title {
+      color: $color-primary;
     }
+  }
+}
+
+.movie-poster {
+  width: 100%;
+  height: 225px;
+  overflow: hidden;
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+  }
+}
+
+.movie-info {
+  width: 100%;
+  padding: 12px;
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  &__release-date {
+    font-size: 14px;
+    font-weight: 100;
+    color: $text-gray;
   }
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <form class="search-panel" @submit="search">
     <Card class="sort-by pa-12">
-      <div class="input-title" @click="showSortBy">
+      <div class="search-title" @click="showSortBy">
         排序
         <i
-          class="ri-arrow-right-s-line input-title__icon"
+          class="ri-arrow-right-s-line search-title__icon"
           :class="{ open: sortByShow }"
         ></i>
       </div>
       <select
         :value="sortBy"
-        class="sort-by__input input-section"
+        class="sort-by__input search-section"
         :class="{ mobileShow: sortByShow }"
         @change="changeSortBy"
       >
@@ -23,14 +23,14 @@
       </select>
     </Card>
     <Card class="filter">
-      <div class="input-title" @click="showFilter">
+      <div class="search-title" @click="showFilter">
         篩選
         <i
-          class="ri-arrow-right-s-line input-title__icon"
+          class="ri-arrow-right-s-line search-title__icon"
           :class="{ open: filterShow }"
         ></i>
       </div>
-      <div class="input-section" :class="{ mobileShow: filterShow }">
+      <div class="search-section" :class="{ mobileShow: filterShow }">
         <div class="genres">
           <div v-for="genre in genreList" :key="genre.id" class="genre">
             <label
@@ -130,7 +130,7 @@ export default {
     font-size: 20px;
   }
 }
-.input-title {
+.search-title {
   width: 100%;
   display: flex;
   align-items: center;
@@ -154,7 +154,7 @@ export default {
   }
 }
 
-.input-section {
+.search-section {
   margin-top: 12px;
   width: 100%;
   @media screen and (max-width: 1140px) {
@@ -194,10 +194,10 @@ export default {
 }
 
 .genre {
-  .genre__input {
+  &__input {
     display: none;
   }
-  .genre__label {
+  &__label {
     display: block;
     background-color: $color-black-alt;
     color: $text-white;
