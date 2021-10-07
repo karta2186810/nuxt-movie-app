@@ -1,10 +1,8 @@
 <template>
-  <div class="movies section">
-    <div class="container">
-      <div class="movies-heading">
-        <h2 class="movies-title">{{ title }}</h2>
-      </div>
-      <div class="content flex">
+  <Section class="movies">
+    <Container>
+      <h2 class="movies__title fz-32 fw-900 pl-16 mb-24">{{ title }}</h2>
+      <div class="movies__content">
         <SearchPanel
           :movie-type="$route.params.movieType"
           :sort-by="conditions.sortBy"
@@ -21,8 +19,8 @@
           @load-more="handleLoadMore"
         />
       </div>
-    </div>
-  </div>
+    </Container>
+  </Section>
 </template>
 
 <script>
@@ -147,34 +145,27 @@ export default {
   width: 100%;
   height: auto;
   color: $text-white;
-  .container {
-    .movies-heading {
-      margin-bottom: 24px;
-      .movies-title {
-        font-size: 32px;
-        font-weight: 900;
-        position: relative;
-        padding-left: 16px;
-        &::before {
-          content: '';
-          display: block;
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 4px;
-          height: 100%;
-          background-color: $color-primary;
-          border-radius: 4px;
-        }
-      }
-    }
-    .content {
-      align-items: start;
-      @media screen and (max-width: 1140px) {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
+}
+.movies__title {
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background-color: $color-primary;
+    border-radius: 4px;
+  }
+}
+.movies__content {
+  display: flex;
+  align-items: start;
+  @media screen and (max-width: 1140px) {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 </style>
