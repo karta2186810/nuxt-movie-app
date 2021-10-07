@@ -5,6 +5,7 @@
       (direction ? 'single-center--' + direction : '',
       justify ? 'single-center--' + justify : '')
     "
+    @click="$emit('click')"
   >
     <slot></slot>
   </div>
