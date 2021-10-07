@@ -14,6 +14,8 @@ export default {
 
 <style lang="scss" scoped>
 .image-default {
+  width: 100%;
+  height: 100%;
   font-size: 120px;
   color: $text-gray;
   background-color: $color-black-alt;

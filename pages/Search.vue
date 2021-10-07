@@ -1,18 +1,11 @@
 <template>
   <div class="search section">
     <div class="container flex">
-      <div class="search-bar flex">
-        <input
-          v-model="searchVal"
-          type="text"
-          class="search-input"
-          placeholder="開始探索"
-          @keyup.enter="searchMovie"
-        />
-        <button class="search-button flex" @click="searchMovie">
-          <i class="ri-search-line"></i>
-        </button>
-      </div>
+      <SearchBar
+        v-model="searchVal"
+        placeholder="開始探索"
+        @search="searchMovie"
+      ></SearchBar>
       <div class="search-heading">
         <h2>
           當前搜尋 <span>"{{ searchHeading }}"</span> 的結果為

@@ -9,7 +9,11 @@
       <p class="hero-description">
         上百萬部電影和人物在等你。<br />馬上開始探索吧！
       </p>
-      <a class="hero-button" href="#nowPlaying">開始探索</a>
+      <SearchBar placeholder="開始探索">
+        <template #buttonIcon>
+          <span>開始探索</span>
+        </template>
+      </SearchBar>
     </div>
   </div>
 </template>

@@ -20,7 +20,7 @@ export default {
     },
     justify: {
       type: String,
-      default: 'center',
+      default: '',
     },
   },
 }
@@ -28,8 +28,6 @@ export default {
 
 <style lang="scss">
 .single-center {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   &--row {
