@@ -43,7 +43,7 @@ export default {
       background: linear-gradient(
         -180deg,
         rgba(0, 0, 0, 0.4) 75%,
-        $black-color 100%
+        $color-black 100%
       );
     }
   }
@@ -93,7 +93,7 @@ export default {
     }
     .hero-button {
       display: inline-block;
-      background-color: $primary-color;
+      background-color: $color-primary;
       color: $text-black;
       font-size: 16px;
       font-weight: 800;
@@ -103,7 +103,7 @@ export default {
       cursor: pointer;
       margin-top: 32px;
       &:hover {
-        background-color: $primary-color-alt;
+        background-color: $color-primary-alt;
       }
     }
   }

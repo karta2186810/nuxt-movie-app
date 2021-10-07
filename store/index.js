@@ -27,20 +27,4 @@ export const mutations = {
   fetchGenres(state, data) {
     state.genres = arrToObj(data.genres)
   },
-  searchMovies(state, { data, genre, query }) {
-    const search = state.search
-
-    // 字串或類別發生變化，清空data
-    if (search.genre !== genre || search.query !== query) {
-      search.data = [...data.results]
-    } else {
-      search.data = [...search.data, ...data.results]
-    }
-
-    search.currentPage = data.page * 1
-    search.totalResults = data.total_results * 1
-    search.query = query
-    search.genre = genre
-  },
-  getMovieDetail(state, { data, id }) {},
 }

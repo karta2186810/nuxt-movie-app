@@ -1,9 +1,4 @@
-@import './variables.scss';
-
-* {
-  box-sizing: border-box;
-  font-family: 'Noto Sans TC', sans-serif;
-}
+@import './settings/variables.scss';
 
 .container {
   max-width: 1440px;
@@ -32,40 +27,10 @@
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
 }
 
-.btn-primary {
-  background-color: $primary-color;
-  color: $text-black;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    background-color: $primary-color-alt;
-  }
-}
-
 .flex {
   display: flex;
 }
 
 .grid {
   display: grid;
-}
-
-.g-relative {
-  position: relative;
-}
-
-.loadingImg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 100px;
-    height: 100px;
-  }
 }

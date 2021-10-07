@@ -1,19 +1,20 @@
 <template>
   <div class="movie-list">
-    <div v-if="movies.length" class="card-group grid">
-      <div
+    <div v-if="movies.length" class="movie-list__cards">
+      <Card
         v-for="movie in movies"
         :key="movie.id"
-        class="card flex"
+        class="movie"
         @click="toMovieDetail(movie.id)"
       >
         <div v-loading class="poster">
           <img
             v-if="movie.poster_path"
+            class="poster__img"
             :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
             alt="poster"
           />
-          <div v-else class="default flex"><i class="ri-image-2-fill"></i></div>
+          <ImageDefault v-else class="poster__default"></ImageDefault>
         </div>
         <div class="info">
           <h3 class="title">{{ movie.title }}</h3>
@@ -21,15 +22,15 @@
             評分: {{ movie.vote_average ? movie.vote_average : '--' }}
           </p>
           <p class="release-date">上映日期: {{ movie.release_date }}</p>
-          <div class="overview">
+          <BoxCenter class="overview">
             <h4 v-if="movie.overview" class="overview-title">摘要</h4>
             <p>
               {{ movie.overview ? movie.overview.slice(0, 50) : '尚未有摘要' }}
               <span v-if="movie.overview.length > 50">...</span>
             </p>
-          </div>
+          </BoxCenter>
         </div>
-      </div>
+      </Card>
     </div>
     <div v-else-if="loading" class="loading">
       <img src="@/assets/images/loading.svg" />
@@ -38,13 +39,13 @@
       <i class="ri-movie-2-line"></i>
       沒有相關的電影哦
     </div>
-    <button
+    <Button
       v-show="!isLastPage && movies.length"
-      class="loadmore-btn btn-primary"
+      class="loadmore-btn"
       @click="handleLoadMore"
     >
       <span>加載更多</span>
-    </button>
+    </Button>
   </div>
 </template>
 
@@ -106,8 +107,9 @@ export default {
     margin-top: 32px;
     padding-left: 0;
   }
-  .card-group {
+  &__cards {
     width: 100%;
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     align-content: center;
     gap: 16px;
@@ -115,146 +117,132 @@ export default {
       grid-template-columns: repeat(1, 1fr);
       width: 100%;
     }
-    .card {
-      width: 100%;
-      flex-direction: column;
-      border-radius: 4px;
-      overflow: hidden;
-      background-color: $card-color;
-      cursor: pointer;
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
-      position: relative;
-      transition: 0.3s;
-      @media screen and (max-width: 1140px) {
-        flex-direction: row;
-      }
-      @media screen and (min-width: 1141px) {
-        &:hover {
-          transform: scale(1.1);
-          z-index: 100;
-          .info {
-            .overview {
-              opacity: 1;
-              pointer-events: initial;
-            }
-          }
-        }
-      }
-      .poster {
-        flex: 1;
-        overflow: hidden;
-        min-height: 300px;
-        @media screen and (max-width: 1140px) {
-          flex: initial;
-          min-height: 225px;
-          min-width: 150px;
-        }
-        @media screen and (max-width: 480px) {
-          min-width: 100px;
-          min-height: 125px;
-        }
-        .default {
-          height: 100%;
-          font-size: 120px;
-          color: $text-gray;
-          align-items: center;
-          justify-content: center;
-          background-color: $black-color-alt;
-          transition: 0.3s;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: 0.3s;
-          @media screen and (max-width: 1140px) {
-            width: 150px;
-          }
-          @media screen and (max-width: 480px) {
-            width: 100px;
-          }
-        }
-      }
-      .info {
-        padding: 16px;
-        @media screen and (max-width: 1140px) {
-          padding: 32px;
-          font-size: 20px;
-        }
-        .title {
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 8px;
-          letter-spacing: 1px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          @media screen and (max-width: 1140px) {
-            font-size: 24px;
-          }
-          @media screen and (max-width: 480px) {
-            font-size: 20px;
-          }
-        }
-        .rated {
-          @media screen and (max-width: 480px) {
-            display: none;
-          }
-        }
-        .release-date {
-          font-size: 14px;
-          font-weight: 100;
-          color: $text-gray;
-          margin-top: 8px;
-          @media screen and (max-width: 1140px) {
-            font-size: 16px;
-          }
-        }
-        .overview {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          background-color: rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(12px);
-          padding: 16px;
-          line-height: 1.5;
-          transition: 0.3s;
-          opacity: 0;
-          pointer-events: none;
-
-          @media screen and (max-width: 1140px) {
-            margin-top: 16px;
-            display: block;
-            position: static;
+  }
+  .movie {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: 0.3s;
+    @media screen and (max-width: 1140px) {
+      flex-direction: row;
+    }
+    @media screen and (min-width: 1141px) {
+      &:hover {
+        transform: scale(1.1);
+        z-index: 100;
+        .info {
+          .overview {
             opacity: 1;
-            background-color: transparent;
-            padding: 0;
-            height: auto;
             pointer-events: initial;
           }
-          @media screen and (max-width: 480px) {
-            overflow: hidden;
-            font-size: 16px;
-            height: 48px;
-          }
-          .overview-title {
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: $primary-color;
-            @media screen and (max-width: 1140px) {
-              display: none;
-            }
+        }
+      }
+    }
+    .poster {
+      flex: 1;
+      overflow: hidden;
+      min-height: 300px;
+      @media screen and (max-width: 1140px) {
+        flex: initial;
+        min-height: 225px;
+        min-width: 150px;
+      }
+      @media screen and (max-width: 480px) {
+        min-width: 100px;
+        min-height: 125px;
+      }
+      &__default {
+        transition: 0.3s;
+      }
+      &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.3s;
+        @media screen and (max-width: 1140px) {
+          width: 150px;
+        }
+        @media screen and (max-width: 480px) {
+          width: 100px;
+        }
+      }
+    }
+    .info {
+      padding: 16px;
+      @media screen and (max-width: 1140px) {
+        padding: 32px;
+        font-size: 20px;
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        @media screen and (max-width: 1140px) {
+          font-size: 24px;
+        }
+        @media screen and (max-width: 480px) {
+          font-size: 20px;
+        }
+      }
+      .rated {
+        @media screen and (max-width: 480px) {
+          display: none;
+        }
+      }
+      .release-date {
+        font-size: 14px;
+        font-weight: 100;
+        color: $text-gray;
+        margin-top: 8px;
+        @media screen and (max-width: 1140px) {
+          font-size: 16px;
+        }
+      }
+      .overview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        padding: 16px;
+        line-height: 1.5;
+        transition: 0.3s;
+        opacity: 0;
+        pointer-events: none;
+
+        @media screen and (max-width: 1140px) {
+          margin-top: 16px;
+          display: block;
+          position: static;
+          opacity: 1;
+          background-color: transparent;
+          padding: 0;
+          height: auto;
+          pointer-events: initial;
+        }
+        @media screen and (max-width: 480px) {
+          overflow: hidden;
+          font-size: 16px;
+          height: 48px;
+        }
+        .overview-title {
+          font-size: 20px;
+          margin-bottom: 8px;
+          color: $color-primary;
+          @media screen and (max-width: 1140px) {
+            display: none;
           }
         }
       }
     }
   }
+
   .no-movie {
     display: flex;
     flex-direction: column;
@@ -263,23 +251,17 @@ export default {
     font-size: 20px;
     font-weight: 600;
     min-height: 300px;
-    color: $primary-color;
+    color: $color-primary;
     i {
       font-size: 120px;
       margin-bottom: 24px;
-      color: $primary-color;
+      color: $color-primary;
       font-weight: normal;
     }
   }
   .loadmore-btn {
     margin-top: 32px;
     width: 50%;
-    padding: 8px 16px;
-    font-size: 20px;
-    font-weight: 500;
-    i {
-      display: block;
-    }
   }
 }
 </style>

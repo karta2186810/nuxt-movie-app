@@ -44,12 +44,12 @@
         </div>
       </div>
     </div>
-    <button
-      class="search-btn btn-primary"
-      :class="{ disabled: !conditionChanged }"
+    <Button
+      class="search-btn"
+      :type="!conditionChanged ? 'disabled' : 'primary'"
     >
       搜尋
-    </button>
+    </Button>
   </form>
 </template>
 
@@ -129,7 +129,7 @@ export default {
     justify-content: center;
     padding-bottom: 12px;
     font-weight: 700;
-    border-bottom: 1px solid $primary-color;
+    border-bottom: 1px solid $color-primary;
     @media screen and (max-width: 1140px) {
       border: none;
       padding: 6px 0;
@@ -184,7 +184,7 @@ export default {
       }
       .genre {
         display: block;
-        background-color: $black-color-alt;
+        background-color: $color-black-alt;
         color: $text-white;
         padding: 8px 16px;
         border-radius: 20px;
@@ -192,7 +192,7 @@ export default {
         font-size: 14px;
         cursor: pointer;
         &.isChecked {
-          background-color: $primary-color;
+          background-color: $color-primary;
           color: $text-black;
         }
       }
@@ -200,14 +200,7 @@ export default {
   }
   .search-btn {
     width: 100%;
-    padding: 8px 16px;
     font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    &.disabled {
-      background-color: $black-color-alt;
-      pointer-events: none;
-    }
   }
 }
 </style>

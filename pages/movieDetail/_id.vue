@@ -18,8 +18,8 @@ export default {
     this.movie = result.data
   },
   computed: {
-    genres() {
-      return this.$store.getters.getGenres
+    genreList() {
+      return this.$store.genres
     },
   },
 }

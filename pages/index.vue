@@ -20,6 +20,6 @@ export default {
 <style lang="scss" scoped>
 .movie-cards-container {
   padding-top: 120px;
-  background-color: $black-color;
+  background-color: $color-black;
 }
 </style>

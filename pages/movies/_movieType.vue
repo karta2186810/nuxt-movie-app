@@ -143,7 +143,7 @@ export default {
 
 <style lang="scss" scoped deep>
 .movies {
-  background-color: $black-color;
+  background-color: $color-black;
   width: 100%;
   height: auto;
   color: $text-white;
@@ -163,7 +163,7 @@ export default {
           top: 0;
           width: 4px;
           height: 100%;
-          background-color: $primary-color;
+          background-color: $color-primary;
           border-radius: 4px;
         }
       }

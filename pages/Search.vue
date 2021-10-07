@@ -36,9 +36,9 @@
           </div>
         </div>
       </div>
-      <button v-show="!isLastPage" class="loadmore-btn" @click="loadMore">
+      <Button v-show="!isLastPage" class="loadmore-btn" @click="loadMore">
         加載更多
-      </button>
+      </Button>
     </div>
   </div>
 </template>
@@ -145,7 +145,7 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  background-color: $black-color;
+  background-color: $color-black;
   min-height: 100vh;
   color: $text-white;
   .container {
@@ -167,7 +167,7 @@ export default {
       .search-button {
         height: inherit;
         border: none;
-        background-color: $black-color-alt;
+        background-color: $color-black-alt;
         justify-content: center;
         align-items: center;
         padding: 0 12px;
@@ -176,7 +176,7 @@ export default {
         transition: 0.3s;
         border-radius: 0 4px 4px 0;
         &:hover {
-          background-color: $primary-color;
+          background-color: $color-primary;
           color: $text-black;
         }
       }
@@ -191,7 +191,7 @@ export default {
         font-size: 24px;
       }
       span {
-        color: $primary-color;
+        color: $color-primary;
       }
     }
     .card-group {
@@ -219,7 +219,7 @@ export default {
             align-items: center;
             width: 150px;
             height: 100%;
-            background-color: $black-color-alt;
+            background-color: $color-black-alt;
           }
         }
         .info {
@@ -233,21 +233,7 @@ export default {
     }
     .loadmore-btn {
       margin-top: 32px;
-      background-color: $primary-color;
-      color: $text-black;
-      border: none;
-      border-radius: 4px;
       width: 50%;
-      padding: 8px 16px;
-      font-size: 20px;
-      font-weight: 600;
-      cursor: pointer;
-      i {
-        display: block;
-      }
-      &:hover {
-        background-color: $primary-color-alt;
-      }
     }
   }
 }

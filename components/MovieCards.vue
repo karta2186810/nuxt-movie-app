@@ -12,21 +12,19 @@
       <div v-else class="content-wrapper">
         <div class="content" @scroll="handleScroll">
           <div class="card-group flex">
-            <div
+            <Card
               v-for="movie in movies"
               :key="movie.id"
-              class="card"
+              class="movie pointer"
               @click="toMovieDetail(movie.id)"
             >
-              <div v-loading class="movie-image">
+              <div v-loading class="poster">
                 <img
                   v-if="movie.poster_path"
                   :src="`https://image.tmdb.org/t/p/w300${movie.poster_path}`"
                   :alt="movie.title"
                 />
-                <div class="movie-image default flex">
-                  <i class="ri-image-2-fill"></i>
-                </div>
+                <ImageDefault class="poster"></ImageDefault>
               </div>
               <div class="movie-info">
                 <h3 class="movie-title">
@@ -35,7 +33,7 @@
                 <p class="release-date">{{ movie.release_date }}</p>
               </div>
               <div class="movie-rated"></div>
-            </div>
+            </Card>
             <div class="spacer"></div>
           </div>
         </div>
@@ -127,11 +125,11 @@ export default {
         top: 0;
         height: 100%;
         width: 4px;
-        background-color: $primary-color;
+        background-color: $color-primary;
         border-radius: 4px;
       }
       &:hover {
-        color: $primary-color;
+        color: $color-primary;
       }
     }
   }
@@ -167,33 +165,25 @@ export default {
         flex-wrap: nowrap;
         align-items: center;
         column-gap: 16px;
-        .card {
+        .movie {
           min-width: 150px;
           width: 150px;
           position: relative;
-          cursor: pointer;
           &:hover {
-            .movie-image {
+            .poster {
               img {
                 transform: scale(1.1);
               }
             }
             .movie-title {
-              color: $primary-color;
+              color: $color-primary;
             }
           }
-          .movie-image {
+          .poster {
             width: 100%;
             height: 225px;
             overflow: hidden;
             border-radius: 4px;
-            &.default {
-              background-color: $black-color-alt;
-              color: $text-gray;
-              justify-content: center;
-              align-items: center;
-              font-size: 120px;
-            }
             img {
               width: 100%;
               height: 100%;
@@ -240,12 +230,12 @@ export default {
       &.left-gradient {
         top: 8px;
         left: 0;
-        background: linear-gradient(-90deg, transparent, $black-color);
+        background: linear-gradient(-90deg, transparent, $color-black);
       }
       &.right-gradient {
         top: 8px;
         right: 0;
-        background: linear-gradient(90deg, transparent, $black-color);
+        background: linear-gradient(90deg, transparent, $color-black);
       }
     }
   }
