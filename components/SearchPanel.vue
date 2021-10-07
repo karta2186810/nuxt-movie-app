@@ -1,13 +1,16 @@
 <template>
   <form class="search-panel" @submit="search">
-    <div class="sort-by card">
+    <Card class="sort-by pa-12">
       <div class="input-title" @click="showSortBy">
         排序
-        <i class="ri-arrow-right-s-line" :class="{ open: sortByShow }"></i>
+        <i
+          class="ri-arrow-right-s-line input-title__icon"
+          :class="{ open: sortByShow }"
+        ></i>
       </div>
       <select
         :value="sortBy"
-        class="sort-by-select input-section"
+        class="sort-by__input input-section"
         :class="{ mobileShow: sortByShow }"
         @change="changeSortBy"
       >
@@ -18,24 +21,28 @@
         <option value="release_date.desc">依照日期降序</option>
         <option value="release_date.asc">依照日期升序</option>
       </select>
-    </div>
-    <div class="genres card">
+    </Card>
+    <Card class="filter">
       <div class="input-title" @click="showFilter">
         篩選
-        <i class="ri-arrow-right-s-line" :class="{ open: filterShow }"></i>
+        <i
+          class="ri-arrow-right-s-line input-title__icon"
+          :class="{ open: filterShow }"
+        ></i>
       </div>
       <div class="input-section" :class="{ mobileShow: filterShow }">
-        <div class="genre-group flex">
-          <div v-for="genre in genreList" :key="genre.id">
+        <div class="genres">
+          <div v-for="genre in genreList" :key="genre.id" class="genre">
             <label
               :for="genre.id"
-              class="genre"
+              class="genre__label"
               :class="{ isChecked: isChecked(genre.id) }"
               >{{ genre.name }}</label
             >
             <input
               :id="genre.id"
               v-model="selectedGenres"
+              class="genre__input"
               :value="genre.id"
               type="checkbox"
               @change="$emit('changeGenre', selectedGenres)"
@@ -43,7 +50,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </Card>
     <Button
       class="search-btn"
       :type="!conditionChanged ? 'disabled' : 'primary'"
@@ -122,85 +129,92 @@ export default {
     position: static;
     font-size: 20px;
   }
-  .input-title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 12px;
-    font-weight: 700;
-    border-bottom: 1px solid $color-primary;
+}
+.input-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 12px;
+  font-weight: 700;
+  border-bottom: 1px solid $color-primary;
+  @media screen and (max-width: 1140px) {
+    border: none;
+    padding: 6px 0;
+  }
+  &__icon {
+    display: none;
+    transition: 0.3s;
+    &.open {
+      transform: rotate(90deg);
+    }
     @media screen and (max-width: 1140px) {
-      border: none;
-      padding: 6px 0;
-    }
-    i {
-      display: none;
-      transition: 0.3s;
-      &.open {
-        transform: rotate(90deg);
-      }
-      @media screen and (max-width: 1140px) {
-        display: block;
-      }
+      display: block;
     }
   }
-  .input-section {
-    margin-top: 12px;
-    width: 100%;
+}
+
+.input-section {
+  margin-top: 12px;
+  width: 100%;
+  @media screen and (max-width: 1140px) {
+    display: none;
+  }
+  &.mobileShow {
     @media screen and (max-width: 1140px) {
-      display: none;
-    }
-    &.mobileShow {
-      @media screen and (max-width: 1140px) {
-        display: block;
-      }
+      display: block;
     }
   }
-  .sort-by {
-    width: 100%;
-    padding: 12px;
-    .sort-by-select {
-      border-radius: 4px;
-      padding: 8px;
-      outline: none;
-      cursor: pointer;
-      border: none;
+}
+
+.sort-by {
+  width: 100%;
+  &__input {
+    border-radius: 4px;
+    padding: 8px;
+    outline: none;
+    cursor: pointer;
+    border: none;
+  }
+}
+
+.filter {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.genre {
+  .genre__input {
+    display: none;
+  }
+  .genre__label {
+    display: block;
+    background-color: $color-black-alt;
+    color: $text-white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    &.isChecked {
+      background-color: $color-primary;
+      color: $text-black;
     }
   }
-  .genres {
-    width: 100%;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .genre-group {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      input[type='checkbox'] {
-        display: none;
-      }
-      .genre {
-        display: block;
-        background-color: $color-black-alt;
-        color: $text-white;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 14px;
-        cursor: pointer;
-        &.isChecked {
-          background-color: $color-primary;
-          color: $text-black;
-        }
-      }
-    }
-  }
-  .search-btn {
-    width: 100%;
-    font-size: 16px;
-  }
+}
+
+.search-btn {
+  width: 100%;
+  font-size: 16px;
 }
 </style>
