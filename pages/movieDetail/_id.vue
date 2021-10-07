@@ -1,6 +1,6 @@
 <template>
   <div class="movie-detail">
-    {{ movie.title }}
+    {{ movie }}
   </div>
 </template>
 

@@ -87,7 +87,7 @@ export default {
     align-items: flex-start;
     flex-direction: column;
   }
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 480px) {
     width: 100%;
     left: 50%;
     display: flex;
@@ -102,7 +102,7 @@ export default {
     @media screen and (max-width: 768px) {
       font-size: 60px;
     }
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: 480px) {
       font-size: 54px;
       text-align: center;
     }
@@ -115,7 +115,7 @@ export default {
     @media screen and (max-width: 768px) {
       font-size: 20px;
     }
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: 480px) {
       text-align: center;
     }
   }

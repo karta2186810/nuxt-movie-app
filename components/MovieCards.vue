@@ -158,9 +158,7 @@ export default {
   width: 100%;
   padding: 12px;
   &__title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @include ellipsis(1);
     font-weight: 700;
     margin-bottom: 6px;
   }

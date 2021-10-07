@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
+  overflow: hidden;
   background-color: $card-color;
   cursor: pointer;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);

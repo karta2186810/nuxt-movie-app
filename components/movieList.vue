@@ -28,8 +28,7 @@
           <BoxCenter class="movie-overview">
             <h4 v-if="movie.overview" class="movie-overview__title">摘要</h4>
             <p class="movie-overview__description">
-              {{ movie.overview ? movie.overview.slice(0, 50) : '尚未有摘要' }}
-              <span v-if="movie.overview.length > 50">...</span>
+              {{ movie.overview ? movie.overview : '尚未有摘要' }}
             </p>
           </BoxCenter>
         </div>
@@ -176,17 +175,20 @@ export default {
   }
   .movie-info {
     padding: 16px;
+    overflow: hidden;
     @media screen and (max-width: 1140px) {
       padding: 32px;
       font-size: 20px;
     }
+    @media screen and (max-width: 480px) {
+      padding: 24px;
+    }
     &__title {
+      @include ellipsis(1);
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 8px;
       letter-spacing: 1px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       @media screen and (max-width: 1140px) {
         font-size: 24px;
       }
@@ -247,6 +249,12 @@ export default {
       color: $color-primary;
       @media screen and (max-width: 1140px) {
         display: none;
+      }
+    }
+    &__description {
+      @include ellipsis(5);
+      @media screen and (max-width: 1140px) {
+        @include ellipsis(2);
       }
     }
   }

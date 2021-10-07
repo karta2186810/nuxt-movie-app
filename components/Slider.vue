@@ -4,11 +4,11 @@
       <slot></slot>
     </div>
     <div
-      class="left-gradient gradient"
+      class="gradient-left gradient"
       :class="{ 'gradient--show': rightmost }"
     ></div>
     <div
-      class="right-gradient gradient"
+      class="gradient-right gradient"
       :class="{ 'gradient--show': leftmost }"
     ></div>
   </div>
@@ -45,14 +45,14 @@ export default {
 <style lang="scss" scoped>
 .slider {
   position: relative;
-  .slider__content {
+  &__content {
     width: 100%;
     height: auto;
     color: $text-white;
     overflow-x: scroll;
     padding: 8px 32px;
     padding-bottom: 16px;
-    @media screen and (max-width: 640px) {
+    @media screen and (max-width: 480px) {
       padding: 8px 0;
     }
     &::-webkit-scrollbar {
@@ -86,12 +86,12 @@ export default {
   &--show {
     opacity: 1;
   }
-  &.left-gradient {
+  &-left {
     top: 8px;
     left: 0;
     background: linear-gradient(-90deg, transparent, $color-black);
   }
-  &.right-gradient {
+  &-right {
     top: 8px;
     right: 0;
     background: linear-gradient(90deg, transparent, $color-black);
