@@ -117,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 .search-panel {
-  flex: 1;
+  width: 240px;
   position: sticky;
   top: $nav-height + 16px;
   display: flex;
@@ -126,6 +126,7 @@ export default {
   align-items: center;
   row-gap: 16px;
   @media screen and (max-width: 1140px) {
+    width: 100%;
     position: static;
     font-size: 20px;
   }

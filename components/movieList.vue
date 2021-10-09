@@ -100,7 +100,7 @@ export default {
 
 <style lang="scss" scoped>
 .movie-list {
-  flex: 5;
+  flex: 1;
   padding-left: 16px;
   display: flex;
   flex-direction: column;
@@ -126,9 +126,6 @@ export default {
     flex-direction: column;
     position: relative;
     transition: 0.3s;
-    @media screen and (max-width: 1140px) {
-      flex-direction: row;
-    }
     @media screen and (min-width: 1141px) {
       &:hover {
         transform: scale(1.1);
@@ -139,21 +136,27 @@ export default {
         }
       }
     }
+    @media screen and (max-width: 1140px) {
+      flex-direction: row;
+      height: 225px;
+    }
+    @media screen and (max-width: 480px) {
+      height: 150px;
+    }
   }
-
   .movie-poster {
     flex: 1;
     overflow: hidden;
     min-height: 300px;
     @media screen and (max-width: 1140px) {
       flex: initial;
-      min-height: 225px;
+      min-height: auto;
+      height: 100%;
       min-width: 150px;
     }
     @media screen and (max-width: 480px) {
       width: 100px;
       min-width: 100px;
-      min-height: 125px;
     }
     &__default {
       width: 100%;
@@ -165,12 +168,6 @@ export default {
       height: 100%;
       object-fit: cover;
       transition: 0.3s;
-      @media screen and (max-width: 1140px) {
-        width: 150px;
-      }
-      @media screen and (max-width: 480px) {
-        width: 100px;
-      }
     }
   }
   .movie-info {

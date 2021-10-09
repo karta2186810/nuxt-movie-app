@@ -1,5 +1,5 @@
 <template>
-  <div class="search section">
+  <Section class="search">
     <div class="container flex">
       <SearchBar
         v-model="searchVal"
@@ -33,7 +33,7 @@
         加載更多
       </Button>
     </div>
-  </div>
+  </Section>
 </template>
 
 <script>
@@ -138,7 +138,6 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  background-color: $color-black;
   min-height: 100vh;
   color: $text-white;
   .container {

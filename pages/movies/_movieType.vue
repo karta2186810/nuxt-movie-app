@@ -139,11 +139,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped deep>
+<style lang="scss" scoped>
 .movies {
-  background-color: $color-black;
-  width: 100%;
-  height: auto;
   color: $text-white;
 }
 .movies__title {

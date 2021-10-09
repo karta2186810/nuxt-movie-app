@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Hero />
-    <div class="movie-cards-container">
+    <div class="movies">
       <MovieCards id="nowPlaying" title="現正熱映" data-type="nowPlaying" />
       <MovieCards title="熱門電影" data-type="popular" />
       <MovieCards title="最高評分" data-type="topRated" />
@@ -18,8 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.movie-cards-container {
+.movies {
   padding-top: 120px;
-  background-color: $color-black;
 }
 </style>

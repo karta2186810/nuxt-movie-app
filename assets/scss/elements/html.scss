@@ -1,3 +1,9 @@
+@import '../settings/variables.scss';
+
+html {
+  background-color: $color-black;
+}
+
 * {
   box-sizing: border-box;
   font-family: 'Noto Sans TC', sans-serif;
