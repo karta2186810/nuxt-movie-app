@@ -138,7 +138,7 @@ export default {
   justify-content: center;
   padding-bottom: 12px;
   font-weight: 700;
-  border-bottom: 1px solid $color-primary;
+  border-bottom: 1px solid $primary;
   @media screen and (max-width: 1140px) {
     border: none;
     padding: 6px 0;
@@ -200,15 +200,15 @@ export default {
   }
   &__label {
     display: block;
-    background-color: $color-black-alt;
-    color: $text-white;
+    background-color: $black-alt;
+    color: $white;
     padding: 8px 16px;
     border-radius: 20px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
     &.isChecked {
-      background-color: $color-primary;
+      background-color: $primary;
       color: $text-black;
     }
   }

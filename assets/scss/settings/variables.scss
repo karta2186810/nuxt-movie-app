@@ -1,13 +1,28 @@
 /* COLOR
 ----------------------------*/
-$color-primary: #fec260;
-$color-primary-alt: #f19d2e;
-$text-white: #fff;
+$primary: #fec260;
+$primary-alt: #f19d2e;
+$white: #fff;
+$black: #222;
+$black-alt: #444;
+// text
 $text-gray: #888;
-$text-black: rgb(29, 29, 31);
-$color-black: rgb(34, 34, 34);
-$color-black-alt: #444;
-$scrollbar-thumb-color: #444;
+$text-black: #1D1D1F;
+// scrollbar
+$scrollbar-thumb-color: $black-alt;
 $scrollbar-thumb-color-alt: #666;
+// card
 $card-color: #333;
+
+/* FONT SIZE
+----------------------------*/
+$font-size-small: 0.5rem;
+$font-size-smaller: 0.75rem;
+$font-size-normal: 1rem;
+$font-size-bigger: 1.25rem;
+$font-size-big: 1.5rem;
+$font-size-biggest: 2rem;
+
+/* NAV HEIGHT
+----------------------------*/
 $nav-height: 72px;

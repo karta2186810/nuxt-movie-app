@@ -18,6 +18,6 @@ export default {
   height: 100%;
   font-size: 120px;
   color: $text-gray;
-  background-color: $color-black-alt;
+  background-color: $black-alt;
 }
 </style>

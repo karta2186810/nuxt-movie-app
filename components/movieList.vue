@@ -243,7 +243,7 @@ export default {
     &__title {
       font-size: 20px;
       margin-bottom: 8px;
-      color: $color-primary;
+      color: $primary;
       @media screen and (max-width: 1140px) {
         display: none;
       }
@@ -264,11 +264,11 @@ export default {
     font-size: 20px;
     font-weight: 600;
     min-height: 300px;
-    color: $color-primary;
+    color: $primary;
     i {
       font-size: 120px;
       margin-bottom: 24px;
-      color: $color-primary;
+      color: $primary;
       font-weight: normal;
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <Section class="search">
-    <div class="container flex">
+    <Container class="flex">
       <SearchBar
         v-model="searchVal"
         placeholder="開始探索"
@@ -32,7 +32,7 @@
       <Button v-show="!isLastPage" class="loadmore-btn" @click="loadMore">
         加載更多
       </Button>
-    </div>
+    </Container>
   </Section>
 </template>
 
@@ -139,7 +139,7 @@ export default {
 <style lang="scss" scoped>
 .search {
   min-height: 100vh;
-  color: $text-white;
+  color: $white;
   .container {
     align-items: center;
     flex-direction: column;
@@ -147,7 +147,7 @@ export default {
       width: 100%;
       margin-bottom: 48px;
       .search-input {
-        background-color: $text-white;
+        background-color: $white;
         outline: none;
         border: none;
         color: $text-black;
@@ -159,16 +159,16 @@ export default {
       .search-button {
         height: inherit;
         border: none;
-        background-color: $color-black-alt;
+        background-color: $black-alt;
         justify-content: center;
         align-items: center;
         padding: 0 12px;
-        color: $text-white;
+        color: $white;
         cursor: pointer;
         transition: 0.3s;
         border-radius: 0 4px 4px 0;
         &:hover {
-          background-color: $color-primary;
+          background-color: $primary;
           color: $text-black;
         }
       }
@@ -183,7 +183,7 @@ export default {
         font-size: 24px;
       }
       span {
-        color: $color-primary;
+        color: $primary;
       }
     }
     .card-group {
@@ -211,7 +211,7 @@ export default {
             align-items: center;
             width: 150px;
             height: 100%;
-            background-color: $color-black-alt;
+            background-color: $black-alt;
           }
         }
         .info {

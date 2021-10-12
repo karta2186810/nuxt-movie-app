@@ -141,7 +141,7 @@ export default {
 
 <style lang="scss" scoped>
 .movies {
-  color: $text-white;
+  color: $white;
 }
 .movies__title {
   position: relative;
@@ -153,7 +153,7 @@ export default {
     top: 0;
     width: 4px;
     height: 100%;
-    background-color: $color-primary;
+    background-color: $primary;
     border-radius: 4px;
   }
 }

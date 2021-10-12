@@ -67,11 +67,7 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      -180deg,
-      rgba(0, 0, 0, 0.4) 75%,
-      $color-black 100%
-    );
+    background: linear-gradient(-180deg, rgba(0, 0, 0, 0.4) 75%, $black 100%);
   }
 }
 
@@ -96,7 +92,7 @@ export default {
     flex-direction: column;
   }
   &__title {
-    color: $text-white;
+    color: $white;
     font-size: 72px;
     margin-bottom: 32px;
     @media screen and (max-width: 768px) {
@@ -108,7 +104,7 @@ export default {
     }
   }
   &__description {
-    color: $text-white;
+    color: $white;
     font-size: 24px;
     font-weight: 600;
     line-height: 1.5;
@@ -123,11 +119,11 @@ export default {
 
 .search-bar {
   &::v-deep .search-bar__button {
-    background-color: $color-primary;
+    background-color: $primary;
     color: $text-black;
     font-weight: 600;
     &:hover {
-      background-color: $color-primary-alt;
+      background-color: $primary-alt;
     }
   }
 }

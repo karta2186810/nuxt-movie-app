@@ -103,7 +103,7 @@ export default {
 <style lang="scss" scoped>
 .nav {
   background-color: rgba(34, 34, 34, 0.5);
-  color: $text-white;
+  color: $white;
   position: fixed;
   top: 0;
   left: 0;
@@ -120,7 +120,7 @@ export default {
 
 .logo {
   &__link {
-    color: $color-primary;
+    color: $primary;
   }
 }
 
@@ -137,7 +137,7 @@ export default {
       flex-direction: column;
       padding: 32px 0;
       width: 100%;
-      background-color: $color-black;
+      background-color: $black;
       opacity: 0;
       height: auto;
       pointer-events: none;
@@ -153,7 +153,7 @@ export default {
     display: inline-block;
     font-weight: bolder;
     height: 100%;
-    color: $text-white;
+    color: $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,7 +172,7 @@ export default {
       display: block;
       width: 100%;
       height: 100%;
-      background-color: $color-primary;
+      background-color: $primary;
       position: absolute;
       bottom: -100%;
       left: 0;
@@ -180,7 +180,7 @@ export default {
       transition: 0.3s;
     }
     &.nuxt-link-active {
-      background-color: $color-primary;
+      background-color: $primary;
       color: $text-black;
     }
     &:hover {
@@ -226,7 +226,7 @@ export default {
   &:active,
   &:hover {
     i {
-      color: $color-primary;
+      color: $primary;
     }
   }
 }
@@ -261,7 +261,7 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 0 12px;
-    color: $text-white;
+    color: $white;
     cursor: pointer;
     transition: 0.3s;
     border-radius: 50%;
@@ -274,7 +274,7 @@ export default {
     &:active,
     &:hover {
       .close-search__icon {
-        color: $color-primary;
+        color: $primary;
       }
     }
   }

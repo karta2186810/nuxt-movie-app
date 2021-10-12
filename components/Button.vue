@@ -34,13 +34,13 @@ export default {
   align-items: center;
   letter-spacing: 1px;
   &--primary {
-    background-color: $color-primary;
+    background-color: $primary;
     &:hover {
-      background-color: $color-primary-alt;
+      background-color: $primary-alt;
     }
   }
   &--disabled {
-    background-color: $color-black-alt;
+    background-color: $black-alt;
     pointer-events: none;
   }
 }

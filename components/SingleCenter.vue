@@ -1,10 +1,10 @@
 <template>
   <div
     class="single-center"
-    :class="
-      (direction ? 'single-center--' + direction : '',
-      justify ? 'single-center--' + justify : '')
-    "
+    :class="[
+      direction ? 'single-center--' + direction : '',
+      justify ? 'single-center--' + justify : '',
+    ]"
     @click="$emit('click')"
   >
     <slot></slot>

@@ -96,7 +96,7 @@ export default {
   &__title {
     font-size: 28px;
     font-weight: 700;
-    color: $text-white;
+    color: $white;
     vertical-align: middle;
     padding-left: 16px;
     position: relative;
@@ -109,11 +109,11 @@ export default {
       top: 0;
       height: 100%;
       width: 4px;
-      background-color: $color-primary;
+      background-color: $primary;
       border-radius: 4px;
     }
     &:hover {
-      color: $color-primary;
+      color: $primary;
     }
   }
 }
@@ -137,7 +137,7 @@ export default {
       transform: scale(1.1);
     }
     .movie-info__title {
-      color: $color-primary;
+      color: $primary;
     }
   }
 }

@@ -43,7 +43,7 @@ export default {
 .search-bar {
   display: flex;
   &__input {
-    background-color: $text-white;
+    background-color: $white;
     outline: none;
     border: none;
     color: $text-black;
@@ -56,12 +56,12 @@ export default {
     width: auto;
     height: inherit;
     border: none;
-    background-color: $color-black-alt;
-    color: $text-white;
+    background-color: $black-alt;
+    color: $white;
     transition: 0.3s;
     border-radius: 0 4px 4px 0;
     &:hover {
-      background-color: $color-primary;
+      background-color: $primary;
       color: $text-black;
     }
   }

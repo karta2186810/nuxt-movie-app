@@ -48,7 +48,7 @@ export default {
   &__content {
     width: 100%;
     height: auto;
-    color: $text-white;
+    color: $white;
     overflow-x: scroll;
     padding: 8px 32px;
     padding-bottom: 16px;
@@ -89,12 +89,12 @@ export default {
   &-left {
     top: 8px;
     left: 0;
-    background: linear-gradient(-90deg, transparent, $color-black);
+    background: linear-gradient(-90deg, transparent, $black);
   }
   &-right {
     top: 8px;
     right: 0;
-    background: linear-gradient(90deg, transparent, $color-black);
+    background: linear-gradient(90deg, transparent, $black);
   }
 }
 </style>
