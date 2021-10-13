@@ -185,7 +185,7 @@ export default {
       margin-top: 0;
     }
     @media screen and (max-width: 480px) {
-      padding: 12px;
+      padding: 16px 24px;
     }
   }
   .movie-title {

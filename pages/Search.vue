@@ -6,32 +6,21 @@
         placeholder="開始探索"
         @search="searchMovie"
       ></SearchBar>
-      <div class="search-heading">
-        <h2>
+      <div class="search-header">
+        <h2 class="search-header__title">
           當前搜尋 <span>"{{ searchHeading }}"</span> 的結果為
         </h2>
-        <p>
+        <p class="search-header__results">
           共 <span>{{ totalResults }}</span> 筆結果
         </p>
       </div>
-      <div class="card-group flex">
-        <div v-for="movie in movies" :key="movie.id" class="card flex">
-          <div v-loading class="poster">
-            <img
-              v-if="movie.poster_path"
-              :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
-              alt="poster"
-            />
-            <div v-else class="default flex">尚未有圖片</div>
-          </div>
-          <div class="info">
-            <h3 class="title">{{ movie.title }}</h3>
-          </div>
-        </div>
-      </div>
-      <Button v-show="!isLastPage" class="loadmore-btn" @click="loadMore">
-        加載更多
-      </Button>
+      <MovieList
+        class="movies"
+        :movies="movies"
+        :is-last-page="isLastPage"
+        :loading="$fetchState.pending || loading"
+        @load-more="handleLoadMore"
+      />
     </Container>
   </Section>
 </template>
@@ -119,7 +108,7 @@ export default {
 
       return result.data
     },
-    async loadMore() {
+    async handleLoadMore() {
       const result = await this.fetchMovies(this.currentPage + 1)
       this.currentPage = result.page
       this.movies = [...this.movies, ...result.results]
@@ -140,92 +129,35 @@ export default {
 .search {
   min-height: 100vh;
   color: $white;
-  .container {
-    align-items: center;
-    flex-direction: column;
-    .search-bar {
+}
+.container {
+  align-items: center;
+  flex-direction: column;
+}
+.search-bar {
+  width: 100%;
+  margin-bottom: 48px;
+}
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  width: 100%;
+  span {
+    color: $primary;
+  }
+  &__title {
+    font-size: 24px;
+  }
+}
+.movies {
+  padding: 0;
+  &::v-deep .movie-list__content {
+    grid-template-columns: repeat(5, 1fr);
+    @media screen and (max-width: 1140px) {
+      grid-template-columns: repeat(1, 1fr);
       width: 100%;
-      margin-bottom: 48px;
-      .search-input {
-        background-color: $white;
-        outline: none;
-        border: none;
-        color: $text-black;
-        padding: 8px 16px;
-        transition: 0.3s;
-        flex: 1;
-        border-radius: 4px 0 0 4px;
-      }
-      .search-button {
-        height: inherit;
-        border: none;
-        background-color: $black-alt;
-        justify-content: center;
-        align-items: center;
-        padding: 0 12px;
-        color: $white;
-        cursor: pointer;
-        transition: 0.3s;
-        border-radius: 0 4px 4px 0;
-        &:hover {
-          background-color: $primary;
-          color: $text-black;
-        }
-      }
-    }
-    .search-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-      width: 100%;
-      h2 {
-        font-size: 24px;
-      }
-      span {
-        color: $primary;
-      }
-    }
-    .card-group {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      row-gap: 16px;
-      width: 100%;
-      .card {
-        width: 100%;
-        background-color: $card-color;
-        height: 225px;
-        cursor: pointer;
-        border-radius: 4px;
-        overflow: hidden;
-        .poster {
-          height: 100%;
-          img {
-            width: 150px;
-            height: 100%;
-            object-fit: cover;
-          }
-          .default {
-            justify-content: center;
-            align-items: center;
-            width: 150px;
-            height: 100%;
-            background-color: $black-alt;
-          }
-        }
-        .info {
-          padding: 16px 24px;
-          .title {
-            font-size: 20px;
-            margin: 16px 0;
-          }
-        }
-      }
-    }
-    .loadmore-btn {
-      margin-top: 32px;
-      width: 50%;
     }
   }
 }

@@ -36,8 +36,8 @@ export default {
       default: '75',
     },
     value: {
-      type: String,
-      default: '0',
+      type: Number,
+      default: 0,
     },
   },
   computed: {

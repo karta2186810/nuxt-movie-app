@@ -13,7 +13,7 @@ export const loadingImg = {
       el.appendChild(loadingImg)
     } else if (el.contains(loadingImg)) {
       el.removeChild(loadingImg)
-      el.innerHTML = '<i class="ri-image-2-fill errorImg"></i>'
+      el.innerHTML = '<i class="ri-error-warning-line errorImg"></i>'
     }
 
     el.firstChild.onload = function () {
@@ -26,7 +26,7 @@ export const loadingImg = {
       if (el.contains(loadingImg)) {
         el.removeChild(loadingImg)
       }
-      el.innerHTML = '<i class="ri-image-2-fill errorImg"></i>'
+      el.innerHTML = '<i class="ri-error-warning-line errorImg"></i>'
     }
   },
 }

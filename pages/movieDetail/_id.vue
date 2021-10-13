@@ -36,8 +36,8 @@
             </div>
           </div>
           <div class="movie-description flex mt-30">
-            <SingleCenter direction="col" class="movie-rate">
-              <h3 class="fw-600 fz-24 mb-16">平均評分</h3>
+            <SingleCenter direction="col" class="movie-rated">
+              <h3 class="fw-600 fz-24 mb-16 movie-rated__heading">平均評分</h3>
               <Circular size="75" :value="movie.vote_average" />
             </SingleCenter>
             <div class="movie-overview ml-30">
@@ -102,52 +102,34 @@
               >
             </button>
           </div>
-          <Slider class="movie-detail-slider">
-            <div v-if="currentMedia === 'posters'" class="media-wrapper">
-              <BoxCenter
-                v-if="media.posters && media.posters.length === 0"
-                class="media-fallback fz-20"
-              >
-                沒有資源
-              </BoxCenter>
+          <!-- 不存在媒體時 -->
+          <BoxCenter
+            v-if="media[currentMedia] && media[currentMedia].length === 0"
+            class="media-fallback fz-20"
+          >
+            沒有資源
+          </BoxCenter>
+          <!-- 媒體Slider -->
+          <Slider v-else class="movie-detail-slider">
+            <div class="media-wrapper">
               <div
-                v-for="(poster, index) in media.posters"
+                v-for="(mediaItem, index) in media[currentMedia]"
                 :key="index"
                 v-loading
-                class="media-poster"
-                @click="showOriginalImage(poster.file_path)"
+                class="media-item"
+                @click="showOriginalImage(mediaItem.file_path)"
               >
                 <img
-                  class="media-poster__image"
-                  :src="`https://image.tmdb.org/t/p/w300${poster.file_path}`"
-                  alt="poster"
-                />
-              </div>
-            </div>
-            <div v-else class="media-wrapper">
-              <BoxCenter
-                v-if="media.backdrops && media.backdrops.length === 0"
-                class="media-fallback fz-20"
-              >
-                沒有資源
-              </BoxCenter>
-              <div
-                v-for="(backdrop, index) in media.backdrops"
-                :key="index"
-                v-loading
-                class="media-backdrop"
-                @click="showOriginalImage(backdrop.file_path)"
-              >
-                <img
-                  class="media-backdrop__image"
-                  :src="`https://image.tmdb.org/t/p/w500${backdrop.file_path}`"
-                  alt="backdrop"
+                  class="media-item__image"
+                  :src="`https://image.tmdb.org/t/p/w300${mediaItem.file_path}`"
+                  alt="media-item"
                 />
               </div>
             </div>
           </Slider>
+          <!-- 全尺寸媒體檢視器 -->
           <LightBox
-            v-show="showLightBox"
+            v-if="showLightBox"
             :url="currentImageUrl"
             @closeLightBox="closeLightBox"
           />
@@ -156,19 +138,13 @@
     </Container>
 
     <!-- 背景 -->
-    <div
-      class="movie-backdrop"
-      :style="{
-        backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
-      }"
-    >
-      <div class="movie-backdrop__inner">
-        <div
-          :style="{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
-          }"
-          class="movie-backdrop__image"
-        ></div>
+    <div v-if="movie.backdrop_path" class="movie-backdrop">
+      <div
+        :style="{
+          backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
+        }"
+        class="movie-backdrop__image"
+      >
         <div class="movie-backdrop__filter"></div>
       </div>
     </div>
@@ -287,9 +263,7 @@ export default {
     }
   }
 }
-.original-title {
-  color: $text-gray;
-}
+
 .movie-release-date {
   letter-spacing: 1.5px;
   &::after {
@@ -321,7 +295,7 @@ export default {
     flex-direction: column;
   }
 }
-.movie-rate {
+.movie-rated {
   min-width: 100px;
 }
 .movie-overview {
@@ -341,27 +315,24 @@ export default {
   left: 0;
   top: 0;
   z-index: -10;
-  &__inner {
-    padding-top: 600px;
-    position: relative;
-    @media screen and (max-width: 1140px) {
-      padding-top: 410px + $nav-height;
-    }
-    @media screen and (max-width: 768px) {
-      padding-top: 260px + $nav-height;
-    }
-    @media screen and (max-width: 480px) {
-      padding-top: 190px + $nav-height;
-    }
-  }
+
   &__image {
     width: 100%;
-    height: 100%;
+    height: 600px;
     position: absolute;
     left: 0;
     top: 0;
     background-position: center;
     background-size: cover;
+    @media screen and (max-width: 1140px) {
+      height: 410px + $nav-height;
+    }
+    @media screen and (max-width: 768px) {
+      height: 260px + $nav-height;
+    }
+    @media screen and (max-width: 480px) {
+      height: 190px + $nav-height;
+    }
   }
   &__filter {
     position: absolute;
@@ -445,8 +416,7 @@ export default {
   }
 }
 
-.media-poster,
-.media-backdrop {
+.media-item {
   min-width: 200px;
   height: 100%;
   display: inline-block;
@@ -488,7 +458,9 @@ export default {
 
 .media-fallback {
   width: 100%;
-  height: 100%;
+  height: 300px;
   color: $primary;
+  background-color: $card-color;
+  border-radius: 4px;
 }
 </style>

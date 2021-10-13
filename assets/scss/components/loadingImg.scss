@@ -1,28 +1,9 @@
 .loadingImg {
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-.errorImg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  display: block;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 120px;
-  color: #888;
 }

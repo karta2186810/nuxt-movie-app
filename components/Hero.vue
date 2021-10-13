@@ -1,13 +1,10 @@
 <template>
   <div class="hero">
     <div class="hero-background">
-      <video
-        class="hero-background__video"
-        autoplay
-        muted
-        loop
-        src="@/assets/videos/hero-video-2.mp4"
-      ></video>
+      <img
+        src="@/assets/images/hero-background.jpg"
+        class="hero-background__image"
+      />
       <div class="hero-background__filter"></div>
     </div>
     <div class="hero-info">
@@ -48,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .hero {
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   position: relative;
 }
 
@@ -56,10 +53,12 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  &__video {
-    object-fit: cover;
+
+  &__image {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    transform: rotateY(180deg);
   }
   &__filter {
     position: absolute;
@@ -67,7 +66,11 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(-180deg, rgba(0, 0, 0, 0.4) 75%, $black 100%);
+    background: linear-gradient(
+      -180deg,
+      rgba(darken($primary, 40%), 0.3),
+      $black 100%
+    );
   }
 }
 
