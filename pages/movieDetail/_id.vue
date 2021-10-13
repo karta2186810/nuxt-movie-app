@@ -104,6 +104,12 @@
           </div>
           <Slider class="movie-detail-slider">
             <div v-if="currentMedia === 'posters'" class="media-wrapper">
+              <BoxCenter
+                v-if="media.posters && media.posters.length === 0"
+                class="media-fallback fz-20"
+              >
+                沒有資源
+              </BoxCenter>
               <div
                 v-for="(poster, index) in media.posters"
                 :key="index"
@@ -119,6 +125,12 @@
               </div>
             </div>
             <div v-else class="media-wrapper">
+              <BoxCenter
+                v-if="media.backdrops && media.backdrops.length === 0"
+                class="media-fallback fz-20"
+              >
+                沒有資源
+              </BoxCenter>
               <div
                 v-for="(backdrop, index) in media.backdrops"
                 :key="index"
@@ -472,5 +484,11 @@ export default {
   &__image {
     height: 100%;
   }
+}
+
+.media-fallback {
+  width: 100%;
+  height: 100%;
+  color: $primary;
 }
 </style>

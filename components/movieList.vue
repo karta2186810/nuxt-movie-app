@@ -18,13 +18,18 @@
         </div>
 
         <div class="movie-info">
-          <h3 class="movie-info__title">{{ movie.title }}</h3>
-          <p class="movie-info__rated">
-            評分: {{ movie.vote_average ? movie.vote_average : '--' }}
-          </p>
-          <p class="movie-info__release-date">
-            上映日期: {{ movie.release_date }}
-          </p>
+          <h3 class="movie-title">{{ movie.title }}</h3>
+          <div class="movie-rated">
+            <Circular
+              :value="movie.vote_average"
+              size="60"
+              class="movie-rated__circular"
+            />
+            <p class="movie-rated__text">
+              評分: {{ movie.vote_average || '--' }}
+            </p>
+          </div>
+          <p class="movie-release-date">上映日期: {{ movie.release_date }}</p>
           <BoxCenter class="movie-overview">
             <h4 v-if="movie.overview" class="movie-overview__title">摘要</h4>
             <p class="movie-overview__description">
@@ -172,40 +177,65 @@ export default {
   }
   .movie-info {
     padding: 16px;
+    margin-top: 30px;
     overflow: hidden;
     @media screen and (max-width: 1140px) {
       padding: 32px;
       font-size: 20px;
+      margin-top: 0;
     }
     @media screen and (max-width: 480px) {
-      padding: 24px;
+      padding: 12px;
     }
-    &__title {
-      @include ellipsis(1);
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
+  }
+  .movie-title {
+    @include ellipsis(1);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    @media screen and (max-width: 1140px) {
+      font-size: 24px;
+    }
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+    }
+  }
+
+  .movie-rated {
+    position: absolute;
+    bottom: 110px;
+    right: 16px;
+    transform: translateY(50%);
+    @media screen and (max-width: 1140px) {
+      position: static;
+      transform: none;
+    }
+    &__circular {
+      display: block;
       @media screen and (max-width: 1140px) {
-        font-size: 24px;
-      }
-      @media screen and (max-width: 480px) {
-        font-size: 20px;
-      }
-    }
-    &__rated {
-      @media screen and (max-width: 480px) {
         display: none;
       }
     }
-    &__release-date {
-      font-size: 14px;
-      font-weight: 100;
-      color: $text-gray;
-      margin-top: 8px;
+    &__text {
+      display: none;
+      font-size: 16px;
       @media screen and (max-width: 1140px) {
-        font-size: 16px;
+        display: block;
       }
+    }
+  }
+
+  .movie-release-date {
+    font-size: 14px;
+    font-weight: 100;
+    color: $text-gray;
+    margin-top: 8px;
+    @media screen and (max-width: 1140px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 480px) {
+      margin-top: 4px;
     }
   }
 
@@ -252,6 +282,10 @@ export default {
       @include ellipsis(5);
       @media screen and (max-width: 1140px) {
         @include ellipsis(2);
+      }
+      @media screen and (max-width: 480px) {
+        @include ellipsis(1);
+        line-height: 1;
       }
     }
   }

@@ -10,7 +10,7 @@
       </div>
       <select
         :value="sortBy"
-        class="sort-by__input search-section"
+        class="sort-by__input search-section fw-500"
         :class="{ mobileShow: sortByShow }"
         @change="changeSortBy"
       >

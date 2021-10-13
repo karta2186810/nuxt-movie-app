@@ -11,6 +11,9 @@ export const loadingImg = {
     if (!el.firstChild.complete) {
       el.classList.add('g-relative')
       el.appendChild(loadingImg)
+    } else if (el.contains(loadingImg)) {
+      el.removeChild(loadingImg)
+      el.innerHTML = '<i class="ri-image-2-fill errorImg"></i>'
     }
 
     el.firstChild.onload = function () {
@@ -18,6 +21,12 @@ export const loadingImg = {
         el.classList.remove('g-relative')
         el.removeChild(loadingImg)
       }
+    }
+    el.firstChild.onerror = function () {
+      if (el.contains(loadingImg)) {
+        el.removeChild(loadingImg)
+      }
+      el.innerHTML = '<i class="ri-image-2-fill errorImg"></i>'
     }
   },
 }
