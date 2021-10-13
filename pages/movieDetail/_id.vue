@@ -3,7 +3,7 @@
     <Container class="container">
       <!-- 頭部卡片 -->
       <Card class="info-card pa-30">
-        <div v-loading class="movie-poster radius-4">
+        <div v-if="movie.poster_path" v-loading class="movie-poster radius-4">
           <img
             class="movie-poster__image"
             :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
