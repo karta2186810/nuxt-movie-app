@@ -13,7 +13,7 @@
         Opps, Something went wrong
       </div>
 
-      <Slider>
+      <Slider class="card-slider">
         <SingleCenter class="card-group">
           <Card
             v-for="movie in movies"
@@ -115,6 +115,20 @@ export default {
     &:hover {
       color: $primary;
     }
+  }
+}
+
+.card-slider {
+  &::v-deep .slider__content {
+    padding: 8px 32px;
+    padding-bottom: 16px;
+    @media screen and (max-width: 480px) {
+      padding: 8px 0;
+    }
+  }
+  &::v-deep .gradient-left,
+  .gradient-right {
+    top: 8px;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-detail">
+  <Section class="movie-detail">
     <Container class="container">
       <Card class="info-card pa-30">
         <div v-loading class="movie-poster radius-4">
@@ -46,6 +46,92 @@
           </div>
         </div>
       </Card>
+      <div class="content-wrapper ph-30">
+        <!-- 演員 -->
+        <div class="actors">
+          <h3 class="actors__heading fw-600 fz-28 mb-16">主要演員</h3>
+          <Slider class="movie-detail-slider">
+            <div class="actors-wrapper flex">
+              <Card v-for="actor in actors.cast" :key="actor.id" class="actor">
+                <div class="actor-avatar">
+                  <img
+                    v-if="actor.profile_path"
+                    class="actor-avatar__image"
+                    :src="`https://image.tmdb.org/t/p/w300${actor.profile_path}`"
+                  />
+                  <ImageDefault v-else
+                    ><i class="ri-user-line"></i
+                  ></ImageDefault>
+                </div>
+                <div class="actor-info pa-12">
+                  <p class="actor-info__name">{{ actor.name }}</p>
+                  <p class="actor-info__charater fz-14">
+                    {{ actor.character }}
+                  </p>
+                </div>
+              </Card>
+            </div>
+          </Slider>
+        </div>
+        <!-- 媒體 -->
+        <div class="media">
+          <h3 class="media__heading fw-600 fz-28 mb-16">媒體</h3>
+          <div class="media-tabbar mb-10">
+            <button
+              class="media-tabbar__btn fw-500 fz-18"
+              :class="{
+                'media-tabbar__btn--active': currentMedia === 'poster',
+              }"
+              @click="currentMedia = 'poster'"
+            >
+              海報<span class="ml-4"
+                >({{ (media.posters && media.posters.length) || 0 }})</span
+              >
+            </button>
+            <button
+              class="media-tabbar__btn fw-500 fz-18"
+              :class="{
+                'media-tabbar__btn--active': currentMedia === 'backdrop',
+              }"
+              @click="currentMedia = 'backdrop'"
+            >
+              背景<span class="ml-4"
+                >({{ (media.backdrops && media.backdrops.length) || 0 }})</span
+              >
+            </button>
+          </div>
+          <Slider class="movie-detail-slider">
+            <div v-if="currentMedia === 'poster'" class="media-wrapper">
+              <div
+                v-for="(poster, index) in media.posters"
+                :key="index"
+                v-loading
+                class="media-poster"
+              >
+                <img
+                  class="media-poster__image"
+                  :src="`https://image.tmdb.org/t/p/w300${poster.file_path}`"
+                  alt="poster"
+                />
+              </div>
+            </div>
+            <div v-else class="media-wrapper">
+              <div
+                v-for="(backdrop, index) in media.backdrops"
+                :key="index"
+                v-loading
+                class="media-backdrop"
+              >
+                <img
+                  class="media-backdrop__image"
+                  :src="`https://image.tmdb.org/t/p/w400${backdrop.file_path}`"
+                  alt="backdrop"
+                />
+              </div>
+            </div>
+          </Slider>
+        </div>
+      </div>
     </Container>
     <div
       class="movie-backdrop"
@@ -63,7 +149,7 @@
         <div class="movie-backdrop__filter"></div>
       </div>
     </div>
-  </div>
+  </Section>
 </template>
 
 <script>
@@ -73,11 +159,24 @@ export default {
   data() {
     return {
       movie: {},
+      actors: {},
+      media: {},
+      currentMedia: 'poster',
     }
   },
   async fetch() {
-    const result = await http.get(`movie/${this.$route.params.id}`)
-    this.movie = result.data
+    const movieId = this.$route.params.id
+    const movie = await http.get(`movie/${movieId}`)
+    this.movie = movie.data
+
+    const actors = await http.get(`movie/${movieId}/credits`)
+    this.actors = actors.data
+
+    const media = await http.get(
+      `movie/${movieId}/images?include_image_language=en`
+    )
+    this.media = media.data
+
     await this.$store.dispatch('fetchGenres')
   },
   computed: {
@@ -95,7 +194,7 @@ export default {
 
 <style lang="scss" scoped>
 .movie-detail {
-  margin-top: $nav-height;
+  padding-top: $nav-height;
   position: relative;
   color: $white;
 }
@@ -105,11 +204,11 @@ export default {
 }
 .info-card {
   display: flex;
-  margin-top: 120px;
+  margin-top: 40px;
   cursor: initial;
   @media screen and (max-width: 1140px) {
     flex-direction: column;
-    padding: 0;
+    padding: 0 16px;
     background-color: transparent;
     box-shadow: none;
     margin: 0;
@@ -121,7 +220,6 @@ export default {
   height: 375px;
   @media screen and (max-width: 1140px) {
     margin-bottom: 16px;
-    margin-left: 16px;
   }
   @media screen and (max-width: 768px) {
     width: 150px;
@@ -210,16 +308,16 @@ export default {
   top: 0;
   z-index: -10;
   &__inner {
-    padding-top: 40%;
+    padding-top: 600px;
     position: relative;
     @media screen and (max-width: 1140px) {
-      padding-top: 410px;
+      padding-top: 410px + $nav-height;
     }
     @media screen and (max-width: 768px) {
-      padding-top: 260px;
+      padding-top: 260px + $nav-height;
     }
     @media screen and (max-width: 480px) {
-      padding-top: 190px;
+      padding-top: 190px + $nav-height;
     }
   }
   &__image {
@@ -238,6 +336,89 @@ export default {
     width: 100%;
     height: 100%;
     background: linear-gradient(-180deg, rgba(0, 0, 0, 0.4) 75%, $black 100%);
+  }
+}
+.content-wrapper {
+  margin-top: 120px;
+  @media screen and (max-width: 1140px) {
+    padding: 0;
+  }
+}
+.movie-detail-slider {
+  &::v-deep .slider__content {
+    padding: 8px 0;
+    padding-bottom: 16px;
+    @media screen and (max-width: 480px) {
+      padding: 8px 0;
+    }
+  }
+}
+.actors-wrapper {
+  flex-wrap: nowrap;
+  align-items: stretch;
+  column-gap: 16px;
+}
+.actor {
+  min-width: 150px;
+  width: 150px;
+}
+.actor-avatar {
+  width: 100%;
+  height: 225px;
+  overflow: hidden;
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.actor-info {
+  &__charater {
+    color: $text-gray;
+  }
+}
+.media {
+  margin-top: 60px;
+}
+.media-wrapper {
+  height: 300px;
+  white-space: nowrap;
+}
+
+.media-tabbar {
+  &__btn {
+    border: none;
+    background-color: transparent;
+    color: $white;
+    cursor: pointer;
+    position: relative;
+    padding: 8px 0;
+    margin-right: 8px;
+
+    &--active {
+      &::before {
+        content: '';
+        display: block;
+        left: 0;
+        bottom: 0;
+        position: absolute;
+        background-color: $primary;
+        height: 2px;
+        width: 100%;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+.media-poster,
+.media-backdrop {
+  min-width: 200px;
+  height: 100%;
+  display: inline-block;
+  margin-right: 16px;
+  &__image {
+    height: 100%;
   }
 }
 </style>

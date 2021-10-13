@@ -50,11 +50,7 @@ export default {
     height: auto;
     color: $white;
     overflow-x: scroll;
-    padding: 8px 32px;
-    padding-bottom: 16px;
-    @media screen and (max-width: 480px) {
-      padding: 8px 0;
-    }
+
     &::-webkit-scrollbar {
       background-color: transparent;
       height: 12px;
@@ -87,12 +83,12 @@ export default {
     opacity: 1;
   }
   &-left {
-    top: 8px;
+    top: 0;
     left: 0;
     background: linear-gradient(-90deg, transparent, $black);
   }
   &-right {
-    top: 8px;
+    top: 0;
     right: 0;
     background: linear-gradient(90deg, transparent, $black);
   }

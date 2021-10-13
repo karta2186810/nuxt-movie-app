@@ -24,7 +24,7 @@ export default {
 .button {
   padding: 8px 16px;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   color: $text-black;
   border: none;
   border-radius: 4px;
