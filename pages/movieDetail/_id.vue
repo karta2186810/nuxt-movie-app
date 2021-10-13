@@ -1,6 +1,7 @@
 <template>
   <Section class="movie-detail">
     <Container class="container">
+      <!-- 頭部卡片 -->
       <Card class="info-card pa-30">
         <div v-loading class="movie-poster radius-4">
           <img
@@ -53,7 +54,7 @@
           <Slider class="movie-detail-slider">
             <div class="actors-wrapper flex">
               <Card v-for="actor in actors.cast" :key="actor.id" class="actor">
-                <div class="actor-avatar">
+                <div v-loading class="actor-avatar">
                   <img
                     v-if="actor.profile_path"
                     class="actor-avatar__image"
@@ -76,13 +77,14 @@
         <!-- 媒體 -->
         <div class="media">
           <h3 class="media__heading fw-600 fz-28 mb-16">媒體</h3>
+          <!-- 媒體切換tab -->
           <div class="media-tabbar mb-10">
             <button
               class="media-tabbar__btn fw-500 fz-18"
               :class="{
-                'media-tabbar__btn--active': currentMedia === 'poster',
+                'media-tabbar__btn--active': currentMedia === 'posters',
               }"
-              @click="currentMedia = 'poster'"
+              @click="currentMedia = 'posters'"
             >
               海報<span class="ml-4"
                 >({{ (media.posters && media.posters.length) || 0 }})</span
@@ -91,9 +93,9 @@
             <button
               class="media-tabbar__btn fw-500 fz-18"
               :class="{
-                'media-tabbar__btn--active': currentMedia === 'backdrop',
+                'media-tabbar__btn--active': currentMedia === 'backdrops',
               }"
-              @click="currentMedia = 'backdrop'"
+              @click="currentMedia = 'backdrops'"
             >
               背景<span class="ml-4"
                 >({{ (media.backdrops && media.backdrops.length) || 0 }})</span
@@ -101,12 +103,13 @@
             </button>
           </div>
           <Slider class="movie-detail-slider">
-            <div v-if="currentMedia === 'poster'" class="media-wrapper">
+            <div v-if="currentMedia === 'posters'" class="media-wrapper">
               <div
                 v-for="(poster, index) in media.posters"
                 :key="index"
                 v-loading
                 class="media-poster"
+                @click="showOriginalImage(poster.file_path)"
               >
                 <img
                   class="media-poster__image"
@@ -121,18 +124,26 @@
                 :key="index"
                 v-loading
                 class="media-backdrop"
+                @click="showOriginalImage(backdrop.file_path)"
               >
                 <img
                   class="media-backdrop__image"
-                  :src="`https://image.tmdb.org/t/p/w400${backdrop.file_path}`"
+                  :src="`https://image.tmdb.org/t/p/w500${backdrop.file_path}`"
                   alt="backdrop"
                 />
               </div>
             </div>
           </Slider>
+          <LightBox
+            v-show="showLightBox"
+            :url="currentImageUrl"
+            @closeLightBox="closeLightBox"
+          />
         </div>
       </div>
     </Container>
+
+    <!-- 背景 -->
     <div
       class="movie-backdrop"
       :style="{
@@ -161,7 +172,9 @@ export default {
       movie: {},
       actors: {},
       media: {},
-      currentMedia: 'poster',
+      currentMedia: 'posters',
+      currentImageUrl: '',
+      showLightBox: false,
     }
   },
   async fetch() {
@@ -187,6 +200,15 @@ export default {
     },
     releaseDate() {
       return this.movie.release_date?.replace(/-/g, '/') || ''
+    },
+  },
+  methods: {
+    closeLightBox() {
+      this.showLightBox = false
+    },
+    showOriginalImage(url) {
+      this.currentImageUrl = url
+      this.showLightBox = true
     },
   },
 }
@@ -417,6 +439,36 @@ export default {
   height: 100%;
   display: inline-block;
   margin-right: 16px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  &::after {
+    content: '查看原圖';
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(12px);
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: 0.3s;
+  }
+  @media screen and (min-width: 1141px) {
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
   &__image {
     height: 100%;
   }
