@@ -47,10 +47,11 @@ export default {
     outline: none;
     border: none;
     color: $text-black;
-    padding: 8px 16px;
-    transition: 0.3s;
+    padding: 10px 16px;
     flex: 1;
     border-radius: 4px 0 0 4px;
+    font-weight: 600;
+    font-size: 16px;
   }
   &__button {
     width: auto;

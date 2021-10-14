@@ -3,8 +3,9 @@
     <Container class="container">
       <!-- 頭部卡片 -->
       <Card class="info-card pa-30">
-        <div v-if="movie.poster_path" v-loading class="movie-poster radius-4">
+        <div v-loading class="movie-poster radius-4">
           <img
+            v-if="movie.poster_path"
             class="movie-poster__image"
             :src="`https://image.tmdb.org/t/p/w400${movie.poster_path}`"
             alt="movie-poster"
@@ -25,12 +26,12 @@
               <span class="movie-release-date">{{ releaseDate }}</span>
               <span>{{ movieRuntime }}</span>
             </div>
-            <div class="movie-genres mt-12">
+            <div class="movie-genres mt-20">
               <NuxtLink
                 v-for="genre in movie.genres"
                 :key="genre.id"
                 :to="`/search?genre=${genre.id}`"
-                class="movie-genres__tag pa-6 radius-4 fz-14 mr-6 fw-500"
+                class="movie-genres__tag pa-10 radius-4 fz-14 mr-6 fw-500"
                 >{{ genre.name }}</NuxtLink
               >
             </div>
@@ -42,7 +43,10 @@
             </SingleCenter>
             <div class="movie-overview ml-30">
               <h3 class="movie-overview__heading fw-600 fz-24 mb-16">摘要</h3>
-              <p class="movie-overview__content">{{ movie.overview }}</p>
+              <p v-if="movie.overview" class="movie-overview__content">
+                {{ movie.overview }}
+              </p>
+              <p v-else>尚未有摘要</p>
             </div>
           </div>
         </div>
@@ -53,9 +57,9 @@
           <div class="actors">
             <SingleCenter justify="between" class="actors-header mb-16">
               <h3 class="actors__heading fw-600 fz-28">主要演員</h3>
-              <SingleCenter class="actors__view-all fz-16 fw-500">
+              <!-- <SingleCenter class="actors__view-all fz-16 fw-500">
                 完整演員與製作團隊<i class="ri-arrow-right-s-line"></i>
-              </SingleCenter>
+              </SingleCenter> -->
             </SingleCenter>
             <Slider class="movie-detail-slider">
               <div class="actors-wrapper flex">
@@ -161,29 +165,54 @@
             <h3 class="fz-20 fw-600 mb-10">票房收入</h3>
             <p>{{ movieRevenue }}</p>
           </div>
-          <div class="keywords mb-24">
+          <div v-if="keywords.length !== 0" class="keywords mb-24">
             <h3 class="fz-20 fw-600 mb-10">關鍵字</h3>
             <div class="keyword-group flex">
               <NuxtLink
                 v-for="keyword in keywords"
                 :key="keyword.id"
                 :to="`/search?keyword=${keyword.id}`"
-                class="keyword-group__tag fw-500 fz-14 radius-4 pa-6"
+                class="keyword-group__tag fw-500 fz-14 radius-4 pa-10"
               >
                 {{ keyword.name }}
               </NuxtLink>
             </div>
           </div>
-          <!-- TODO: 添加SOCIAL LINK -->
           <div class="social-links">
-            <a v-if="socialIds.facebook_id" class="social-links__link">
+            <a
+              v-if="socialIds.facebook_id"
+              title="facebook"
+              class="social-links__link"
+              :href="`https://www.facebook.com/${socialIds.facebook_id}`"
+              target="_blank"
+            >
               <i class="ri-facebook-box-fill"></i>
             </a>
-            <a v-if="socialIds.twitter_id" class="social-links__link">
+            <a
+              v-if="socialIds.twitter_id"
+              title="twitter"
+              class="social-links__link"
+              :href="`https://www.twitter.com/${socialIds.twitter_id}`"
+              target="_blank"
+            >
               <i class="ri-twitter-fill"></i>
             </a>
-            <a v-if="socialIds.instagram_id" class="social-links__link">
+            <a
+              v-if="socialIds.instagram_id"
+              title="instagram"
+              class="social-links__link"
+              :href="`https://www.instagram.com/${socialIds.instagram_id}`"
+              target="_blank"
+            >
               <i class="ri-instagram-line"></i>
+            </a>
+            <a
+              v-if="movie.homepage"
+              :href="movie.homepage"
+              target="_blank"
+              class="social-links__link"
+            >
+              <i class="ri-home-2-line"></i>
             </a>
           </div>
         </div>
@@ -276,7 +305,7 @@ export default {
   display: flex;
   margin-top: 40px;
   cursor: initial;
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     flex-direction: column;
     padding: 0 16px;
     background-color: transparent;
@@ -288,7 +317,7 @@ export default {
 .movie-poster {
   width: 250px;
   height: 375px;
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     margin-bottom: 16px;
   }
   @media screen and (max-width: 768px) {
@@ -307,18 +336,21 @@ export default {
   }
 }
 .movie-title {
+  @media screen and (max-width: 1024px) {
+    line-height: 1.5;
+  }
   span {
     vertical-align: top;
   }
 }
 .movie-info {
   flex: 1;
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     padding: 0;
     margin-top: 32px;
   }
   &__header {
-    @media screen and (max-width: 1140px) {
+    @media screen and (max-width: 1024px) {
       text-align: center;
     }
   }
@@ -345,6 +377,10 @@ export default {
     border: 1px solid $white;
     user-select: none;
     cursor: pointer;
+    @media screen and (max-width: 1024px) {
+      padding: 16px 20px;
+      font-size: 16px;
+    }
     &:hover {
       border-color: $primary;
       color: $primary;
@@ -353,7 +389,7 @@ export default {
 }
 
 .movie-description {
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     flex-direction: column;
   }
 }
@@ -361,12 +397,15 @@ export default {
   min-width: 100px;
 }
 .movie-overview {
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     margin: 0;
     margin-top: 32px;
+    border-radius: 4px;
+    padding: 16px;
+    background-color: $card-color;
   }
   &__heading {
-    @media screen and (max-width: 1140px) {
+    @media screen and (max-width: 1024px) {
       text-align: center;
     }
   }
@@ -386,7 +425,7 @@ export default {
     top: 0;
     background-position: center;
     background-size: cover;
-    @media screen and (max-width: 1140px) {
+    @media screen and (max-width: 1024px) {
       height: 410px + $nav-height;
     }
     @media screen and (max-width: 768px) {
@@ -407,17 +446,28 @@ export default {
 }
 .content-wrapper {
   margin-top: 120px;
-  @media screen and (max-width: 1140px) {
+  @media screen and (max-width: 1024px) {
     padding: 0;
+    margin-top: 60px;
+    flex-direction: column-reverse;
   }
 }
 .main {
   overflow: hidden;
   flex: 1;
+  @media screen and (max-width: 1024px) {
+    margin-top: 40px;
+    padding: 0 16px;
+  }
 }
 
 .aside {
   width: 300px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 16px;
+  }
 }
 
 .social-links {
@@ -425,6 +475,7 @@ export default {
   &__link {
     transition: 0.3s;
     cursor: pointer;
+    color: $white;
     &:hover {
       color: $primary;
     }
@@ -540,7 +591,7 @@ export default {
     opacity: 0;
     transition: 0.3s;
   }
-  @media screen and (min-width: 1141px) {
+  @media screen and (min-width: 1025px) {
     &:hover {
       &::after {
         opacity: 1;

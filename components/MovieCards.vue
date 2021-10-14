@@ -120,11 +120,8 @@ export default {
 
 .card-slider {
   &::v-deep .slider__content {
-    padding: 8px 32px;
+    padding: 8px 0;
     padding-bottom: 16px;
-    @media screen and (max-width: 480px) {
-      padding: 8px 0;
-    }
   }
   &::v-deep .gradient-left,
   .gradient-right {

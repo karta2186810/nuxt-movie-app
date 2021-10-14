@@ -26,7 +26,6 @@
 </template>
 
 <script>
-// TODO: 獲取Keywords列表
 import http from '@/utils/http.js'
 export default {
   name: 'Search',
@@ -37,14 +36,19 @@ export default {
       currentPage: 1,
       movies: [],
       loading: false,
+      keywordName: '',
     }
   },
   async fetch() {
     await this.$store.dispatch('fetchGenres')
+
     const result = await this.fetchMovies()
     this.movies = result.results
     this.currentPage = result.page
     this.totalResults = result.total_results
+
+    const keywordName = await http.get(`keyword/${this.$route.query.keyword}`)
+    this.keywordName = keywordName.data.name
   },
   computed: {
     isLastPage() {
@@ -56,6 +60,10 @@ export default {
       if (genre) {
         const genreName = this.genreList[genre] && this.genreList[genre].name
         return genreName
+      }
+
+      if (keyword) {
+        return this.keywordName
       }
 
       return query || keyword
@@ -139,18 +147,28 @@ export default {
   align-items: center;
   margin-bottom: 32px;
   width: 100%;
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
   span {
     color: $primary;
   }
   &__title {
     font-size: 24px;
   }
+  &__results {
+    @media screen and (max-width: 1024px) {
+      margin-top: 16px;
+    }
+  }
 }
 .movies {
   padding: 0;
   &::v-deep .movie-list__content {
     grid-template-columns: repeat(5, 1fr);
-    @media screen and (max-width: 1140px) {
+    @media screen and (max-width: 1024px) {
       grid-template-columns: repeat(1, 1fr);
       width: 100%;
     }

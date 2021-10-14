@@ -18,9 +18,7 @@
         class="search-bar mt-16"
         @search="searchMovie"
       >
-        <template #buttonIcon>
-          <span>開始探索</span>
-        </template>
+        <i class="ri-search-line"></i>
       </SearchBar>
     </div>
   </div>
@@ -37,6 +35,7 @@ export default {
   methods: {
     searchMovie() {
       this.$router.push(`/search?query=${this.searchVal}`)
+      this.searchVal = ''
     },
   },
 }
@@ -45,7 +44,7 @@ export default {
 <style lang="scss" scoped>
 .hero {
   width: 100%;
-  height: 50vh;
+  height: 70vh;
   position: relative;
 }
 

@@ -95,6 +95,7 @@ export default {
     },
     searchMovie() {
       this.$router.push(`/search?query=${this.searchVal}`)
+      this.searchVal = ''
     },
   },
 }
@@ -112,7 +113,6 @@ export default {
   z-index: 1000;
   box-shadow: 0 6px 8px 0px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
-
   &__content {
     height: 100%;
   }
@@ -130,7 +130,7 @@ export default {
   &__content {
     transition: 0.4s;
     height: 100%;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       position: fixed;
       top: -100%;
       left: 0;
