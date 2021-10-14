@@ -80,6 +80,7 @@ export default {
         this.totalResults = result.total_results
         this.movies = result.results
       },
+      immediate: true,
     },
   },
   methods: {
