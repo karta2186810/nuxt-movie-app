@@ -1,9 +1,9 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt_movie_app',
+    title: 'NuxtMovie',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'zh-TW',
     },
     meta: [
       { charset: 'utf-8' },
