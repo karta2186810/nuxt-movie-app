@@ -30,14 +30,14 @@
                 v-for="genre in movie.genres"
                 :key="genre.id"
                 :to="`/search?genre=${genre.id}`"
-                class="movie-genres__genre pa-6 radius-4 fz-14 mr-6 fw-500"
+                class="movie-genres__tag pa-6 radius-4 fz-14 mr-6 fw-500"
                 >{{ genre.name }}</NuxtLink
               >
             </div>
           </div>
           <div class="movie-description flex mt-30">
             <SingleCenter direction="col" class="movie-rated">
-              <h3 class="fw-600 fz-24 mb-16 movie-rated__heading">平均評分</h3>
+              <h3 class="fw-600 fz-24 mb-16 movie-rated__heading">評分</h3>
               <Circular size="75" :value="movie.vote_average" />
             </SingleCenter>
             <div class="movie-overview ml-30">
@@ -47,92 +47,145 @@
           </div>
         </div>
       </Card>
-      <div class="content-wrapper ph-30">
-        <!-- 演員 -->
-        <div class="actors">
-          <h3 class="actors__heading fw-600 fz-28 mb-16">主要演員</h3>
-          <Slider class="movie-detail-slider">
-            <div class="actors-wrapper flex">
-              <Card v-for="actor in actors.cast" :key="actor.id" class="actor">
-                <div v-loading class="actor-avatar">
-                  <img
-                    v-if="actor.profile_path"
-                    class="actor-avatar__image"
-                    :src="`https://image.tmdb.org/t/p/w300${actor.profile_path}`"
-                  />
-                  <ImageDefault v-else
-                    ><i class="ri-user-line"></i
-                  ></ImageDefault>
-                </div>
-                <div class="actor-info pa-12">
-                  <p class="actor-info__name">{{ actor.name }}</p>
-                  <p class="actor-info__charater fz-14">
-                    {{ actor.character }}
-                  </p>
-                </div>
-              </Card>
-            </div>
-          </Slider>
-        </div>
-        <!-- 媒體 -->
-        <div class="media">
-          <h3 class="media__heading fw-600 fz-28 mb-16">媒體</h3>
-          <!-- 媒體切換tab -->
-          <div class="media-tabbar mb-10">
-            <button
-              class="media-tabbar__btn fw-500 fz-18"
-              :class="{
-                'media-tabbar__btn--active': currentMedia === 'posters',
-              }"
-              @click="currentMedia = 'posters'"
-            >
-              海報<span class="ml-4"
-                >({{ (media.posters && media.posters.length) || 0 }})</span
-              >
-            </button>
-            <button
-              class="media-tabbar__btn fw-500 fz-18"
-              :class="{
-                'media-tabbar__btn--active': currentMedia === 'backdrops',
-              }"
-              @click="currentMedia = 'backdrops'"
-            >
-              背景<span class="ml-4"
-                >({{ (media.backdrops && media.backdrops.length) || 0 }})</span
-              >
-            </button>
-          </div>
-          <!-- 不存在媒體時 -->
-          <BoxCenter
-            v-if="media[currentMedia] && media[currentMedia].length === 0"
-            class="media-fallback fz-20"
-          >
-            沒有資源
-          </BoxCenter>
-          <!-- 媒體Slider -->
-          <Slider v-else class="movie-detail-slider">
-            <div class="media-wrapper">
-              <div
-                v-for="(mediaItem, index) in media[currentMedia]"
-                :key="index"
-                v-loading
-                class="media-item"
-                @click="showOriginalImage(mediaItem.file_path)"
-              >
-                <img
-                  class="media-item__image"
-                  :src="`https://image.tmdb.org/t/p/w300${mediaItem.file_path}`"
-                  alt="media-item"
-                />
+      <div class="content-wrapper ph-30 flex">
+        <div class="main">
+          <!-- 演員 -->
+          <div class="actors">
+            <SingleCenter justify="between" class="actors-header mb-16">
+              <h3 class="actors__heading fw-600 fz-28">主要演員</h3>
+              <SingleCenter class="actors__view-all fz-16 fw-500">
+                完整演員與製作團隊<i class="ri-arrow-right-s-line"></i>
+              </SingleCenter>
+            </SingleCenter>
+            <Slider class="movie-detail-slider">
+              <div class="actors-wrapper flex">
+                <Card
+                  v-for="actor in actors.cast"
+                  :key="actor.id"
+                  class="actor"
+                >
+                  <div v-loading class="actor-avatar">
+                    <img
+                      v-if="actor.profile_path"
+                      class="actor-avatar__image"
+                      :src="`https://image.tmdb.org/t/p/w300${actor.profile_path}`"
+                    />
+                    <ImageDefault v-else
+                      ><i class="ri-user-line"></i
+                    ></ImageDefault>
+                  </div>
+                  <div class="actor-info pa-12">
+                    <p class="actor-info__name">{{ actor.name }}</p>
+                    <p class="actor-info__charater fz-14">
+                      {{ actor.character }}
+                    </p>
+                  </div>
+                </Card>
               </div>
+            </Slider>
+          </div>
+          <hr style="margin-top: 40px; margin-bottom: 40px" />
+          <!-- 媒體 -->
+          <div class="media">
+            <h3 class="media__heading fw-600 fz-28 mb-16">媒體</h3>
+            <!-- 媒體切換tab -->
+            <div class="media-tabbar mb-10">
+              <button
+                class="media-tabbar__btn fw-500 fz-18"
+                :class="{
+                  'media-tabbar__btn--active': currentMedia === 'posters',
+                }"
+                @click="currentMedia = 'posters'"
+              >
+                海報<span class="ml-4"
+                  >({{ (media.posters && media.posters.length) || 0 }})</span
+                >
+              </button>
+              <button
+                class="media-tabbar__btn fw-500 fz-18"
+                :class="{
+                  'media-tabbar__btn--active': currentMedia === 'backdrops',
+                }"
+                @click="currentMedia = 'backdrops'"
+              >
+                背景<span class="ml-4"
+                  >({{
+                    (media.backdrops && media.backdrops.length) || 0
+                  }})</span
+                >
+              </button>
             </div>
-          </Slider>
-          <!-- 全尺寸媒體檢視器 -->
-          <LightBox
-            v-if="showLightBox"
-            :url="currentImageUrl"
-            @closeLightBox="closeLightBox"
-          />
+            <!-- 不存在媒體時 -->
+            <BoxCenter
+              v-if="media[currentMedia] && media[currentMedia].length === 0"
+              class="media-fallback fz-20"
+            >
+              沒有資源
+            </BoxCenter>
+            <!-- 媒體Slider -->
+            <Slider v-else class="movie-detail-slider">
+              <div class="media-wrapper">
+                <div
+                  v-for="(mediaItem, index) in media[currentMedia]"
+                  :key="index"
+                  v-loading
+                  class="media-item"
+                  @click="showOriginalImage(mediaItem.file_path)"
+                >
+                  <img
+                    class="media-item__image"
+                    :src="`https://image.tmdb.org/t/p/w300${mediaItem.file_path}`"
+                    alt="media-item"
+                  />
+                </div>
+              </div>
+            </Slider>
+            <!-- 全尺寸媒體檢視器 -->
+            <LightBox
+              v-if="showLightBox"
+              :url="currentImageUrl"
+              @closeLightBox="closeLightBox"
+            />
+          </div>
+        </div>
+        <div class="aside ml-30">
+          <div class="original-title mb-24">
+            <h3 class="fz-20 fw-600 mb-10">原始標題</h3>
+            <p>{{ movie.original_title }}</p>
+          </div>
+          <div class="budget mb-24">
+            <h3 class="fz-20 fw-600 mb-10">電影成本</h3>
+            <p>{{ movieBudget }}</p>
+          </div>
+          <div class="revenue mb-24">
+            <h3 class="fz-20 fw-600 mb-10">票房收入</h3>
+            <p>{{ movieRevenue }}</p>
+          </div>
+          <div class="keywords mb-24">
+            <h3 class="fz-20 fw-600 mb-10">關鍵字</h3>
+            <div class="keyword-group flex">
+              <NuxtLink
+                v-for="keyword in keywords"
+                :key="keyword.id"
+                :to="`/search?keyword=${keyword.id}`"
+                class="keyword-group__tag fw-500 fz-14 radius-4 pa-6"
+              >
+                {{ keyword.name }}
+              </NuxtLink>
+            </div>
+          </div>
+          <!-- TODO: 添加SOCIAL LINK -->
+          <div class="social-links">
+            <a v-if="socialIds.facebook_id" class="social-links__link">
+              <i class="ri-facebook-box-fill"></i>
+            </a>
+            <a v-if="socialIds.twitter_id" class="social-links__link">
+              <i class="ri-twitter-fill"></i>
+            </a>
+            <a v-if="socialIds.instagram_id" class="social-links__link">
+              <i class="ri-instagram-line"></i>
+            </a>
+          </div>
         </div>
       </div>
     </Container>
@@ -153,6 +206,7 @@
 
 <script>
 import http from '@/utils/http.js'
+import formatMoney from '@/utils/formatMoney.js'
 export default {
   name: 'MovieDetail',
   data() {
@@ -160,6 +214,8 @@ export default {
       movie: {},
       actors: {},
       media: {},
+      socialIds: {},
+      keywords: [],
       currentMedia: 'posters',
       currentImageUrl: '',
       showLightBox: false,
@@ -167,18 +223,14 @@ export default {
   },
   async fetch() {
     const movieId = this.$route.params.id
-    const movie = await http.get(`movie/${movieId}`)
-    this.movie = movie.data
-
-    const actors = await http.get(`movie/${movieId}/credits`)
-    this.actors = actors.data
-
-    const media = await http.get(
-      `movie/${movieId}/images?include_image_language=en`
+    const movie = await http.get(
+      `movie/${movieId}?include_image_language=en&append_to_response=images,credits,external_ids,keywords`
     )
-    this.media = media.data
-
-    await this.$store.dispatch('fetchGenres')
+    this.movie = movie.data
+    this.actors = movie.data.credits
+    this.media = movie.data.images
+    this.socialIds = movie.data.external_ids
+    this.keywords = movie.data.keywords.keywords
   },
   computed: {
     movieRuntime() {
@@ -188,6 +240,14 @@ export default {
     },
     releaseDate() {
       return this.movie.release_date?.replace(/-/g, '/') || ''
+    },
+    movieBudget() {
+      if (!this.movie.budget) return '未知'
+      return `$${formatMoney(this.movie.budget)}`
+    },
+    movieRevenue() {
+      if (!this.movie.revenue) return '未知'
+      return `$${formatMoney(this.movie.revenue)}`
     },
   },
   methods: {
@@ -277,8 +337,9 @@ export default {
     margin: 0 8px;
   }
 }
-.movie-genres {
-  &__genre {
+.movie-genres,
+.keyword-group {
+  &__tag {
     color: $white;
     display: inline-block;
     border: 1px solid $white;
@@ -290,6 +351,7 @@ export default {
     }
   }
 }
+
 .movie-description {
   @media screen and (max-width: 1140px) {
     flex-direction: column;
@@ -349,6 +411,35 @@ export default {
     padding: 0;
   }
 }
+.main {
+  overflow: hidden;
+  flex: 1;
+}
+
+.aside {
+  width: 300px;
+}
+
+.social-links {
+  font-size: 32px;
+  &__link {
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.keywords {
+  width: 100%;
+  overflow: hidden;
+}
+.keyword-group {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .movie-detail-slider {
   &::v-deep .slider__content {
     padding: 8px 0;
@@ -356,6 +447,13 @@ export default {
     @media screen and (max-width: 480px) {
       padding: 8px 0;
     }
+  }
+}
+.actors__view-all {
+  color: $primary;
+  cursor: pointer;
+  &:hover {
+    color: $primary-alt;
   }
 }
 .actors-wrapper {
@@ -382,9 +480,7 @@ export default {
     color: $text-gray;
   }
 }
-.media {
-  margin-top: 60px;
-}
+
 .media-wrapper {
   height: 300px;
   white-space: nowrap;

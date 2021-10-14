@@ -77,6 +77,10 @@ export default {
       const type = this.$route.params.movieType
       if (type === 'nowPlaying') {
         return formatDate(new Date())
+      } else if (type === 'upcoming') {
+        const dateObj = new Date()
+        dateObj.setDate(dateObj.getDate() + 30)
+        return formatDate(dateObj)
       }
       return ''
     },
@@ -105,7 +109,7 @@ export default {
           page,
           'release_date.gte': this.releaseDateGte,
           'release_date.lte': this.releaseDateLte,
-          release_type: '2|3',
+          with_release_type: '2|3',
           with_genres: this.conditions.genres.join(','),
           vote_count: this.voteCount,
         },

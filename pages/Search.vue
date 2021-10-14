@@ -26,6 +26,7 @@
 </template>
 
 <script>
+// TODO: 獲取Keywords列表
 import http from '@/utils/http.js'
 export default {
   name: 'Search',
@@ -81,26 +82,20 @@ export default {
 
       this.loading = true
 
-      if (genre) {
+      const params = {
+        with_genres: genre,
+        page,
+        query,
+        with_keywords: keyword,
+      }
+
+      if (genre || keyword) {
         result = await http.get('discover/movie', {
-          params: {
-            with_genres: genre,
-            page,
-          },
+          params,
         })
       } else if (query) {
         result = await http.get('search/movie', {
-          params: {
-            query,
-            page,
-          },
-        })
-      } else if (keyword) {
-        result = await http.get('search/keyword', {
-          params: {
-            query: keyword,
-            page,
-          },
+          params,
         })
       }
 

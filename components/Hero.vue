@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .hero {
   width: 100%;
-  height: 85vh;
+  height: 50vh;
   position: relative;
 }
 

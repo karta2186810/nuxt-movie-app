@@ -1,0 +1,6 @@
+@import '../settings/variables.scss';
+
+hr {
+  border: none;
+  border-bottom: 1px solid $primary;
+}

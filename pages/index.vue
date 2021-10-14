@@ -20,5 +20,8 @@ export default {
 <style lang="scss" scoped>
 .movies {
   padding-top: 120px;
+  @media screen and (max-width: 480px) {
+    padding-top: 60px;
+  }
 }
 </style>
