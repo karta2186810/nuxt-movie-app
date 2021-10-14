@@ -1,20 +1,14 @@
-# nuxt_movie_app
+# NuxtMovie
+## 介紹
+使用Nuxt建構SSR電影資料RWD網站
+## 功能
+* 依照 「現正熱映」、「熱門電影」、「最高評分」、「即將上映」 瀏覽電影資料。
+* 依據分類及關鍵字進行電影搜索。
+* 查看電影詳情，如主要演員、評分、上映日期等。
+* 依照不同裝置切換介面顯示方式
 
-## Build Setup
+## 使用框架
+* Nuxt
 
-```bash
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## CSS Pre-processor
+* SASS
