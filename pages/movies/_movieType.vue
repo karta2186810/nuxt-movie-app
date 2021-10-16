@@ -13,6 +13,7 @@
           @search="search"
         />
         <MovieList
+          class="list"
           :movies="movies"
           :is-last-page="isLastPage"
           :loading="$fetchState.pending || loading"
@@ -168,5 +169,8 @@ export default {
     flex-direction: column;
     align-items: stretch;
   }
+}
+.list {
+  flex: 1;
 }
 </style>
