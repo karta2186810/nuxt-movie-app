@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import loading from '@/assets/images/loading.svg'
+
 export const loadingImg = {
   bind(el) {
     if (!el.firstChild.src) return

@@ -166,6 +166,7 @@ export default {
   }
 }
 .movies {
+  width: 100%;
   padding: 0;
   &::v-deep .movie-list__content {
     grid-template-columns: repeat(5, 1fr);
