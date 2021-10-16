@@ -21,22 +21,22 @@ export default {
   flex-direction: column;
   border-radius: 4px;
   overflow: hidden;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: row;
     height: 225px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     height: 150px;
   }
 }
 .skeleton--square {
   min-height: 300px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     min-height: auto;
     height: 100%;
     width: 150px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100px;
   }
 }

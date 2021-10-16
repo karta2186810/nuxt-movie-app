@@ -125,7 +125,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   row-gap: 16px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     width: 100%;
     position: static;
     font-size: 20px;
@@ -139,7 +139,7 @@ export default {
   padding-bottom: 12px;
   font-weight: 700;
   border-bottom: 1px solid $primary;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     border: none;
     padding: 6px 0;
   }
@@ -149,7 +149,7 @@ export default {
     &.open {
       transform: rotate(90deg);
     }
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       display: block;
     }
   }
@@ -158,11 +158,11 @@ export default {
 .search-field {
   margin-top: 12px;
   width: 100%;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     display: none;
   }
   &.mobileShow {
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       display: block;
     }
   }
@@ -207,7 +207,7 @@ export default {
     font-weight: 600;
     font-size: 16px;
     cursor: pointer;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       padding: 12px 24px;
     }
     &.isChecked {

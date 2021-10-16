@@ -306,7 +306,7 @@ export default {
   display: flex;
   margin-top: 40px;
   cursor: initial;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding: 0 16px;
     background-color: transparent;
@@ -318,14 +318,14 @@ export default {
 .movie-poster {
   width: 250px;
   height: 375px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-bottom: 16px;
   }
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     width: 150px;
     height: 225px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100px;
     height: 150px;
     margin-bottom: 16px;
@@ -337,7 +337,7 @@ export default {
   }
 }
 .movie-title {
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     line-height: 1.5;
   }
   span {
@@ -346,12 +346,12 @@ export default {
 }
 .movie-info {
   flex: 1;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     padding: 0;
     margin-top: 32px;
   }
   &__header {
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       text-align: center;
     }
   }
@@ -378,7 +378,7 @@ export default {
     border: 1px solid $white;
     user-select: none;
     cursor: pointer;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       padding: 16px 20px;
       font-size: 16px;
     }
@@ -390,7 +390,7 @@ export default {
 }
 
 .movie-description {
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
   }
 }
@@ -398,7 +398,7 @@ export default {
   min-width: 100px;
 }
 .movie-overview {
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin: 0;
     margin-top: 32px;
     border-radius: 4px;
@@ -406,7 +406,7 @@ export default {
     background-color: $card-color;
   }
   &__heading {
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       text-align: center;
     }
   }
@@ -426,13 +426,13 @@ export default {
     top: 0;
     background-position: center;
     background-size: cover;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       height: 410px + $nav-height;
     }
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       height: 260px + $nav-height;
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       height: 190px + $nav-height;
     }
   }
@@ -447,7 +447,7 @@ export default {
 }
 .content-wrapper {
   margin-top: 120px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     padding: 0;
     margin-top: 60px;
     flex-direction: column-reverse;
@@ -456,7 +456,7 @@ export default {
 .main {
   overflow: hidden;
   flex: 1;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-top: 40px;
     padding: 0 16px;
   }
@@ -464,7 +464,7 @@ export default {
 
 .aside {
   width: 300px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     width: 100%;
     margin-left: 0;
     padding: 0 16px;
@@ -496,7 +496,7 @@ export default {
   &::v-deep .slider__content {
     padding: 8px 0;
     padding-bottom: 16px;
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       padding: 8px 0;
     }
   }
@@ -592,7 +592,7 @@ export default {
     opacity: 0;
     transition: 0.3s;
   }
-  @media screen and (min-width: 1025px) {
+  @media (min-width: 1025px) {
     &:hover {
       &::after {
         opacity: 1;

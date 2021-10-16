@@ -32,7 +32,7 @@ export default {
   margin-top: 40px;
   background-color: $card-color;
   border-radius: 4px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding: 0 16px;
     box-shadow: none;
@@ -44,7 +44,7 @@ export default {
   &__info {
     flex: 1;
     padding: 0 30px;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       padding: 0;
       margin-top: 32px;
     }
@@ -52,7 +52,7 @@ export default {
   &__description {
     display: flex;
     margin-top: 30px;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       flex-direction: column;
       background-color: $card-color;
       padding: 16px;
@@ -62,20 +62,20 @@ export default {
   &__overview {
     flex: 1;
     margin-left: 30px;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       margin-left: 0;
       margin-top: 30px;
     }
   }
 }
 .skeleton--title {
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-left: auto;
     margin-right: auto;
   }
 }
 .skeleton--avatar {
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-left: auto;
     margin-right: auto;
   }
@@ -84,14 +84,14 @@ export default {
   width: 250px;
   height: 375px;
   border-radius: 4px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-bottom: 16px;
   }
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     width: 150px;
     height: 225px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100px;
     height: 150px;
     margin-bottom: 16px;

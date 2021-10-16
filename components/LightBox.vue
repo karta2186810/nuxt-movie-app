@@ -48,7 +48,7 @@ export default {
   &:hover {
     color: $primary;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     top: 16px;
     right: 16px;
     font-size: 36px;

@@ -54,7 +54,7 @@ export default {
     &::-webkit-scrollbar {
       background-color: transparent;
       height: 12px;
-      @media screen and (max-width: 768px) {
+      @media (max-width: 768px) {
         height: 10px;
       }
     }
@@ -76,7 +76,7 @@ export default {
   opacity: 0;
   transition: 0.3s;
   pointer-events: none;
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     width: 48px;
   }
   &--show {

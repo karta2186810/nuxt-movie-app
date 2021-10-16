@@ -110,7 +110,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-top: 32px;
     padding-left: 0;
   }
@@ -120,7 +120,7 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     align-content: center;
     gap: 16px;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       grid-template-columns: repeat(1, 1fr);
       width: 100%;
     }
@@ -131,7 +131,7 @@ export default {
     flex-direction: column;
     position: relative;
     transition: 0.3s;
-    @media screen and (min-width: 1025px) {
+    @media (min-width: 1025px) {
       &:hover {
         transform: scale(1.1);
         z-index: 100;
@@ -141,11 +141,11 @@ export default {
         }
       }
     }
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       flex-direction: row;
       height: 225px;
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       height: 150px;
     }
   }
@@ -154,14 +154,14 @@ export default {
   flex: 1;
   overflow: hidden;
   height: 300px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex: initial;
     min-height: 0;
     height: 100%;
     min-width: 150px;
     width: 150px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100px;
     min-width: 100px;
   }
@@ -181,12 +181,12 @@ export default {
   padding: 16px;
   margin-top: 30px;
   overflow: hidden;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     padding: 32px;
     font-size: 20px;
     margin-top: 0;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     padding: 16px 24px;
   }
 }
@@ -196,10 +196,10 @@ export default {
   font-weight: 600;
   margin-bottom: 8px;
   letter-spacing: 1px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     font-size: 24px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     font-size: 20px;
   }
 }
@@ -209,20 +209,19 @@ export default {
   bottom: 110px;
   right: 16px;
   transform: translateY(50%);
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     position: static;
     transform: none;
   }
   &__circular {
-    display: block;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       display: none;
     }
   }
   &__text {
     display: none;
     font-size: 16px;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       display: block;
     }
   }
@@ -233,10 +232,10 @@ export default {
   font-weight: 100;
   color: $text-gray;
   margin-top: 8px;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     font-size: 16px;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     margin-top: 4px;
   }
 }
@@ -256,7 +255,7 @@ export default {
   opacity: 0;
   pointer-events: none;
 
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin-top: 16px;
     display: block;
     position: static;
@@ -266,7 +265,7 @@ export default {
     height: auto;
     pointer-events: initial;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     overflow: hidden;
     font-size: 16px;
     height: 48px;
@@ -276,16 +275,16 @@ export default {
     font-size: 20px;
     margin-bottom: 8px;
     color: $primary;
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       display: none;
     }
   }
   &__description {
     @include ellipsis(5);
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       @include ellipsis(2);
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       @include ellipsis(1);
       line-height: 1;
     }

@@ -78,14 +78,14 @@ export default {
   left: 30%;
   top: 50%;
   transform: translate(-50%, -50%);
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     left: 30%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
   }
-  @media screen and (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100%;
     left: 50%;
     display: flex;
@@ -97,10 +97,10 @@ export default {
     color: $white;
     font-size: 72px;
     margin-bottom: 32px;
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       font-size: 60px;
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       font-size: 54px;
       text-align: center;
     }
@@ -110,10 +110,10 @@ export default {
     font-size: 24px;
     font-weight: 600;
     line-height: 1.5;
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       font-size: 20px;
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       text-align: center;
     }
   }

@@ -16,11 +16,11 @@ export default {
   margin: 0 auto;
   padding: 0 32px;
   height: 100%;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     margin: 0 32px;
     padding: 0;
   }
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     margin: 0 16px;
     padding: 0;
   }

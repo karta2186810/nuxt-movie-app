@@ -165,7 +165,7 @@ export default {
 .movies__content {
   display: flex;
   align-items: start;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     align-items: stretch;
   }

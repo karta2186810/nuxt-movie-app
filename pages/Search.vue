@@ -148,7 +148,7 @@ export default {
   align-items: center;
   margin-bottom: 32px;
   width: 100%;
-  @media screen and (max-width: 1024px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 0;
@@ -160,7 +160,7 @@ export default {
     font-size: 24px;
   }
   &__results {
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       margin-top: 16px;
     }
   }
@@ -170,7 +170,7 @@ export default {
   padding: 0;
   &::v-deep .movie-list__content {
     grid-template-columns: repeat(5, 1fr);
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       grid-template-columns: repeat(1, 1fr);
       width: 100%;
     }
