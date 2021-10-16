@@ -162,7 +162,7 @@ export default {
     position: relative;
     overflow: hidden;
     font-size: 14px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1024px) {
       font-size: 20px;
       width: 100%;
       padding: 16px;
@@ -199,7 +199,7 @@ export default {
   &__icon {
     display: block;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     display: block;
   }
 }
@@ -211,7 +211,7 @@ export default {
   &__icon {
     display: block;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     display: block;
     margin-top: 32px;
   }
@@ -219,7 +219,7 @@ export default {
 
 .open-search {
   cursor: pointer;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     font-size: 24px;
   }
 

@@ -2,7 +2,8 @@
   <Section class="movie-detail">
     <Container class="container">
       <!-- 頭部卡片 -->
-      <Card class="info-card pa-30">
+      <SkeletonDetailCard v-if="$fetchState.pending" />
+      <Card v-else class="info-card pa-30">
         <div v-loading class="movie-poster radius-4">
           <img
             v-if="movie.poster_path"

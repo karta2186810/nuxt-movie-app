@@ -5,9 +5,10 @@ $primary-alt: #f19d2e;
 $white: #fff;
 $black: #222;
 $black-alt: #444;
+$gray: #888;
 // text
-$text-gray: #888;
-$text-black: #1D1D1F;
+$text-gray: $gray;
+$text-black: #1d1d1f;
 // scrollbar
 $scrollbar-thumb-color: $black-alt;
 $scrollbar-thumb-color-alt: #666;

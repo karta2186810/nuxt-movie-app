@@ -4,7 +4,7 @@
       <Card
         v-for="movie in movies"
         :key="movie.id"
-        class="movie"
+        class="movie-card"
         @click="toMovieDetail(movie.id)"
       >
         <div v-loading class="movie-poster">
@@ -39,8 +39,8 @@
         </div>
       </Card>
     </div>
-    <div v-else-if="loading" class="loading">
-      <img src="@/assets/images/loading.svg" />
+    <div v-else-if="loading" class="movie-list__content">
+      <SkeletonCardLarge v-for="(n, i) in 8" :key="i" />
     </div>
     <SingleCenter v-else direction="column" class="no-movie">
       <i class="ri-movie-2-line"></i>
@@ -125,7 +125,7 @@ export default {
       width: 100%;
     }
   }
-  .movie {
+  .movie-card {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -149,166 +149,167 @@ export default {
       height: 150px;
     }
   }
-  .movie-poster {
-    flex: 1;
-    overflow: hidden;
-    min-height: 300px;
-    @media screen and (max-width: 1024px) {
-      flex: initial;
-      min-height: auto;
-      height: 100%;
-      min-width: 150px;
-    }
-    @media screen and (max-width: 480px) {
-      width: 100px;
-      min-width: 100px;
-    }
-    &__default {
-      width: 100%;
-      height: 100%;
-      transition: 0.3s;
-    }
-    &__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: 0.3s;
-    }
+}
+.movie-poster {
+  flex: 1;
+  overflow: hidden;
+  height: 300px;
+  @media screen and (max-width: 1024px) {
+    flex: initial;
+    min-height: 0;
+    height: 100%;
+    min-width: 150px;
+    width: 150px;
   }
-  .movie-info {
-    padding: 16px;
-    margin-top: 30px;
-    overflow: hidden;
-    @media screen and (max-width: 1024px) {
-      padding: 32px;
-      font-size: 20px;
-      margin-top: 0;
-    }
-    @media screen and (max-width: 480px) {
-      padding: 16px 24px;
-    }
+  @media screen and (max-width: 480px) {
+    width: 100px;
+    min-width: 100px;
   }
-  .movie-title {
-    @include ellipsis(1);
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-    @media screen and (max-width: 1024px) {
-      font-size: 24px;
-    }
-    @media screen and (max-width: 480px) {
-      font-size: 20px;
-    }
-  }
-
-  .movie-rated {
-    position: absolute;
-    bottom: 110px;
-    right: 16px;
-    transform: translateY(50%);
-    @media screen and (max-width: 1024px) {
-      position: static;
-      transform: none;
-    }
-    &__circular {
-      display: block;
-      @media screen and (max-width: 1024px) {
-        display: none;
-      }
-    }
-    &__text {
-      display: none;
-      font-size: 16px;
-      @media screen and (max-width: 1024px) {
-        display: block;
-      }
-    }
-  }
-
-  .movie-release-date {
-    font-size: 14px;
-    font-weight: 100;
-    color: $text-gray;
-    margin-top: 8px;
-    @media screen and (max-width: 1024px) {
-      font-size: 16px;
-    }
-    @media screen and (max-width: 480px) {
-      margin-top: 4px;
-    }
-  }
-
-  .movie-overview {
+  &__default {
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
-    padding: 16px;
-    line-height: 1.5;
     transition: 0.3s;
-    opacity: 0;
-    pointer-events: none;
+  }
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+  }
+}
+.movie-info {
+  padding: 16px;
+  margin-top: 30px;
+  overflow: hidden;
+  @media screen and (max-width: 1024px) {
+    padding: 32px;
+    font-size: 20px;
+    margin-top: 0;
+  }
+  @media screen and (max-width: 480px) {
+    padding: 16px 24px;
+  }
+}
+.movie-title {
+  @include ellipsis(1);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  @media screen and (max-width: 1024px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 20px;
+  }
+}
 
+.movie-rated {
+  position: absolute;
+  bottom: 110px;
+  right: 16px;
+  transform: translateY(50%);
+  @media screen and (max-width: 1024px) {
+    position: static;
+    transform: none;
+  }
+  &__circular {
+    display: block;
     @media screen and (max-width: 1024px) {
-      margin-top: 16px;
+      display: none;
+    }
+  }
+  &__text {
+    display: none;
+    font-size: 16px;
+    @media screen and (max-width: 1024px) {
       display: block;
-      position: static;
-      opacity: 1;
-      background-color: transparent;
-      padding: 0;
-      height: auto;
-      pointer-events: initial;
+    }
+  }
+}
+
+.movie-release-date {
+  font-size: 14px;
+  font-weight: 100;
+  color: $text-gray;
+  margin-top: 8px;
+  @media screen and (max-width: 1024px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 480px) {
+    margin-top: 4px;
+  }
+}
+
+.movie-overview {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 16px;
+  line-height: 1.5;
+  transition: 0.3s;
+  opacity: 0;
+  pointer-events: none;
+
+  @media screen and (max-width: 1024px) {
+    margin-top: 16px;
+    display: block;
+    position: static;
+    opacity: 1;
+    background-color: transparent;
+    padding: 0;
+    height: auto;
+    pointer-events: initial;
+  }
+  @media screen and (max-width: 480px) {
+    overflow: hidden;
+    font-size: 16px;
+    height: 48px;
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: $primary;
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
+  }
+  &__description {
+    @include ellipsis(5);
+    @media screen and (max-width: 1024px) {
+      @include ellipsis(2);
     }
     @media screen and (max-width: 480px) {
-      overflow: hidden;
-      font-size: 16px;
-      height: 48px;
-    }
-
-    &__title {
-      font-size: 20px;
-      margin-bottom: 8px;
-      color: $primary;
-      @media screen and (max-width: 1024px) {
-        display: none;
-      }
-    }
-    &__description {
-      @include ellipsis(5);
-      @media screen and (max-width: 1024px) {
-        @include ellipsis(2);
-      }
-      @media screen and (max-width: 480px) {
-        @include ellipsis(1);
-        line-height: 1;
-      }
+      @include ellipsis(1);
+      line-height: 1;
     }
   }
+}
 
-  .no-movie {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 600;
-    min-height: 300px;
+.no-movie {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  min-height: 300px;
+  color: $primary;
+  i {
+    font-size: 120px;
+    margin-bottom: 24px;
     color: $primary;
-    i {
-      font-size: 120px;
-      margin-bottom: 24px;
-      color: $primary;
-      font-weight: normal;
-    }
+    font-weight: normal;
   }
-  .loadmore-btn {
-    margin-top: 32px;
-    width: 50%;
-  }
+}
+.loadmore-btn {
+  margin-top: 32px;
+  width: 50%;
 }
 </style>
