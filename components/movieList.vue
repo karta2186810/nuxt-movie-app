@@ -215,7 +215,7 @@ export default {
   }
   &__circular {
     @media (max-width: 1024px) {
-      display: none;
+      display: none !important;
     }
   }
   &__text {
