@@ -54,9 +54,6 @@ export default {
     margin-top: 30px;
     @media (max-width: 1024px) {
       flex-direction: column;
-      background-color: $card-color;
-      padding: 16px;
-      border-radius: 4px;
     }
   }
   &__overview {
@@ -65,6 +62,9 @@ export default {
     @media (max-width: 1024px) {
       margin-left: 0;
       margin-top: 30px;
+      background-color: $card-color;
+      padding: 16px;
+      border-radius: 4px;
     }
   }
 }

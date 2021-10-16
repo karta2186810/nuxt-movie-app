@@ -34,10 +34,12 @@ export default {
   @media (max-width: 1024px) {
     min-height: auto;
     height: 100%;
-    width: 150px;
+    min-width: 150px;
+    width: 150px !important;
   }
   @media (max-width: 480px) {
-    width: 100px;
+    min-width: 100px;
+    width: 100px !important;
   }
 }
 .skeleton-info {
