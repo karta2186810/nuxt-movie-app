@@ -42,19 +42,19 @@ export default {
   }
 
   &__image {
-    width: 250px;
-    height: 375px;
+    width: 250px !important;
+    height: 375px !important;
     border-radius: 4px;
     @media (max-width: 1024px) {
       margin-bottom: 16px;
     }
     @media (max-width: 768px) {
-      width: 150px;
-      height: 225px;
+      width: 150px !important;
+      height: 225px !important;
     }
     @media (max-width: 480px) {
-      width: 100px;
-      height: 150px;
+      width: 100px !important;
+      height: 150px !important;
       margin-bottom: 16px;
     }
   }
