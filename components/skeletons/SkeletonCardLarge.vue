@@ -1,5 +1,5 @@
 <template>
-  <Card v-show="show" class="skeleton-card-large">
+  <Card class="skeleton-card-large">
     <Skeleton type="square" class="skeleton-card-large__image" />
     <div class="pa-16 skeleton-info">
       <Skeleton type="title" class="skeleton-card-large__title" />
@@ -12,16 +12,6 @@
 <script>
 export default {
   name: 'SkeletonCardLarge',
-  data() {
-    return {
-      show: false,
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.show = true
-    }, 300)
-  },
 }
 </script>
 
