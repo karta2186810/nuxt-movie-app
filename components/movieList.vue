@@ -38,7 +38,7 @@
           </BoxCenter>
         </div>
       </Card>
-      <div v-for="(n, i) in 8" :key="i">
+      <div v-for="(n, i) in 4" :key="i">
         <SkeletonCardLarge v-if="loading" />
       </div>
     </div>
@@ -317,5 +317,8 @@ export default {
 .loadmore-btn {
   margin-top: 32px;
   width: 50%;
+  @media (max-width: 1024px) {
+    margin-top: -32px;
+  }
 }
 </style>
