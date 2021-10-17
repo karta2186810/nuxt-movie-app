@@ -1,18 +1,18 @@
 <template>
   <div class="skeleton-detail-card">
-    <Skeleton type="square" />
+    <Skeleton type="square" class="skeleton-detail-card__image" />
     <div class="skeleton-detail-card__info">
-      <Skeleton type="title" />
-      <Skeleton type="article" />
-      <Skeleton type="article" />
+      <Skeleton type="title" class="skeleton-detail-card__title" />
+      <Skeleton type="article" class="skeleton-detail-card__article" />
+      <Skeleton type="article" class="skeleton-detail-card__article" />
       <div class="skeleton-detail-card__description">
         <div>
-          <Skeleton type="avatar" />
+          <Skeleton type="avatar" class="skeleton-detail-card__rated" />
         </div>
         <div class="skeleton-detail-card__overview">
-          <Skeleton type="title" />
-          <Skeleton type="article" />
-          <Skeleton type="article" />
+          <Skeleton type="title" class="skeleton-detail-card__title" />
+          <Skeleton type="article" class="skeleton-detail-card__article" />
+          <Skeleton type="article" class="skeleton-detail-card__article" />
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped deep>
+<style lang="scss" scoped>
 .skeleton-detail-card {
   display: flex;
   padding: 30px;
@@ -39,6 +39,24 @@ export default {
     background-color: transparent;
     margin: 0;
     margin-top: 16px;
+  }
+
+  &__image {
+    width: 250px;
+    height: 375px;
+    border-radius: 4px;
+    @media (max-width: 1024px) {
+      margin-bottom: 16px;
+    }
+    @media (max-width: 768px) {
+      width: 150px;
+      height: 225px;
+    }
+    @media (max-width: 480px) {
+      width: 100px;
+      height: 150px;
+      margin-bottom: 16px;
+    }
   }
 
   &__info {
@@ -67,34 +85,17 @@ export default {
       border-radius: 4px;
     }
   }
-}
-.skeleton--title {
-  @media (max-width: 1024px) {
-    margin-left: auto;
-    margin-right: auto;
+  &__title {
+    @media (max-width: 1024px) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
-}
-.skeleton--avatar {
-  @media (max-width: 1024px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-.skeleton--square {
-  width: 250px;
-  height: 375px;
-  border-radius: 4px;
-  @media (max-width: 1024px) {
-    margin-bottom: 16px;
-  }
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 225px;
-  }
-  @media (max-width: 480px) {
-    width: 100px;
-    height: 150px;
-    margin-bottom: 16px;
+  &__rated {
+    @media (max-width: 1024px) {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="movie-list">
-    <div v-if="movies.length" class="movie-list__content">
+    <div class="movie-list__content">
       <Card
         v-for="movie in movies"
         :key="movie.id"
@@ -38,14 +38,20 @@
           </BoxCenter>
         </div>
       </Card>
+      <div v-for="(n, i) in 8" :key="i">
+        <SkeletonCardLarge v-if="loading" />
+      </div>
     </div>
-    <div v-else-if="loading" class="movie-list__content">
-      <SkeletonCardLarge v-for="(n, i) in 8" :key="i" />
-    </div>
-    <SingleCenter v-else direction="column" class="no-movie">
+
+    <SingleCenter
+      v-if="movies.length === 0"
+      direction="column"
+      class="no-movie"
+    >
       <i class="ri-movie-2-line"></i>
       沒有相關的電影哦
     </SingleCenter>
+
     <Button
       v-show="!isLastPage && movies.length"
       class="loadmore-btn"
@@ -153,6 +159,7 @@ export default {
 .movie-poster {
   flex: 1;
   overflow: hidden;
+  min-height: 300px;
   height: 300px;
   @media (max-width: 1024px) {
     flex: initial;
