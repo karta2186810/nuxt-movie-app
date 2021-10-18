@@ -47,7 +47,7 @@
               <p v-if="movie.overview" class="movie-overview__content">
                 {{ movie.overview }}
               </p>
-              <p v-else>尚未有摘要</p>
+              <p v-else style="text-align: center">尚未有摘要</p>
             </div>
           </div>
         </div>
@@ -62,7 +62,10 @@
                 完整演員與製作團隊<i class="ri-arrow-right-s-line"></i>
               </SingleCenter> -->
             </SingleCenter>
-            <Slider class="movie-detail-slider">
+            <Slider
+              v-if="actors.cast && actors.cast.length"
+              class="movie-detail-slider"
+            >
               <div class="actors-wrapper flex">
                 <Card
                   v-for="actor in actors.cast"
@@ -88,6 +91,9 @@
                 </Card>
               </div>
             </Slider>
+            <BoxCenter v-else class="no-actors fz-20 radius-4"
+              >資料不足</BoxCenter
+            >
           </div>
           <hr style="margin-top: 40px; margin-bottom: 40px" />
           <!-- 媒體 -->
@@ -125,7 +131,7 @@
               v-if="media[currentMedia] && media[currentMedia].length === 0"
               class="media-fallback fz-20"
             >
-              沒有資源
+              資料不足
             </BoxCenter>
             <!-- 媒體Slider -->
             <Slider v-else class="movie-detail-slider">
@@ -139,7 +145,7 @@
                 >
                   <img
                     class="media-item__image"
-                    :src="`https://image.tmdb.org/t/p/w300${mediaItem.file_path}`"
+                    :src="`https://image.tmdb.org/t/p/w500${mediaItem.file_path}`"
                     alt="media-item"
                   />
                 </div>
@@ -308,9 +314,9 @@ export default {
   cursor: initial;
   @media (max-width: 1024px) {
     flex-direction: column;
-    padding: 0 16px;
     background-color: transparent;
     box-shadow: none;
+    padding: 0;
     margin: 0;
     margin-top: 16px;
   }
@@ -460,7 +466,6 @@ export default {
   flex: 1;
   @media (max-width: 1024px) {
     margin-top: 40px;
-    padding: 0 16px;
   }
 }
 
@@ -469,7 +474,6 @@ export default {
   @media (max-width: 1024px) {
     width: 100%;
     margin-left: 0;
-    padding: 0 16px;
   }
 }
 
@@ -512,6 +516,12 @@ export default {
 .actors-wrapper {
   flex-wrap: nowrap;
   align-items: stretch;
+}
+.no-actors {
+  width: 100%;
+  min-height: 300px;
+  background: $card-color;
+  color: $primary;
 }
 .actor {
   min-width: 150px;

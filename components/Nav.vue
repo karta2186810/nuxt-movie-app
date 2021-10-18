@@ -1,5 +1,5 @@
 <template>
-  <div class="nav">
+  <div class="nav" :class="{ 'nav--hidden': isScrollDown }">
     <Container>
       <SingleCenter justify="between" class="nav__content">
         <div class="logo">
@@ -75,7 +75,15 @@ export default {
       showMenu: false,
       showSearch: false,
       searchVal: '',
+      isScrollDown: false,
+      scrollTopVal: 0,
     }
+  },
+  mounted() {
+    document.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy() {
+    document.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
     closeMenu() {
@@ -97,6 +105,15 @@ export default {
       this.$router.push(`/search?query=${this.searchVal}`)
       this.searchVal = ''
     },
+    handleScroll(e) {
+      const scrollTop = e.target.documentElement.scrollTop
+      if (scrollTop > this.scrollTopVal) {
+        this.isScrollDown = true
+      } else {
+        this.isScrollDown = false
+      }
+      this.scrollTopVal = scrollTop
+    },
   },
 }
 </script>
@@ -113,6 +130,11 @@ export default {
   z-index: 1000;
   box-shadow: 0 6px 8px 0px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
+  transition: 0.3s;
+  &--hidden {
+    transform: translateY(-100%);
+    box-shadow: none;
+  }
   &__content {
     height: 100%;
   }

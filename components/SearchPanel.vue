@@ -119,7 +119,7 @@ export default {
 .search-panel {
   width: 240px;
   position: sticky;
-  top: $nav-height + 16px;
+  top: 16px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
