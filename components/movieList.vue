@@ -44,7 +44,7 @@
     </div>
 
     <SingleCenter
-      v-if="movies.length === 0"
+      v-if="movies.length === 0 && !loading"
       direction="column"
       class="no-movie"
     >

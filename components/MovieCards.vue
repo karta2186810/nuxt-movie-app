@@ -131,7 +131,6 @@ export default {
 
 .card-group {
   flex-wrap: nowrap;
-  column-gap: 16px;
   &__spacer {
     min-width: 16px;
     height: 200px;
@@ -143,6 +142,7 @@ export default {
   width: 150px;
   position: relative;
   overflow: hidden;
+  margin-right: 16px;
   &:hover {
     .movie-poster__img {
       transform: scale(1.1);

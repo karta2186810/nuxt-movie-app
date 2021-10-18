@@ -377,6 +377,8 @@ export default {
     display: inline-block;
     border: 1px solid $white;
     user-select: none;
+    margin-right: 6px;
+    margin-bottom: 6px;
     cursor: pointer;
     @media (max-width: 1024px) {
       padding: 16px 20px;
@@ -489,7 +491,6 @@ export default {
 }
 .keyword-group {
   flex-wrap: wrap;
-  gap: 8px;
 }
 
 .movie-detail-slider {
@@ -511,11 +512,11 @@ export default {
 .actors-wrapper {
   flex-wrap: nowrap;
   align-items: stretch;
-  column-gap: 16px;
 }
 .actor {
   min-width: 150px;
   width: 150px;
+  margin-right: 16px;
 }
 .actor-avatar {
   width: 100%;

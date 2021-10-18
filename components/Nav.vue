@@ -125,11 +125,11 @@ export default {
 }
 
 .menu {
-  column-gap: 18px;
   height: 100%;
   &__content {
     transition: 0.4s;
     height: 100%;
+    margin-right: 18px;
     @media (max-width: 1024px) {
       position: fixed;
       top: -100%;
@@ -219,6 +219,7 @@ export default {
 
 .open-search {
   cursor: pointer;
+  margin-right: 18px;
   @media (max-width: 1024px) {
     font-size: 24px;
   }
