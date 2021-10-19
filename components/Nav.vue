@@ -12,6 +12,7 @@
           >
             <NuxtLink
               class="menu__link"
+              style="animation-delay: 0.4s"
               to="/movies/nowPlaying"
               @click.native="linkClick"
             >
@@ -20,6 +21,7 @@
             <NuxtLink
               class="menu__link"
               to="/movies/popular"
+              style="animation-delay: 0.5s"
               @click.native="linkClick"
             >
               熱門電影
@@ -27,6 +29,7 @@
             <NuxtLink
               class="menu__link"
               to="/movies/topRated"
+              style="animation-delay: 0.6s"
               @click.native="linkClick"
             >
               最高評分
@@ -34,6 +37,7 @@
             <NuxtLink
               class="menu__link"
               to="/movies/upcoming"
+              style="animation-delay: 0.7s"
               @click.native="linkClick"
             >
               即將上映
@@ -173,6 +177,17 @@ export default {
         top: 0;
         pointer-events: initial;
         transform: translateY(0);
+        .menu__link {
+          animation: 0.3s in ease-in-out both;
+        }
+        @keyframes in {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
       }
     }
   }
@@ -204,6 +219,7 @@ export default {
       height: auto;
       padding: 16px;
     }
+
     &::before {
       content: '';
       display: block;
