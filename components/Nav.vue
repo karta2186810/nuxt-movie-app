@@ -6,7 +6,10 @@
           <NuxtLink class="logo__link" to="/">Nuxt Movie</NuxtLink>
         </div>
         <BoxCenter class="menu">
-          <SingleCenter class="menu__content" :class="{ show: showMenu }">
+          <SingleCenter
+            class="menu__content"
+            :class="{ 'menu__content--show': showMenu }"
+          >
             <NuxtLink
               class="menu__link"
               to="/movies/nowPlaying"
@@ -48,7 +51,7 @@
         </BoxCenter>
       </SingleCenter>
     </Container>
-    <div class="search" :class="{ show: showSearch }">
+    <div class="search" :class="{ 'search--show': showSearch }">
       <Container>
         <SingleCenter>
           <SearchBar
@@ -154,19 +157,22 @@ export default {
     margin-right: 18px;
     @media (max-width: 1024px) {
       position: fixed;
-      top: -100%;
+      top: 0;
       left: 0;
       flex-direction: column;
       padding: 32px 0;
-      width: 100%;
+      width: 100vw;
+      height: 100vh;
       background-color: $black;
-      opacity: 0;
-      height: auto;
       pointer-events: none;
-      &.show {
+      transform: translateY(-100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &--show {
         top: 0;
-        opacity: 1;
         pointer-events: initial;
+        transform: translateY(0);
       }
     }
   }
@@ -195,6 +201,7 @@ export default {
     @media (max-width: 1024px) {
       font-size: 20px;
       width: 100%;
+      height: auto;
       padding: 16px;
     }
     &::before {
@@ -274,7 +281,7 @@ export default {
   opacity: 0;
   box-shadow: inset 0 4px 8px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
-  &.show {
+  &--show {
     top: $nav-height;
     opacity: 1;
     pointer-events: initial;
