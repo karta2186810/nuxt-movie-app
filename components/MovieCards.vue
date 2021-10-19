@@ -175,7 +175,6 @@ export default {
   }
   &__release-date {
     font-size: 14px;
-    font-weight: 100;
     color: $text-gray;
   }
 }

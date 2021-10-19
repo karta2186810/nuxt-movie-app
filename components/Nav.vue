@@ -184,6 +184,14 @@ export default {
     position: relative;
     overflow: hidden;
     font-size: 14px;
+    @media (min-width: 1025px) {
+      &:hover {
+        color: $text-black;
+        &::before {
+          bottom: 0;
+        }
+      }
+    }
     @media (max-width: 1024px) {
       font-size: 20px;
       width: 100%;
@@ -204,12 +212,6 @@ export default {
     &.nuxt-link-active {
       background-color: $primary;
       color: $text-black;
-    }
-    &:hover {
-      color: $text-black;
-      &::before {
-        bottom: 0;
-      }
     }
   }
 }
@@ -232,6 +234,11 @@ export default {
   cursor: pointer;
   &__icon {
     display: block;
+  }
+  &:active {
+    .close-menu__icon {
+      color: $primary;
+    }
   }
   @media (max-width: 1024px) {
     display: block;

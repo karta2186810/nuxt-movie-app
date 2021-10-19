@@ -235,8 +235,7 @@ export default {
 }
 
 .movie-release-date {
-  font-size: 14px;
-  font-weight: 100;
+  font-size: 16px;
   color: $text-gray;
   margin-top: 8px;
   @media (max-width: 1024px) {
