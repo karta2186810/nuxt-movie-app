@@ -1,6 +1,6 @@
 <template>
   <form class="search-panel" @submit="search">
-    <Card class="sort-by pa-12">
+    <Card class="sort-by pa-12 mb-16">
       <div class="search-title" @click="showSortBy">
         排序
         <i
@@ -22,7 +22,7 @@
         <option value="release_date.asc">依照日期升序</option>
       </select>
     </Card>
-    <Card class="filter">
+    <Card class="filter mb-16">
       <div class="search-title" @click="showFilter">
         篩選
         <i
@@ -124,7 +124,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  row-gap: 16px;
   @media (max-width: 1024px) {
     width: 100%;
     position: static;
@@ -191,7 +190,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
 }
 
 .genre {
@@ -202,6 +200,8 @@ export default {
     display: block;
     background-color: $black-alt;
     color: $white;
+    margin-right: 8px;
+    margin-bottom: 8px;
     padding: 8px 16px;
     border-radius: 20px;
     font-weight: 600;
