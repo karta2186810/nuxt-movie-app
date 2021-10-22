@@ -1,0 +1,6 @@
+@import '../settings/variables.scss';
+
+*::selection {
+  background: $primary;
+  color: $text-black;
+}

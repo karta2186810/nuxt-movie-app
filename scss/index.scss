@@ -1,3 +1,4 @@
+// ATOMIC CSS
 @import './acss/border.scss';
 @import './acss/font-size.scss';
 @import './acss/font-weight.scss';
@@ -7,11 +8,15 @@
 @import './acss/flex.scss';
 @import './acss/grid.scss';
 
+// RESET
 @import './generics/reset.scss';
 
+// ELEMENTS
 @import './elements/html.scss';
 @import './elements/article.scss';
 @import './elements/hr.scss';
+@import './elements/selection.scss';
 
+// COMPONENTS
 @import './components/loadingImg.scss';
 @import './components/errorImg.scss';
