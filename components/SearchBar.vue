@@ -43,7 +43,7 @@ export default {
 .search-bar {
   display: flex;
   &__input {
-    background-color: $white;
+    background-color: darken($white, 5%);
     outline: none;
     border: none;
     color: $text-black;

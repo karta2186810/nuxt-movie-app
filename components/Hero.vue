@@ -61,6 +61,9 @@ export default {
   width: 100%;
   height: 70vh;
   position: relative;
+  @media (max-width: 480px) {
+    height: 50vh;
+  }
 }
 
 .hero-background {
@@ -73,6 +76,9 @@ export default {
     height: 100%;
     object-fit: cover;
     transform: rotateY(180deg);
+    @media (max-width: 480px) {
+      object-fit: contain;
+    }
   }
   &__filter {
     position: absolute;
@@ -82,7 +88,7 @@ export default {
     height: 100%;
     background: linear-gradient(
       -180deg,
-      rgba(darken($primary, 40%), 0.3),
+      rgba(darken($primary, 50%), 0.3),
       $black 100%
     );
   }
@@ -141,35 +147,6 @@ export default {
   animation-delay: 0.5s;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 
-  span {
-    position: relative;
-    /* &::before {
-      content: '';
-      left: 0;
-      bottom: 10%;
-      width: 100%;
-      height: 100%;
-      background-color: $primary;
-      position: absolute;
-      animation: line both 0.5s ease-in-out;
-      animation-delay: 0.5s;
-      z-index: -10;
-    }
-    &:nth-child(3) {
-      &::before {
-        animation-delay: 1s;
-      }
-    } */
-
-    @keyframes line {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
-    }
-  }
   @media (max-width: 768px) {
     font-size: 20px;
   }
@@ -178,12 +155,19 @@ export default {
   }
 }
 .search-bar {
-  &::v-deep .search-bar__button {
-    background-color: $primary;
-    color: $text-black;
-    font-weight: 600;
-    &:hover {
-      background-color: $primary-alt;
+  &::v-deep {
+    .search-bar {
+      &__input {
+        background-color: darken($white, 5%);
+      }
+      &__button {
+        background-color: $primary;
+        color: $text-black;
+        font-weight: 600;
+        &:hover {
+          background-color: $primary-alt;
+        }
+      }
     }
   }
 }

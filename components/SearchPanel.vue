@@ -142,6 +142,9 @@ export default {
     border: none;
     padding: 6px 0;
   }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
   &__icon {
     display: none;
     transition: 0.3s;

@@ -1,5 +1,8 @@
 <template>
-  <div class="nav" :class="{ 'nav--hidden': isScrollDown }">
+  <div
+    class="nav"
+    :class="{ 'nav--hidden': isScrollDown, 'nav--black': showSearch }"
+  >
     <Container>
       <SingleCenter justify="between" class="nav__content">
         <div class="logo">
@@ -109,13 +112,17 @@ export default {
       this.showSearch = false
     },
     searchMovie() {
-      this.$router.push(`/search?query=${this.searchVal}`)
-      this.searchVal = ''
+      if (this.searchVal.trim()) {
+        this.$router.push(`/search?query=${this.searchVal}`)
+        this.searchVal = ''
+        this.showSearch = false
+      }
     },
     handleScroll(e) {
       const scrollTop = e.target.documentElement.scrollTop
-      if (scrollTop > this.scrollTopVal) {
+      if (scrollTop > this.scrollTopVal && this.scrollTopVal > 72) {
         this.isScrollDown = true
+        this.showSearch = false
       } else {
         this.isScrollDown = false
       }
@@ -127,7 +134,6 @@ export default {
 
 <style lang="scss" scoped>
 .nav {
-  background-color: rgba(34, 34, 34, 0.5);
   color: $white;
   position: fixed;
   top: 0;
@@ -135,12 +141,16 @@ export default {
   width: 100%;
   height: $nav-height;
   z-index: 1000;
+  background-color: rgba(34, 34, 34, 0.5);
   box-shadow: 0 6px 8px 0px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
   transition: 0.3s;
   &--hidden {
     transform: translateY(-100%);
     box-shadow: none;
+  }
+  &--black {
+    background-color: $black;
   }
   &__content {
     height: 100%;
@@ -150,6 +160,8 @@ export default {
 .logo {
   &__link {
     color: $primary;
+    font-size: 20px;
+    font-weight: bold;
   }
 }
 
@@ -287,8 +299,7 @@ export default {
 .search {
   position: absolute;
   width: 100%;
-  background-color: rgba(34, 34, 34, 0.5);
-  backdrop-filter: blur(12px);
+  background-color: $black;
   left: 50%;
   top: -100%;
   transform: translateX(-50%);
