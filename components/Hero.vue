@@ -62,7 +62,7 @@ export default {
   height: 70vh;
   position: relative;
   @media (max-width: 480px) {
-    height: 50vh;
+    height: 60vh;
   }
 }
 
