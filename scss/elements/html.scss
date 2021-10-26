@@ -3,6 +3,13 @@
 html {
   background-color: $black;
   scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    &-thumb {
+      border-radius: 40px;
+      background-color: $scrollbar-thumb-color-alt;
+    }
+  }
 }
 
 * {
