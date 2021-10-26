@@ -2,20 +2,22 @@
   <div class="hero">
     <div class="hero-background">
       <img
-        src="@/assets/images/hero-background.jpg"
+        src="@/assets/images/hero-background.svg"
         class="hero-background__image"
       />
       <div class="hero-background__filter"></div>
     </div>
     <div class="hero-info">
-      <h1 class="hero-info__title">Nuxt Movie</h1>
-      <p class="hero-info__description">
-        上百萬部電影和人物在等你。<br />馬上開始探索吧！
+      <h1 ref="title" class="hero-title">Nuxt Movie</h1>
+      <p class="hero-description">
+        <span>上百萬部電影和人物在等你。</span>
+        <br />
+        <span>馬上開始探索吧！</span>
       </p>
       <SearchBar
         v-model="searchVal"
         placeholder="開始探索"
-        class="search-bar mt-16"
+        class="search-bar mt-24"
         @search="searchMovie"
       >
         <i class="ri-search-line"></i>
@@ -32,10 +34,23 @@ export default {
       searchVal: '',
     }
   },
+  mounted() {
+    this.titleAnimation()
+  },
   methods: {
     searchMovie() {
-      this.$router.push(`/search?query=${this.searchVal}`)
-      this.searchVal = ''
+      if (this.searchVal.trim()) {
+        this.$router.push(`/search?query=${this.searchVal}`)
+        this.searchVal = ''
+      }
+    },
+    titleAnimation() {
+      const title = this.$refs.title
+      title.innerHTML = title.textContent.replace(/\S/g, '<span>$&</span>')
+      const spans = title.children
+      for (let i = 0; i < spans.length; i++) {
+        spans[i].style.setProperty('--delay', `${i * 0.05}s`)
+      }
     },
   },
 }
@@ -93,32 +108,75 @@ export default {
     align-items: center;
     flex-direction: column;
   }
-  &__title {
-    color: $white;
-    font-size: 72px;
-    margin-bottom: 32px;
-    @media (max-width: 768px) {
-      font-size: 60px;
-    }
-    @media (max-width: 480px) {
-      font-size: 54px;
-      text-align: center;
-    }
+}
+
+.hero-title {
+  color: $white;
+  font-size: 72px;
+  margin-bottom: 32px;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    font-size: 60px;
   }
-  &__description {
-    color: $white;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.5;
-    @media (max-width: 768px) {
-      font-size: 20px;
-    }
-    @media (max-width: 480px) {
-      text-align: center;
-    }
+  @media (max-width: 480px) {
+    font-size: 54px;
+    text-align: center;
+  }
+  &::v-deep span {
+    display: inline-block;
+    transform: translateY(10px);
+    animation: slideIn ease-in-out 0.5s both;
+    animation-delay: var(--delay);
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   }
 }
 
+.hero-description {
+  color: $white;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.5;
+  animation: slideIn ease-in-out 0.5s both;
+  animation-delay: 0.5s;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+
+  span {
+    position: relative;
+    /* &::before {
+      content: '';
+      left: 0;
+      bottom: 10%;
+      width: 100%;
+      height: 100%;
+      background-color: $primary;
+      position: absolute;
+      animation: line both 0.5s ease-in-out;
+      animation-delay: 0.5s;
+      z-index: -10;
+    }
+    &:nth-child(3) {
+      &::before {
+        animation-delay: 1s;
+      }
+    } */
+
+    @keyframes line {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+  @media (max-width: 480px) {
+    text-align: center;
+  }
+}
 .search-bar {
   &::v-deep .search-bar__button {
     background-color: $primary;
@@ -127,6 +185,17 @@ export default {
     &:hover {
       background-color: $primary-alt;
     }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
