@@ -1,5 +1,9 @@
 <template>
-  <BoxCenter v-show="isScrolled" class="scroll-to-top" @click="toTop">
+  <BoxCenter
+    class="scroll-to-top"
+    :class="{ 'scroll-to-top--show': isScrolled }"
+    @click="toTop"
+  >
     <i class="ri-arrow-up-s-line scroll-to-top__icon"></i>
   </BoxCenter>
 </template>
@@ -45,6 +49,12 @@ export default {
   border-radius: 4px;
   cursor: pointer;
   transition: 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  &--show {
+    opacity: 1;
+    pointer-events: initial;
+  }
   &:hover,
   &:active {
     background-color: $primary;

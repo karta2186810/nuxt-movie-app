@@ -70,14 +70,23 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 
   &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: rotateY(180deg);
+    animation: zoom 0.8s;
     @media (max-width: 480px) {
       object-fit: contain;
+    }
+  }
+  @keyframes zoom {
+    from {
+      transform: scale(1.1);
+    }
+    to {
+      transform: scale(1);
     }
   }
   &__filter {
