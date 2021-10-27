@@ -57,4 +57,22 @@ export default {
   build: {
     extractCSS: true,
   },
+  purgeCSS: {
+    mode: 'webpack',
+    enabled: ({ isDev, isClient }) => !isDev && isClient, // or `false` when in dev/debug mode
+    paths: [
+      'components/**/*.vue',
+      'layouts/**/*.vue',
+      'pages/**/*.vue',
+      'plugins/**/*.js',
+    ],
+    styleExtensions: ['.css'],
+    whitelist: ['body', 'html', 'nuxt-progress'],
+    extractors: [
+      {
+        extractor: (content) => content.match(/[A-z0-9-:\\/]+/g) || [],
+        extensions: ['html', 'vue', 'js'],
+      },
+    ],
+  },
 }
