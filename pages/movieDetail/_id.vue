@@ -319,7 +319,7 @@ export default {
   @media (max-width: 1024px) {
     flex-direction: column;
     background-color: transparent !important;
-    box-shadow: none;
+    box-shadow: none !important;
     padding: 0;
     margin: 0;
     margin-top: 16px;
