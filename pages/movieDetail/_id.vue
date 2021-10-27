@@ -318,7 +318,7 @@ export default {
   cursor: initial;
   @media (max-width: 1024px) {
     flex-direction: column;
-    background-color: transparent;
+    background-color: transparent !important;
     box-shadow: none;
     padding: 0;
     margin: 0;
