@@ -24,7 +24,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/scss/index.scss'],
+  css: ['@/assets/scss/index.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/directives/loadingImg.client.js'],
@@ -42,7 +42,10 @@ export default {
     'nuxt-purgecss',
   ],
   styleResources: {
-    scss: ['@/scss/settings/variables.scss', '@/scss/tools/index.scss'],
+    scss: [
+      '@/assets/scss/settings/variables.scss',
+      '@/assets/scss/tools/index.scss',
+    ],
   },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -56,5 +59,23 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extractCSS: true,
+  },
+  purgeCSS: {
+    mode: 'webpack',
+    enabled: ({ isDev, isClient }) => !isDev && isClient, // or `false` when in dev/debug mode
+    paths: [
+      'components/**/*.vue',
+      'layouts/**/*.vue',
+      'pages/**/*.vue',
+      'plugins/**/*.js',
+    ],
+    styleExtensions: ['.css'],
+    whitelist: ['body', 'html', 'nuxt-progress'],
+    extractors: [
+      {
+        extractor: (content) => content.match(/[A-z0-9-:\\/]+/g) || [],
+        extensions: ['html', 'vue', 'js'],
+      },
+    ],
   },
 }
